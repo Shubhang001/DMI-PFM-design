@@ -357,6 +357,7 @@ body {
 .chip {
   padding: 4px 10px; border-radius: 8px; background: var(--surface-2);
   font-size: 11px; color: var(--text-2); border: 1px solid var(--border);
+  display: inline-flex; align-items: center; gap: 4px;
 }
 
 .consent-info-card {
@@ -895,19 +896,19 @@ body {
 </div>
 <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 20px">
 <span style="font-size:14px;font-weight:600;color:var(--text-1)">Accounts being shared</span>
-<span style="font-size:13px;color:var(--blue);cursor:pointer">Manage</span>
+<span style="font-size:13px;color:var(--blue);cursor:pointer" onclick="document.getElementById('manage-drawer').classList.add('show')">Manage</span>
 </div>
 <div class="review-card">
 <div style="font-size:14px;font-weight:600;color:var(--text-1);margin-bottom:8px">Demats & Folios</div>
 <div class="chip-row">
-<span class="chip">CDSL•0245</span><span class="chip">NSDL•1248</span><span class="chip">CAMS•4589</span><span class="chip">+3</span>
+<span class="chip"><img src="https://www.google.com/s2/favicons?domain=cdslindia.com&sz=64" style="width:14px;height:14px;border-radius:50%" alt=""> •0245</span><span class="chip"><img src="https://www.google.com/s2/favicons?domain=nsdl.co.in&sz=64" style="width:14px;height:14px;border-radius:50%" alt=""> •1248</span><span class="chip"><img src="https://www.google.com/s2/favicons?domain=camsonline.com&sz=64" style="width:14px;height:14px;border-radius:50%" alt=""> •4589</span><span class="chip">+3</span>
 </div>
 <div style="font-size:12px;color:var(--text-3);margin-top:8px">Data Fetched From: 18 Jun 26 – 18 Jun 27</div>
 </div>
 <div class="review-card">
 <div style="font-size:14px;font-weight:600;color:var(--text-1);margin-bottom:8px">Banks</div>
 <div class="chip-row">
-<span class="chip">HDFC•6842</span><span class="chip">ICICI•8456</span><span class="chip">Kotak•0419</span><span class="chip">+3</span>
+<span class="chip"><img src="https://www.google.com/s2/favicons?domain=hdfcbank.com&sz=64" style="width:14px;height:14px;border-radius:50%" alt=""> •6842</span><span class="chip"><img src="https://www.google.com/s2/favicons?domain=icicibank.com&sz=64" style="width:14px;height:14px;border-radius:50%" alt=""> •8456</span><span class="chip"><img src="https://www.google.com/s2/favicons?domain=kotak.com&sz=64" style="width:14px;height:14px;border-radius:50%" alt=""> •0419</span><span class="chip">+3</span>
 </div>
 <div style="font-size:12px;color:var(--text-3);margin-top:8px">Data Fetched From: 18 Jun 26 – 18 Jun 27</div>
 </div>
@@ -918,67 +919,6 @@ body {
 <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 20px">
 <span style="font-size:14px;font-weight:600;color:var(--text-1)">Consent</span>
 <span style="font-size:13px;color:var(--blue);cursor:pointer" onclick="document.getElementById('consent-modal').classList.add('show')">View</span>
-</div>
-<div class="consent-info-card">
-<div class="consent-info-row">
-<span class="icon">📄</span>
-<div class="content"><div class="label">How your data will be used</div><div class="value">To generate wealth insights...</div></div>
-</div>
-<div class="consent-info-row">
-<span class="icon">🕐</span>
-<div class="content"><div class="label">How often data is accessed</div><div class="value">Up to 45 times a month</div></div>
-</div>
-</div>
-<div class="cta-section">
-<div class="info-banner"><span class="icon">🔒</span>Your data is encrypted and shared securely via RBI licensed Account Aggregator</div>
-<button class="cta-btn primary" onclick="showScreen('screen-4')">Approve data sharing</button>
-<button class="cta-skip" style="color:var(--red)" onclick="showScreen('screen-19')">Don't share</button>
-</div>
-<div class="powered-footer">Powered by Finvu</div>
-</div>
-
-<!-- Screen 3: Consent Modal (overlay) -->
-<div class="consent-modal" id="consent-modal">
-<div class="consent-modal-content">
-<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
-<span style="font-size:18px;font-weight:700;color:var(--text-1)">Consent Details</span>
-<span style="font-size:20px;color:var(--text-2);cursor:pointer" onclick="document.getElementById('consent-modal').classList.remove('show')">✕</span>
-</div>
-<div class="consent-row"><span class="label">Consent Purpose</span><span class="value">Wealth Management</span></div>
-<div class="consent-row"><span class="label">FI Types</span><span class="value">Deposit, Equity, MF</span></div>
-<div class="consent-row"><span class="label">Data Fetched From</span><span class="value">18 Jun 2024</span></div>
-<div class="consent-row"><span class="label">Data Fetched Until</span><span class="value">18 Jun 2026</span></div>
-<div class="consent-row"><span class="label">Consent Requested On</span><span class="value">18 Jun 2026, 16:53</span></div>
-<div class="consent-row"><span class="label">Consent Expires On</span><span class="value">18 Jun 2027, 16:53</span></div>
-<div class="consent-row"><span class="label">Account Details</span><span class="value">Profile, Summary, Transactions</span></div>
-<div class="consent-row"><span class="label">Data Life</span><span class="value">1 Month</span></div>
-<button class="cta-btn primary" style="margin-top:20px" onclick="document.getElementById('consent-modal').classList.remove('show')">Understood</button>
-<div class="powered-footer">Powered by Finvu</div>
-</div>
-</div>
-
-<!-- Screen 4: Full Consent Review -->
-<div class="screen" id="screen-4">
-<div class="progress-line"></div>
-<div class="nav-bar">
-<button class="back-btn" onclick="showScreen('screen-8')">←</button>
-<span class="title">Net Worth Insights</span>
-<div class="right-icons"><span>ⓘ</span><span>3A</span><span onclick="showScreen('screen-19')">✕</span></div>
-</div>
-<div style="padding:16px 20px 8px">
-<div style="font-size:20px;font-weight:700;color:var(--text-1)">One last check!</div>
-<div style="font-size:13px;color:var(--text-2);margin-top:4px">Review how DMI Finance will be using your financial details</div>
-</div>
-<div style="display:flex;align-items:center;justify-content:space-between;padding:12px 20px">
-<span style="font-size:14px;font-weight:600;color:var(--text-1)">Accounts being shared</span>
-<span style="font-size:13px;color:var(--blue);cursor:pointer">Manage</span>
-</div>
-<div class="review-card">
-<div style="font-size:14px;font-weight:600;color:var(--text-1);margin-bottom:8px">Demats & Folios</div>
-<div class="chip-row">
-<span class="chip">CDSL•0245</span><span class="chip">NSDL•1248</span><span class="chip">CAMS•4589</span><span class="chip">+3</span>
-</div>
-<div style="font-size:12px;color:var(--text-3);margin-top:8px">Data Fetched From: 18 Jun 26 – 18 Jun 27</div>
 </div>
 <div class="consent-info-card">
 <div class="consent-info-row">
@@ -1000,118 +940,89 @@ body {
 </div>
 <div class="cta-section">
 <div class="info-banner"><span class="icon">🔒</span>Your data is encrypted and shared securely via RBI licensed Account Aggregator</div>
-<button class="cta-btn primary" onclick="showScreen('screen-5')">Approve data sharing</button>
+<button class="cta-btn primary" onclick="showScreen('screen-2')">Approve data sharing</button>
 <button class="cta-skip" style="color:var(--red)" onclick="showScreen('screen-19')">Don't share</button>
 </div>
 <div class="powered-footer">Powered by Finvu</div>
-</div>
 
-<!-- Screen 5: One Last Check - Banks tab -->
-<div class="screen" id="screen-5">
-<div class="progress-line"></div>
-<div class="nav-bar">
-<button class="back-btn" onclick="showScreen('screen-4')">←</button>
-<span class="title">Net Worth Insights</span>
-<div class="right-icons"><span onclick="showScreen('screen-19')">✕</span></div>
+<!-- Manage Accounts Drawer -->
+<div class="consent-modal" id="manage-drawer">
+<div class="consent-modal-content" style="max-height:90%">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+<div>
+<div style="font-size:16px;font-weight:700;color:var(--text-1)">Accounts Shared</div>
+<div style="font-size:12px;color:var(--text-2);margin-top:4px">DMI Finance will have access to the following</div>
 </div>
-<div style="padding:16px 20px 8px">
-<div style="font-size:20px;font-weight:700;color:var(--text-1)">One last check!</div>
-<div style="font-size:14px;font-weight:600;color:var(--text-1);margin-top:12px">Accounts Shared</div>
-<div style="font-size:13px;color:var(--text-2);margin-top:4px">DMI Finance will have access to the following</div>
+<span style="font-size:20px;color:var(--text-2);cursor:pointer" onclick="document.getElementById('manage-drawer').classList.remove('show')">✕</span>
 </div>
-<div class="tab-toggle">
-<div class="tab-opt" onclick="showScreen('screen-7')">Investments ✓</div>
-<div class="tab-opt active">Bank & Deposits ✓</div>
+<div class="tab-toggle" style="margin:0 0 16px">
+<div class="tab-opt" id="manage-tab-invest" onclick="document.getElementById('manage-banks').style.display='none';document.getElementById('manage-invest').style.display='block';this.classList.add('active');document.getElementById('manage-tab-banks').classList.remove('active')">Investments ✓</div>
+<div class="tab-opt active" id="manage-tab-banks" onclick="document.getElementById('manage-invest').style.display='none';document.getElementById('manage-banks').style.display='block';this.classList.add('active');document.getElementById('manage-tab-invest').classList.remove('active')">Bank & Deposits ✓</div>
 </div>
-<div class="account-card">
-<div class="account-card-header">
-<div class="institution-logo"><img src="https://www.google.com/s2/favicons?domain=hdfcbank.com&sz=64" alt="HDFC"></div>
-<div class="name">HDFC Bank</div>
-</div>
+<!-- Banks content -->
+<div id="manage-banks">
+<div class="account-card" style="margin:0 0 12px">
+<div class="account-card-header"><div class="institution-logo"><img src="https://www.google.com/s2/favicons?domain=hdfcbank.com&sz=64" alt="HDFC"></div><div class="name">HDFC Bank</div></div>
 <div class="account-row"><div class="left"><span class="label">Savings • xx6842</span><span class="linked-badge">🔗 Linked</span></div><div class="checkbox">✓</div></div>
 <div class="account-row"><div class="left"><span class="label">FD • xx2026</span><span class="linked-badge">🔗 Linked</span></div><div class="checkbox">✓</div></div>
 </div>
-<div class="account-card">
-<div class="account-card-header">
-<div class="institution-logo"><img src="https://www.google.com/s2/favicons?domain=icicibank.com&sz=64" alt="ICICI"></div>
-<div class="name">ICICI Bank</div>
-</div>
+<div class="account-card" style="margin:0 0 12px">
+<div class="account-card-header"><div class="institution-logo"><img src="https://www.google.com/s2/favicons?domain=icicibank.com&sz=64" alt="ICICI"></div><div class="name">ICICI Bank</div></div>
 <div class="account-row"><div class="left"><span class="label">Savings • xx0419</span><span class="linked-badge">🔗 Linked</span></div><div class="checkbox">✓</div></div>
 <div class="account-row"><div class="left"><span class="label">FD • xx2027</span><span class="linked-badge">🔗 Linked</span></div><div class="checkbox">✓</div></div>
 </div>
-<div class="account-card">
-<div class="account-card-header">
-<div class="institution-logo"><img src="https://www.google.com/s2/favicons?domain=kotak.com&sz=64" alt="Kotak"></div>
-<div class="name">Kotak Mahindra Bank</div>
-</div>
+<div class="account-card" style="margin:0 0 12px">
+<div class="account-card-header"><div class="institution-logo"><img src="https://www.google.com/s2/favicons?domain=kotak.com&sz=64" alt="Kotak"></div><div class="name">Kotak Mahindra Bank</div></div>
 <div class="account-row"><div class="left"><span class="label">Current • xx7738</span><span class="linked-badge">🔗 Linked</span></div><div class="checkbox">✓</div></div>
 </div>
-<div class="account-card" style="opacity:0.5">
-<div class="account-card-header">
-<div class="institution-logo"><img src="https://www.google.com/s2/favicons?domain=saraswatbank.com&sz=64" alt="Saraswat"></div>
-<div class="name">Saraswat Bank</div>
 </div>
-<div class="account-row"><div class="left"><span class="label">Savings • xx3301</span></div><div class="checkbox">✓</div></div>
-</div>
-<div class="cta-section">
-<button class="cta-btn primary" onclick="showScreen('screen-2')">Confirm selection</button>
-</div>
-<div class="powered-footer">Powered by Finvu</div>
-</div>
-
-<!-- Screen 7: One Last Check - Investments tab -->
-<div class="screen" id="screen-7">
-<div class="progress-line"></div>
-<div class="nav-bar">
-<button class="back-btn" onclick="showScreen('screen-4')">←</button>
-<span class="title">Net Worth Insights</span>
-<div class="right-icons"><span onclick="showScreen('screen-19')">✕</span></div>
-</div>
-<div style="padding:16px 20px 8px">
-<div style="font-size:20px;font-weight:700;color:var(--text-1)">One last check!</div>
-<div style="font-size:14px;font-weight:600;color:var(--text-1);margin-top:12px">Accounts Shared</div>
-<div style="font-size:13px;color:var(--text-2);margin-top:4px">DMI Finance will have access to the following</div>
-</div>
-<div class="tab-toggle">
-<div class="tab-opt active">Investments ✓</div>
-<div class="tab-opt" onclick="showScreen('screen-5')">Bank & Deposits ✓</div>
-</div>
-<div class="account-card">
-<div class="account-card-header">
-<div class="institution-logo"><img src="https://www.google.com/s2/favicons?domain=cdslindia.com&sz=64" alt="CDSL"></div>
-<div><div class="name">CDSL</div><div style="font-size:11px;color:var(--text-3)">Demat • xx0245</div></div>
-</div>
+<!-- Investments content -->
+<div id="manage-invest" style="display:none">
+<div class="account-card" style="margin:0 0 12px">
+<div class="account-card-header"><div class="institution-logo"><img src="https://www.google.com/s2/favicons?domain=cdslindia.com&sz=64" alt="CDSL"></div><div><div class="name">CDSL</div><div style="font-size:11px;color:var(--text-3)">Demat • xx0245</div></div></div>
 <div class="account-row"><div class="left"><span class="label">Equities</span></div><div class="checkbox">✓</div></div>
 <div class="account-row"><div class="left"><span class="label">ETFs</span><span class="linked-badge">🔗 Linked</span></div><div class="checkbox">✓</div></div>
 </div>
-<div class="account-card">
-<div class="account-card-header">
-<div class="institution-logo"><img src="https://www.google.com/s2/favicons?domain=nsdl.co.in&sz=64" alt="NSDL"></div>
-<div><div class="name">NSDL</div><div style="font-size:11px;color:var(--text-3)">Demat • xx1248</div></div>
-</div>
+<div class="account-card" style="margin:0 0 12px">
+<div class="account-card-header"><div class="institution-logo"><img src="https://www.google.com/s2/favicons?domain=nsdl.co.in&sz=64" alt="NSDL"></div><div><div class="name">NSDL</div><div style="font-size:11px;color:var(--text-3)">Demat • xx1248</div></div></div>
 <div class="account-row"><div class="left"><span class="label">Mutual Funds</span><span class="linked-badge">🔗 Linked</span></div><div class="checkbox">✓</div></div>
 <div class="account-row"><div class="left"><span class="label">ETFs</span><span class="linked-badge">🔗 Linked</span></div><div class="checkbox">✓</div></div>
 </div>
-<div class="account-card">
-<div class="account-card-header">
-<div class="institution-logo"><img src="https://www.google.com/s2/favicons?domain=camsonline.com&sz=64" alt="CAMS"></div>
-<div class="name">CAMS</div>
-</div>
+<div class="account-card" style="margin:0 0 12px">
+<div class="account-card-header"><div class="institution-logo"><img src="https://www.google.com/s2/favicons?domain=camsonline.com&sz=64" alt="CAMS"></div><div class="name">CAMS</div></div>
 <div class="account-row"><div class="left"><span class="label">ICICI Prudential • xx4589</span><span class="linked-badge">🔗 Linked</span></div><div class="checkbox">✓</div></div>
 <div class="account-row"><div class="left"><span class="label">Mirae Asset • xx7310</span><span class="linked-badge">🔗 Linked</span></div><div class="checkbox">✓</div></div>
 </div>
-<div class="account-card">
-<div class="account-card-header">
-<div class="institution-logo"><img src="https://www.google.com/s2/favicons?domain=kfintech.com&sz=64" alt="KFintech"></div>
-<div class="name">KFintech</div>
-</div>
+<div class="account-card" style="margin:0 0 12px">
+<div class="account-card-header"><div class="institution-logo"><img src="https://www.google.com/s2/favicons?domain=kfintech.com&sz=64" alt="KFintech"></div><div class="name">KFintech</div></div>
 <div class="account-row"><div class="left"><span class="label">SBI • xx2948</span><span class="linked-badge">🔗 Linked</span></div><div class="checkbox">✓</div></div>
 <div class="account-row"><div class="left"><span class="label">DSP • xx1056</span><span class="linked-badge">🔗 Linked</span></div><div class="checkbox">✓</div></div>
 </div>
-<div class="cta-section">
-<button class="cta-btn primary" onclick="showScreen('screen-2')">Confirm selection</button>
 </div>
+<button class="cta-btn primary" style="margin-top:16px" onclick="document.getElementById('manage-drawer').classList.remove('show')">Done</button>
+</div>
+</div>
+
+</div>
+
+<!-- Screen 3: Consent Modal (overlay) -->
+<div class="consent-modal" id="consent-modal">
+<div class="consent-modal-content">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+<span style="font-size:18px;font-weight:700;color:var(--text-1)">Consent Details</span>
+<span style="font-size:20px;color:var(--text-2);cursor:pointer" onclick="document.getElementById('consent-modal').classList.remove('show')">✕</span>
+</div>
+<div class="consent-row"><span class="label">Consent Purpose</span><span class="value">Wealth Management</span></div>
+<div class="consent-row"><span class="label">FI Types</span><span class="value">Deposit, Equity, MF</span></div>
+<div class="consent-row"><span class="label">Data Fetched From</span><span class="value">18 Jun 2024</span></div>
+<div class="consent-row"><span class="label">Data Fetched Until</span><span class="value">18 Jun 2026</span></div>
+<div class="consent-row"><span class="label">Consent Requested On</span><span class="value">18 Jun 2026, 16:53</span></div>
+<div class="consent-row"><span class="label">Consent Expires On</span><span class="value">18 Jun 2027, 16:53</span></div>
+<div class="consent-row"><span class="label">Account Details</span><span class="value">Profile, Summary, Transactions</span></div>
+<div class="consent-row"><span class="label">Data Life</span><span class="value">1 Month</span></div>
+<button class="cta-btn primary" style="margin-top:20px" onclick="document.getElementById('consent-modal').classList.remove('show')">Understood</button>
 <div class="powered-footer">Powered by Finvu</div>
+</div>
 </div>
 
 <!-- Screen 2: Success -->
