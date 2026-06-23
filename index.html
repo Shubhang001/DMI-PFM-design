@@ -7,10 +7,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #111118;
-  --surface: #1C1C24;
-  --surface-2: #1E1E26;
-  --border: #2A2A34;
+  --bg: #000000;
+  --surface: #1A1A1A;
+  --surface-2: #1C1C1E;
+  --border: #2A2A2A;
   --blue: #3B7EF6;
   --blue-dark: #1E3A5F;
   --green: #22C55E;
@@ -20,12 +20,12 @@
   --text-2: #9CA3AF;
   --text-3: #6B7280;
   --navy: #1A2A3A;
-  --cta-bar-bg: #111118;
+  --cta-bar-bg: #000000;
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  background: var(--bg);
+  background: #000000;
   min-height: 100vh; margin: 0; padding: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -606,7 +606,7 @@ body {
 <div class="tab-pill">🏠 Bank & Deposits</div>
 <div class="tab-pill active">🏦 Investments <span class="badge">✓</span></div>
 </div>
-<div style="padding:22px 18px;display:flex;flex-direction:column;align-items:center">
+<div style="flex:1;padding:22px 18px;display:flex;flex-direction:column;align-items:center;justify-content:center">
 <img src="assets/search_icon.png" alt="Searching" style="width:260px;height:auto;margin-bottom:24px">
 <div id="invest-search-state" style="font-size:15px;font-weight:700;color:var(--text-1);margin-bottom:12px">Searching for Investments in</div>
 <div class="logo-row">
@@ -774,7 +774,7 @@ body {
 <div class="tab-pill active">� Bank & Deposits <span class="badge">✓</span></div>
 <div class="tab-pill">� Investments <span class="badge">✓</span></div>
 </div>
-<div style="padding:22px 18px;display:flex;flex-direction:column;align-items:center">
+<div style="flex:1;padding:22px 18px;display:flex;flex-direction:column;align-items:center;justify-content:center">
 <img src="assets/search_icon.png" alt="Searching" style="width:260px;height:auto;margin-bottom:24px">
 <div id="bank-search-state" style="font-size:15px;font-weight:700;color:var(--text-1);margin-bottom:12px">Searching for Bank & Deposits in</div>
 <div class="logo-row">
@@ -916,19 +916,19 @@ body {
 </div>
 <div class="consent-info-card">
 <div class="consent-info-row">
-<span class="icon">📄</span>
+<img src="assets/doc.png" class="icon" style="width:22px;height:22px;font-size:0">
 <div class="content"><div class="label">How your data will be used</div><div class="value">To generate wealth insights & recommendations</div></div>
 </div>
 <div class="consent-info-row">
-<span class="icon">🕐</span>
+<img src="assets/clock.png" class="icon" style="width:22px;height:22px;font-size:0">
 <div class="content"><div class="label">How often data is accessed</div><div class="value">Up to 45 times a month</div></div>
 </div>
 <div class="consent-info-row">
-<span class="icon">📅</span>
+<img src="assets/calender1.png" class="icon" style="width:22px;height:22px;font-size:0">
 <div class="content"><div class="label">Access valid from</div><div class="value">18 Jun 2026 to 18 Jun 2027</div></div>
 </div>
 <div class="consent-info-row">
-<span class="icon">💾</span>
+<img src="assets/duration.png" class="icon" style="width:22px;height:22px;font-size:0">
 <div class="content"><div class="label">How long your data can be used</div><div class="value">1 Month</div></div>
 </div>
 </div>
