@@ -28,6 +28,9 @@ body {
   background: #0a0a10;
   min-height: 100vh; overflow: hidden;
   display: flex; align-items: center; justify-content: center;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 .phone-frame {
   width: 351px; height: 760px;
@@ -51,9 +54,9 @@ body {
   background: var(--bg);
 }
 .nav-bar .back-btn { font-size: 20px; color: var(--text-1); cursor: pointer; background: none; border: none; }
-.nav-bar .title { font-size: 16px; font-weight: 600; color: var(--text-1); flex: 1; margin-left: 12px; }
+.nav-bar .title { font-size: 15px; font-weight: 600; color: var(--text-1); flex: 1; margin-left: 12px; letter-spacing: -0.2px; }
 .nav-bar .right-icons { display: flex; gap: 12px; align-items: center; }
-.nav-bar .right-icons span { color: var(--text-2); font-size: 16px; cursor: pointer; }
+.nav-bar .right-icons span { color: var(--text-2); font-size: 15px; cursor: pointer; }
 
 .progress-line {
   height: 3px; background: linear-gradient(90deg, var(--blue), #60a5fa);
@@ -64,9 +67,9 @@ body {
   display: flex; gap: 10px; padding: 12px 20px;
 }
 .tab-pill {
-  padding: 8px 16px; border-radius: 20px; font-size: 13px; font-weight: 500;
+  padding: 8px 14px; border-radius: 20px; font-size: 12px; font-weight: 500;
   cursor: pointer; border: 1px solid var(--border); color: var(--text-2);
-  background: transparent; transition: all 0.2s;
+  background: transparent; transition: all 0.2s; white-space: nowrap;
 }
 .tab-pill.active { background: var(--blue); color: white; border-color: var(--blue); }
 .tab-pill .badge {
@@ -80,15 +83,16 @@ body {
   border-top: 1px solid var(--border); margin-top: auto;
 }
 .cta-btn {
-  width: 100%; padding: 14px; border-radius: 12px; font-size: 15px;
+  width: 100%; padding: 14px; border-radius: 12px; font-size: 14px;
   font-weight: 600; border: none; cursor: pointer; transition: all 0.2s;
+  letter-spacing: -0.1px;
 }
 .cta-btn.primary { background: var(--blue); color: white; }
 .cta-btn.primary:disabled { background: #2a4a7a; color: #6b8cc7; cursor: not-allowed; }
 .cta-btn.danger { background: transparent; color: var(--red); border: 1px solid var(--red); }
 .cta-skip {
-  display: block; text-align: center; color: var(--text-2);
-  font-size: 14px; margin-top: 12px; cursor: pointer; background: none; border: none; width: 100%;
+  display: block; text-align: center; color: var(--blue);
+  font-size: 13px; font-weight: 600; margin-top: 12px; cursor: pointer; background: none; border: none; width: 100%;
 }
 
 .info-banner {
@@ -99,7 +103,7 @@ body {
 .info-banner .icon { font-size: 16px; }
 
 .powered-footer {
-  text-align: center; padding: 12px; font-size: 11px; color: var(--text-3);
+  text-align: center; padding: 10px; font-size: 10px; color: var(--text-3);
 }
 
 .institution-logo {
@@ -118,20 +122,24 @@ body {
 .account-card-header {
   display: flex; align-items: center; gap: 10px; margin-bottom: 12px;
 }
-.account-card-header .name { font-size: 14px; font-weight: 600; color: var(--text-1); }
+.account-card-header .name { font-size: 13px; font-weight: 600; color: var(--text-1); letter-spacing: -0.1px; }
 .account-row {
   display: flex; align-items: center; justify-content: space-between;
   padding: 8px 0; border-top: 1px solid var(--border);
 }
 .account-row .left { display: flex; align-items: center; gap: 8px; }
-.account-row .label { font-size: 13px; color: var(--text-2); }
+.account-row .label { font-size: 12px; color: var(--text-2); }
 .account-row .linked-badge {
   font-size: 11px; color: var(--blue); display: flex; align-items: center; gap: 2px;
 }
 .account-row .checkbox {
   width: 20px; height: 20px; border-radius: 4px; background: var(--blue);
   display: flex; align-items: center; justify-content: center;
-  color: white; font-size: 12px; font-weight: 700;
+  color: white; font-size: 12px; font-weight: 700; cursor: pointer;
+  transition: all 0.2s; border: 2px solid var(--blue);
+}
+.account-row .checkbox.unchecked {
+  background: transparent; border-color: var(--border); color: transparent;
 }
 
 /* OTP Sheet */
@@ -321,8 +329,8 @@ body {
 .section-header {
   padding: 16px 20px 8px;
 }
-.section-header .title { font-size: 16px; font-weight: 600; color: var(--text-1); }
-.section-header .subtitle { font-size: 12px; color: var(--text-2); margin-top: 2px; }
+.section-header .title { font-size: 18px; font-weight: 700; color: var(--text-1); letter-spacing: -0.3px; }
+.section-header .subtitle { font-size: 13px; color: var(--text-2); margin-top: 4px; }
 .section-header .count { font-size: 12px; color: var(--blue); margin-top: 2px; }
 
 .section-divider {
@@ -458,7 +466,7 @@ body {
 
 <!-- Net Worth Insights CTA (entry point to flow) -->
 <div style="padding:0 20px 12px">
-<div style="background:var(--surface);border-radius:14px;padding:16px;border:1px solid var(--border);cursor:pointer" onclick="showScreen('screen-18')">
+<div style="background:var(--surface);border-radius:14px;padding:16px;border:1px solid var(--border);cursor:pointer" onclick="showScreen('screen-12')">
 <span style="background:var(--green);color:#fff;font-size:9px;padding:2px 6px;border-radius:4px;font-weight:600">NEW</span>
 <div style="font-size:14px;font-weight:600;color:var(--text-1);margin-top:8px">Net Worth Insights</div>
 <div style="font-size:12px;color:var(--text-2);margin-top:4px">Track all your investments, bank accounts & view wealth analytics</div>
@@ -583,37 +591,38 @@ body {
 <div class="screen" id="screen-18">
 <div class="progress-line"></div>
 <div class="nav-bar">
-<button class="back-btn" onclick="showScreen('screen-19')">←</button>
+<button class="back-btn" onclick="showScreen('screen-11')">←</button>
 <span class="title">Net Worth Insights</span>
-<div class="right-icons"><span>ⓘ</span><span>3A</span><span onclick="showScreen('screen-19')">✕</span></div>
+<div class="right-icons"><span>ⓘ</span><span style="font-family:serif">3A</span><span onclick="showScreen('screen-19')">✕</span></div>
+</div>
+<div style="padding:16px 20px 8px">
+<div style="font-size:18px;font-weight:700;color:var(--text-1)">Select Accounts</div>
+<div style="font-size:13px;color:var(--text-2);margin-top:4px">Choose the accounts you want to share</div>
 </div>
 <div class="tab-pills">
-<div class="tab-pill active">Investments</div>
-<div class="tab-pill">Bank & Deposits</div>
+<div class="tab-pill">🏠 Bank & Deposits</div>
+<div class="tab-pill active">🏦 Investments <span class="badge">✓</span></div>
 </div>
-<div style="padding:20px">
-<div class="account-card" style="margin:0;padding:24px">
-<div class="shimmer-line"></div>
-<div class="shimmer-line"></div>
-<div class="shimmer-line"></div>
-<div style="text-align:center;font-size:32px;margin-top:16px">🔍</div>
+<div style="padding:24px 20px;display:flex;flex-direction:column;align-items:center">
+<div style="width:100%;max-width:260px;display:flex;flex-direction:column;gap:12px;margin-bottom:24px">
+<div style="display:flex;align-items:center;gap:10px"><span style="font-size:16px;color:var(--text-3)">🛡</span><div style="flex:1;height:12px;background:var(--surface);border-radius:6px;border:1.5px solid var(--blue)"></div></div>
+<div style="display:flex;align-items:center;gap:10px"><span style="font-size:16px;color:var(--text-3)">📈</span><div style="flex:1;height:12px;background:var(--surface);border-radius:6px;border:1.5px solid var(--blue)"></div><span style="font-size:20px;color:var(--blue)">🔍</span></div>
+<div style="display:flex;align-items:center;gap:10px"><span style="font-size:16px;color:var(--text-3)">🕐</span><div style="flex:1;height:12px;background:var(--surface);border-radius:6px;border:1.5px solid var(--blue)"></div></div>
 </div>
-</div>
-<div style="text-align:center;padding:20px">
-<div style="font-size:14px;color:var(--text-2);margin-bottom:16px">Searching for Investments in</div>
+<div id="invest-search-state" style="font-size:15px;font-weight:600;color:var(--text-1);margin-bottom:12px">Searching for Investments in</div>
 <div class="logo-row">
 <span class="logo-pill"><img src="https://www.google.com/s2/favicons?domain=camsonline.com&sz=64" alt="CAMS"></span>
 <span class="logo-pill"><img src="https://www.google.com/s2/favicons?domain=kfintech.com&sz=64" alt="KF"></span>
 <span class="logo-pill"><img src="https://www.google.com/s2/favicons?domain=cdslindia.com&sz=64" alt="CDSL"></span>
 <span class="logo-pill"><img src="https://www.google.com/s2/favicons?domain=nsdl.co.in&sz=64" alt="NSDL"></span>
 </div>
-<div style="font-size:13px;color:var(--text-3);margin-top:12px">This might take a while, please wait</div>
+<div id="invest-found-msg" style="font-size:13px;color:var(--text-3);margin-top:12px">This might take a while, please wait</div>
 </div>
 <div class="cta-section">
+<div class="info-banner"><span class="icon">ⓘ</span>You can pause or cancel sharing anytime via the Finvu App</div>
 <button class="cta-btn primary" disabled>Share Accounts</button>
-<button class="cta-skip" onclick="showScreen('screen-17')">Skip</button>
 </div>
-<div class="powered-footer">Powered by Finvu</div>
+<div class="powered-footer">Powered by RBI-Regulated AA 🔒 Finvu</div>
 </div>
 
 <!-- Screen 17: Select Investments -->
@@ -625,8 +634,8 @@ body {
 <div class="right-icons"><span>ⓘ</span><span>3A</span><span onclick="showScreen('screen-19')">✕</span></div>
 </div>
 <div class="tab-pills">
-<div class="tab-pill active">Investments <span class="badge">✓</span></div>
 <div class="tab-pill">Bank & Deposits</div>
+<div class="tab-pill active">Investments <span class="badge">✓</span></div>
 </div>
 <div class="section-header">
 <div class="title">Select Accounts</div>
@@ -679,7 +688,6 @@ body {
 <div class="cta-section">
 <div class="info-banner"><span class="icon">🔒</span>Your data is encrypted and shared securely</div>
 <button class="cta-btn primary" onclick="showScreen('screen-14')">Share Accounts</button>
-<button class="cta-skip" onclick="showScreen('screen-12')">Skip</button>
 </div>
 <div class="powered-footer">Powered by Finvu</div>
 </div>
@@ -711,7 +719,6 @@ body {
 </div>
 <div class="otp-countdown" id="countdown-cdsl">Resend OTP in <strong>9s</strong></div>
 <button class="cta-btn primary" id="submit-cdsl" disabled onclick="showScreen('screen-13')">Submit</button>
-<button class="cta-skip" onclick="showScreen('screen-13')">Skip</button>
 <div class="powered-footer">Powered by Finvu</div>
 </div>
 </div>
@@ -746,8 +753,7 @@ body {
 <input type="text" maxlength="1" inputmode="numeric">
 </div>
 <div class="otp-countdown" id="countdown-nsdl">Resend OTP in <strong>13s</strong></div>
-<button class="cta-btn primary" id="submit-nsdl" disabled onclick="showScreen('screen-12')">Submit</button>
-<button class="cta-skip" onclick="showScreen('screen-12')">Skip</button>
+<button class="cta-btn primary" id="submit-nsdl" disabled onclick="showScreen('screen-8')">Submit</button>
 <div class="powered-footer">Powered by Finvu</div>
 </div>
 </div>
@@ -757,37 +763,38 @@ body {
 <div class="screen" id="screen-12">
 <div class="progress-line"></div>
 <div class="nav-bar">
-<button class="back-btn" onclick="showScreen('screen-13')">←</button>
+<button class="back-btn" onclick="showScreen('screen-19')">←</button>
 <span class="title">Net Worth Insights</span>
-<div class="right-icons"><span>ⓘ</span><span>3A</span><span onclick="showScreen('screen-19')">✕</span></div>
+<div class="right-icons"><span>ⓘ</span><span style="font-family:serif">3A</span><span onclick="showScreen('screen-19')">✕</span></div>
+</div>
+<div style="padding:16px 20px 8px">
+<div style="font-size:18px;font-weight:700;color:var(--text-1)">Select Accounts</div>
+<div style="font-size:13px;color:var(--text-2);margin-top:4px">Choose the accounts you want to share</div>
 </div>
 <div class="tab-pills">
-<div class="tab-pill">Investments <span class="badge">✓</span></div>
-<div class="tab-pill active">Bank & Deposits <span class="badge">✓</span></div>
+<div class="tab-pill active">� Bank & Deposits <span class="badge">✓</span></div>
+<div class="tab-pill">� Investments <span class="badge">✓</span></div>
 </div>
-<div style="padding:20px">
-<div class="account-card" style="margin:0;padding:24px">
-<div class="shimmer-line"></div>
-<div class="shimmer-line"></div>
-<div class="shimmer-line"></div>
-<div style="text-align:center;font-size:32px;margin-top:16px">🔍</div>
+<div style="padding:24px 20px;display:flex;flex-direction:column;align-items:center">
+<div style="width:100%;max-width:260px;display:flex;flex-direction:column;gap:12px;margin-bottom:24px">
+<div style="display:flex;align-items:center;gap:10px"><span style="font-size:16px;color:var(--text-3)">🛡</span><div style="flex:1;height:12px;background:var(--surface);border-radius:6px;border:1.5px solid var(--blue)"></div></div>
+<div style="display:flex;align-items:center;gap:10px"><span style="font-size:16px;color:var(--text-3)">📈</span><div style="flex:1;height:12px;background:var(--surface);border-radius:6px;border:1.5px solid var(--blue)"></div><span style="font-size:20px;color:var(--blue)">🔍</span></div>
+<div style="display:flex;align-items:center;gap:10px"><span style="font-size:16px;color:var(--text-3)">🕐</span><div style="flex:1;height:12px;background:var(--surface);border-radius:6px;border:1.5px solid var(--blue)"></div></div>
 </div>
-</div>
-<div style="text-align:center;padding:20px">
-<div style="font-size:14px;color:var(--text-2);margin-bottom:16px">Searching for Bank & Deposits in</div>
+<div id="bank-search-state" style="font-size:15px;font-weight:600;color:var(--text-1);margin-bottom:12px">Searching for Bank & Deposits in</div>
 <div class="logo-row">
 <span class="logo-pill"><img src="https://www.google.com/s2/favicons?domain=hdfcbank.com&sz=64" alt="HDFC"></span>
 <span class="logo-pill"><img src="https://www.google.com/s2/favicons?domain=icicibank.com&sz=64" alt="ICICI"></span>
 <span class="logo-pill"><img src="https://www.google.com/s2/favicons?domain=kotak.com&sz=64" alt="Kotak"></span>
 <span class="logo-pill"><img src="https://www.google.com/s2/favicons?domain=sbi.co.in&sz=64" alt="SBI"></span>
 </div>
-<div style="font-size:13px;color:var(--text-3);margin-top:12px">This might take a while, please wait</div>
+<div id="bank-found-msg" style="font-size:13px;color:var(--text-3);margin-top:12px">This might take a while, please wait</div>
 </div>
 <div class="cta-section">
+<div class="info-banner"><span class="icon">ⓘ</span>You can pause or cancel sharing anytime via the Finvu App</div>
 <button class="cta-btn primary" disabled>Share Accounts</button>
-<button class="cta-skip" onclick="showScreen('screen-11')">Skip</button>
 </div>
-<div class="powered-footer">Powered by Finvu</div>
+<div class="powered-footer">Powered by RBI-Regulated AA 🔒 Finvu</div>
 </div>
 
 <!-- Screen 11: Select Banks -->
@@ -799,8 +806,8 @@ body {
 <div class="right-icons"><span>ⓘ</span><span>3A</span><span onclick="showScreen('screen-19')">✕</span></div>
 </div>
 <div class="tab-pills">
-<div class="tab-pill">Investments <span class="badge">✓</span></div>
 <div class="tab-pill active">Bank & Deposits <span class="badge">✓</span></div>
+<div class="tab-pill">Investments <span class="badge">✓</span></div>
 </div>
 <div class="section-header">
 <div class="title">Select Accounts</div>
@@ -838,7 +845,6 @@ body {
 <div class="cta-section">
 <div class="info-banner"><span class="icon">🔒</span>Your data is encrypted and shared securely</div>
 <button class="cta-btn primary" onclick="showScreen('screen-9')">Share Accounts</button>
-<button class="cta-skip" onclick="showScreen('screen-8')">Skip</button>
 </div>
 <div class="powered-footer">Powered by Finvu</div>
 </div>
@@ -869,8 +875,7 @@ body {
 <input type="text" maxlength="1" inputmode="numeric">
 </div>
 <div class="otp-countdown" id="countdown-icici">Resend OTP in <strong>12s</strong></div>
-<button class="cta-btn primary" id="submit-icici" disabled onclick="showScreen('screen-8')">Submit</button>
-<button class="cta-skip" onclick="showScreen('screen-8')">Skip</button>
+<button class="cta-btn primary" id="submit-icici" disabled onclick="showScreen('screen-18')">Submit</button>
 <div class="powered-footer">Powered by Finvu</div>
 </div>
 </div>
@@ -1199,10 +1204,26 @@ function showScreen(id) {
   }
   // Auto-advance for loading screens
   if (id === 'screen-18') {
-    setTimeout(() => showScreen('screen-17'), 2500);
+    document.getElementById('invest-search-state').textContent = 'Searching for Investments in';
+    document.getElementById('invest-found-msg').textContent = 'This might take a while, please wait';
+    document.getElementById('invest-found-msg').style.color = 'var(--text-3)';
+    setTimeout(() => {
+      document.getElementById('invest-search-state').textContent = 'Found 8 accounts';
+      document.getElementById('invest-found-msg').textContent = '✓ 8 investment accounts discovered';
+      document.getElementById('invest-found-msg').style.color = '#22C55E';
+    }, 1500);
+    setTimeout(() => showScreen('screen-17'), 2800);
   }
   if (id === 'screen-12') {
-    setTimeout(() => showScreen('screen-11'), 2500);
+    document.getElementById('bank-search-state').textContent = 'Searching for Bank & Deposits in';
+    document.getElementById('bank-found-msg').textContent = 'This might take a while, please wait';
+    document.getElementById('bank-found-msg').style.color = 'var(--text-3)';
+    setTimeout(() => {
+      document.getElementById('bank-search-state').textContent = 'Found 3 accounts';
+      document.getElementById('bank-found-msg').textContent = '✓ 3 bank accounts discovered';
+      document.getElementById('bank-found-msg').style.color = '#22C55E';
+    }, 1500);
+    setTimeout(() => showScreen('screen-11'), 2800);
   }
   if (id === 'screen-2') {
     let count = 2;
@@ -1264,6 +1285,18 @@ function checkOTPComplete(groupName, inputs) {
   const btn = document.getElementById('submit-' + groupName);
   if (btn) btn.disabled = !allFilled;
 }
+
+// Checkbox toggle
+document.addEventListener('click', function(e) {
+  if (e.target.classList.contains('checkbox')) {
+    e.target.classList.toggle('unchecked');
+    if (e.target.classList.contains('unchecked')) {
+      e.target.textContent = '';
+    } else {
+      e.target.textContent = '✓';
+    }
+  }
+});
 
 // Initialize
 showScreen('screen-19');
