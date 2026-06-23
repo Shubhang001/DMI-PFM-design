@@ -1,0 +1,1282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Net Worth Insights & Account Aggregator</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #111118;
+  --surface: #1C1C24;
+  --surface-2: #1E1E26;
+  --border: #2A2A34;
+  --blue: #3B7EF6;
+  --blue-dark: #1E3A5F;
+  --green: #22C55E;
+  --orange: #F59E0B;
+  --red: #EF4444;
+  --text-1: #FFFFFF;
+  --text-2: #9CA3AF;
+  --text-3: #6B7280;
+  --navy: #1A2A3A;
+  --cta-bar-bg: #111118;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: #0a0a10;
+  min-height: 100vh; overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+}
+.phone-frame {
+  width: 351px; height: 760px;
+  background: var(--bg); overflow: hidden; position: relative;
+  border-radius: 32px; border: 6px solid #1a1a24;
+  box-shadow: 0 0 40px rgba(0,0,0,0.6);
+}
+.screen {
+  display: none; width: 100%; height: 100%;
+  overflow-y: auto; overflow-x: hidden;
+  position: absolute; top: 0; left: 0;
+  flex-direction: column; background: var(--bg);
+}
+.screen.active { display: flex; }
+.screen::-webkit-scrollbar { display: none; }
+
+/* Common Components */
+.nav-bar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 20px 12px; position: sticky; top: 0; z-index: 10;
+  background: var(--bg);
+}
+.nav-bar .back-btn { font-size: 20px; color: var(--text-1); cursor: pointer; background: none; border: none; }
+.nav-bar .title { font-size: 16px; font-weight: 600; color: var(--text-1); flex: 1; margin-left: 12px; }
+.nav-bar .right-icons { display: flex; gap: 12px; align-items: center; }
+.nav-bar .right-icons span { color: var(--text-2); font-size: 16px; cursor: pointer; }
+
+.progress-line {
+  height: 3px; background: linear-gradient(90deg, var(--blue), #60a5fa);
+  width: 100%; position: sticky; top: 0; z-index: 11;
+}
+
+.tab-pills {
+  display: flex; gap: 10px; padding: 12px 20px;
+}
+.tab-pill {
+  padding: 8px 16px; border-radius: 20px; font-size: 13px; font-weight: 500;
+  cursor: pointer; border: 1px solid var(--border); color: var(--text-2);
+  background: transparent; transition: all 0.2s;
+}
+.tab-pill.active { background: var(--blue); color: white; border-color: var(--blue); }
+.tab-pill .badge {
+  display: inline-block; width: 16px; height: 16px; border-radius: 50%;
+  background: var(--green); color: white; font-size: 10px; text-align: center;
+  line-height: 16px; margin-left: 4px;
+}
+
+.cta-section {
+  padding: 16px 20px; background: var(--cta-bar-bg);
+  border-top: 1px solid var(--border); margin-top: auto;
+}
+.cta-btn {
+  width: 100%; padding: 14px; border-radius: 12px; font-size: 15px;
+  font-weight: 600; border: none; cursor: pointer; transition: all 0.2s;
+}
+.cta-btn.primary { background: var(--blue); color: white; }
+.cta-btn.primary:disabled { background: #2a4a7a; color: #6b8cc7; cursor: not-allowed; }
+.cta-btn.danger { background: transparent; color: var(--red); border: 1px solid var(--red); }
+.cta-skip {
+  display: block; text-align: center; color: var(--text-2);
+  font-size: 14px; margin-top: 12px; cursor: pointer; background: none; border: none; width: 100%;
+}
+
+.info-banner {
+  display: flex; align-items: center; gap: 8px; padding: 10px 14px;
+  background: var(--surface-2); border-radius: 10px; margin-bottom: 14px;
+  font-size: 12px; color: var(--text-2);
+}
+.info-banner .icon { font-size: 16px; }
+
+.powered-footer {
+  text-align: center; padding: 12px; font-size: 11px; color: var(--text-3);
+}
+
+.institution-logo {
+  width: 32px; height: 32px; border-radius: 8px; display: flex;
+  align-items: center; justify-content: center; font-size: 11px;
+  font-weight: 700; color: white; flex-shrink: 0; overflow: hidden;
+  background: #fff;
+}
+.institution-logo.hdfc { background: #004C8F; }
+.institution-logo.icici { background: #F04E23; }
+.institution-logo.kotak { background: #ED1C24; }
+.institution-logo.cdsl { background: #1565C0; }
+.institution-logo.nsdl { background: #F57C00; }
+.institution-logo.cams { background: #1B5E20; }
+.institution-logo.kfintech { background: #1976D2; }
+.institution-logo.saraswat { background: #6B21A8; }
+.institution-logo.sbi { background: #22409A; }
+.institution-logo img {
+  width: 100%; height: 100%; object-fit: cover;
+}
+
+.account-card {
+  background: var(--surface); border-radius: 14px; padding: 16px;
+  margin: 0 20px 12px; border: 1px solid var(--border);
+}
+.account-card-header {
+  display: flex; align-items: center; gap: 10px; margin-bottom: 12px;
+}
+.account-card-header .name { font-size: 14px; font-weight: 600; color: var(--text-1); }
+.account-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 8px 0; border-top: 1px solid var(--border);
+}
+.account-row .left { display: flex; align-items: center; gap: 8px; }
+.account-row .label { font-size: 13px; color: var(--text-2); }
+.account-row .linked-badge {
+  font-size: 11px; color: var(--blue); display: flex; align-items: center; gap: 2px;
+}
+.account-row .checkbox {
+  width: 20px; height: 20px; border-radius: 4px; background: var(--blue);
+  display: flex; align-items: center; justify-content: center;
+  color: white; font-size: 12px; font-weight: 700;
+}
+
+/* OTP Sheet */
+.otp-overlay {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0,0,0,0.6); z-index: 50; display: flex;
+  align-items: flex-end;
+}
+.otp-sheet {
+  width: 100%; background: var(--surface); border-radius: 24px 24px 0 0;
+  padding: 24px 20px 30px; max-height: 70%;
+}
+.otp-sheet-header {
+  display: flex; align-items: center; gap: 12px; margin-bottom: 16px;
+}
+.otp-inputs {
+  display: flex; gap: 10px; justify-content: center; margin: 20px 0;
+}
+.otp-inputs input {
+  width: 44px; height: 52px; border-radius: 10px; border: 1px solid var(--border);
+  background: var(--surface-2); color: var(--text-1); font-size: 20px;
+  text-align: center; outline: none; font-family: inherit;
+}
+.otp-inputs input:focus { border-color: var(--blue); }
+.otp-countdown { text-align: center; font-size: 13px; color: var(--text-2); margin-bottom: 16px; }
+
+/* Shimmer */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.shimmer-line {
+  height: 14px; border-radius: 6px; margin-bottom: 10px;
+  background: linear-gradient(90deg, var(--surface-2) 25%, #2a2a2a 50%, var(--surface-2) 75%);
+  background-size: 200% 100%; animation: shimmer 1.5s infinite;
+}
+.shimmer-line:nth-child(1) { width: 80%; }
+.shimmer-line:nth-child(2) { width: 60%; }
+.shimmer-line:nth-child(3) { width: 40%; }
+
+/* Consent Modal */
+.consent-modal {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0,0,0,0.7); z-index: 60; display: none;
+  align-items: flex-end;
+}
+.consent-modal.show { display: flex; }
+.consent-modal-content {
+  width: 100%; background: var(--surface); border-radius: 24px 24px 0 0;
+  padding: 24px 20px 30px; max-height: 85%; overflow-y: auto;
+}
+.consent-row {
+  display: flex; justify-content: space-between; padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+}
+.consent-row .label { font-size: 13px; color: var(--text-2); }
+.consent-row .value { font-size: 13px; color: var(--text-1); font-weight: 500; text-align: right; }
+
+/* Screen 19 specific */
+.home-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 20px;
+}
+.avatar {
+  width: 36px; height: 36px; border-radius: 50%; background: #7C3AED;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; font-weight: 700; color: white;
+}
+.star-chip {
+  background: linear-gradient(135deg, #F59E0B, #D97706); padding: 4px 10px;
+  border-radius: 12px; font-size: 12px; font-weight: 600; color: white;
+  display: flex; align-items: center; gap: 4px;
+}
+.product-tabs {
+  display: flex; gap: 20px; padding: 0 20px 12px; overflow-x: auto;
+  border-bottom: 1px solid var(--border);
+}
+.product-tab {
+  font-size: 13px; color: var(--text-2); white-space: nowrap;
+  padding-bottom: 10px; cursor: pointer; border-bottom: 2px solid transparent;
+}
+.product-tab.active { color: var(--blue); border-bottom-color: var(--blue); }
+
+.loan-card {
+  margin: 16px 20px; padding: 20px; border-radius: 16px;
+  background: linear-gradient(135deg, #0F1B3D, #162850);
+  border: 1px solid #1e3a6d;
+}
+.donut-container { display: flex; align-items: center; gap: 20px; }
+.donut-chart {
+  width: 80px; height: 80px; border-radius: 50%;
+  background: conic-gradient(var(--blue) 0deg 216deg, #2a3a5a 216deg 360deg);
+  display: flex; align-items: center; justify-content: center;
+}
+.donut-chart .inner {
+  width: 56px; height: 56px; border-radius: 50%; background: #0F1B3D;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; font-weight: 700; color: var(--blue);
+}
+
+.warning-strip {
+  margin: 0 20px; padding: 12px 16px; border-radius: 12px;
+  background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.warning-strip .text { font-size: 13px; color: var(--orange); font-weight: 500; }
+.warning-strip .pill {
+  padding: 4px 12px; border-radius: 12px; background: var(--orange);
+  font-size: 12px; font-weight: 600; color: #000; cursor: pointer;
+}
+
+.track-card {
+  margin: 16px 20px; padding: 20px; border-radius: 16px;
+  background: var(--surface); border: 1px solid var(--border);
+}
+.track-card .new-badge {
+  display: inline-block; padding: 2px 8px; border-radius: 8px;
+  background: var(--orange); font-size: 10px; font-weight: 700;
+  color: #000; margin-bottom: 8px;
+}
+.bar-chart-illustration {
+  display: flex; align-items: flex-end; gap: 6px; height: 50px; margin: 12px 0;
+}
+.bar-chart-illustration .bar {
+  width: 16px; border-radius: 4px 4px 0 0;
+}
+.learn-more-btn {
+  background: none; border: none; color: var(--blue); font-size: 14px;
+  font-weight: 600; cursor: pointer; padding: 0;
+}
+
+.bills-section { padding: 20px; }
+.bills-section h3 { font-size: 15px; color: var(--text-1); margin-bottom: 16px; }
+.bills-grid { display: flex; gap: 20px; justify-content: space-around; }
+.bill-icon {
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+}
+.bill-icon .circle {
+  width: 48px; height: 48px; border-radius: 50%; background: var(--surface-2);
+  display: flex; align-items: center; justify-content: center; font-size: 20px;
+}
+.bill-icon .lbl { font-size: 11px; color: var(--text-2); }
+
+.bottom-tab-bar {
+  display: flex; align-items: center; justify-content: space-around;
+  padding: 12px 0 20px; background: var(--surface);
+  border-top: 1px solid var(--border); margin-top: auto;
+  position: sticky; bottom: 0;
+}
+.tab-item {
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  font-size: 10px; color: var(--text-3); cursor: pointer;
+}
+.tab-item.active { color: var(--blue); }
+.tab-item .icon { font-size: 20px; }
+.tab-item.raised .icon {
+  width: 48px; height: 48px; border-radius: 50%; background: var(--blue);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; color: white; margin-top: -20px;
+}
+
+/* Screen 1 - Dashboard */
+.net-worth-value { font-size: 32px; font-weight: 800; color: var(--text-1); }
+.net-worth-change {
+  font-size: 13px; color: var(--green); display: flex; align-items: center; gap: 4px;
+}
+.segment-bar { display: flex; height: 8px; border-radius: 4px; overflow: hidden; margin: 12px 0; }
+.segment-bar .seg { height: 100%; }
+.asset-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 0; border-bottom: 1px solid var(--border);
+}
+.asset-row .left { display: flex; flex-direction: column; gap: 2px; }
+.asset-row .name { font-size: 14px; color: var(--text-1); font-weight: 500; }
+.asset-row .sub { font-size: 12px; color: var(--text-3); }
+.asset-row .right { text-align: right; }
+.asset-row .amount { font-size: 14px; color: var(--text-1); font-weight: 600; }
+.asset-row .pct { font-size: 12px; color: var(--text-2); }
+
+.promo-card {
+  margin: 16px 20px; padding: 20px; border-radius: 16px;
+  background: linear-gradient(135deg, #1a2f4a, #0f1f35);
+  border: 1px solid #2a4a6a;
+}
+
+/* Section headers */
+.section-header {
+  padding: 16px 20px 8px;
+}
+.section-header .title { font-size: 16px; font-weight: 600; color: var(--text-1); }
+.section-header .subtitle { font-size: 12px; color: var(--text-2); margin-top: 2px; }
+.section-header .count { font-size: 12px; color: var(--blue); margin-top: 2px; }
+
+.section-divider {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 20px; margin-top: 8px;
+}
+.section-divider .left .title { font-size: 13px; color: var(--text-1); font-weight: 600; }
+.section-divider .left .sub { font-size: 11px; color: var(--text-3); }
+.section-divider .count { font-size: 12px; color: var(--green); font-weight: 500; }
+
+.add-more {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 20px; margin-bottom: 8px;
+}
+.add-more .text { font-size: 13px; color: var(--text-2); }
+.add-more .btn { font-size: 13px; color: var(--blue); font-weight: 600; cursor: pointer; background: none; border: none; }
+
+/* Review screen */
+.review-card {
+  background: var(--surface); border-radius: 14px; padding: 16px;
+  margin: 0 20px 12px; border: 1px solid var(--border);
+}
+.chip-row { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+.chip {
+  padding: 4px 10px; border-radius: 8px; background: var(--surface-2);
+  font-size: 11px; color: var(--text-2); border: 1px solid var(--border);
+}
+
+.consent-info-card {
+  background: var(--surface); border-radius: 14px; padding: 16px;
+  margin: 0 20px 12px; border: 1px solid var(--border);
+}
+.consent-info-row {
+  display: flex; align-items: flex-start; gap: 10px; padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+}
+.consent-info-row:last-child { border-bottom: none; }
+.consent-info-row .icon { font-size: 18px; flex-shrink: 0; }
+.consent-info-row .content .label { font-size: 12px; color: var(--text-3); }
+.consent-info-row .content .value { font-size: 13px; color: var(--text-1); margin-top: 2px; }
+
+/* Success screen */
+.success-circle {
+  width: 100px; height: 100px; border-radius: 50%; background: var(--green);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 40px; color: white; margin: 60px auto 24px;
+  box-shadow: 0 0 0 12px rgba(34, 197, 94, 0.2), 0 0 0 24px rgba(34, 197, 94, 0.1);
+}
+
+/* Logo row */
+.logo-row { display: flex; gap: 12px; justify-content: center; margin: 16px 0; align-items: center; }
+.logo-pill {
+  width: 32px; height: 32px; border-radius: 50%; overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+  background: #fff;
+}
+.logo-pill img {
+  width: 24px; height: 24px; object-fit: contain;
+}
+
+/* Tab toggle for screen 5/7 */
+.tab-toggle {
+  display: flex; margin: 0 20px; border-radius: 10px; overflow: hidden;
+  border: 1px solid var(--border); margin-bottom: 16px;
+}
+.tab-toggle .tab-opt {
+  flex: 1; padding: 10px; text-align: center; font-size: 13px; font-weight: 500;
+  cursor: pointer; color: var(--text-2); background: var(--surface-2); transition: all 0.2s;
+}
+.tab-toggle .tab-opt.active { background: var(--blue); color: white; }
+</style>
+</head>
+<body>
+<div class="phone-frame" id="app">
+
+<!-- Screen 19: Home -->
+<div class="screen active" id="screen-19">
+<!-- Home Header -->
+<div class="home-header">
+<div style="display:flex;align-items:center;gap:10px">
+<div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#4ade80,#22c55e);overflow:hidden;display:flex;align-items:center;justify-content:center">
+<span style="font-size:18px">👤</span>
+</div>
+<div>
+<div style="font-size:11px;color:var(--text-3)">Hi,</div>
+<div style="font-size:14px;font-weight:600;color:var(--text-1)">Chaitanya</div>
+</div>
+</div>
+<div style="display:flex;align-items:center;gap:12px">
+<div class="star-chip">⭐ 98,200</div>
+<span style="font-size:18px;color:var(--text-2);cursor:pointer">🔍</span>
+</div>
+</div>
+
+<!-- MY PRODUCTS section -->
+<div style="padding:16px 20px 8px">
+<div style="font-size:11px;font-weight:600;color:var(--text-3);letter-spacing:0.5px;margin-bottom:12px">MY PRODUCTS</div>
+<div style="background:linear-gradient(135deg,#0F1B3D,#162850);border-radius:16px;padding:16px;border:1px solid #1e3a6d">
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+<div style="background:var(--blue);padding:4px 12px;border-radius:6px;font-size:12px;color:#fff;font-weight:500">Personal Loan</div>
+<div style="font-size:12px;color:var(--text-2)">slice</div>
+</div>
+<div style="font-size:11px;color:var(--text-3);margin-bottom:12px">EMI 1334267910</div>
+<div style="display:flex;align-items:center;gap:16px">
+<div class="donut-chart" style="width:64px;height:64px"><div class="inner" style="width:44px;height:44px;background:#0F1B3D;font-size:11px">60%</div></div>
+<div style="flex:1;display:flex;gap:20px">
+<div><div style="font-size:10px;color:var(--text-3)">Loan Amount</div><div style="font-size:15px;font-weight:700;color:var(--text-1)">₹2,00,000</div></div>
+<div><div style="font-size:10px;color:var(--text-3)">Outstanding</div><div style="font-size:15px;font-weight:700;color:var(--text-1)">₹55,000</div></div>
+</div>
+</div>
+<div style="margin-top:12px;display:flex;align-items:center;justify-content:space-between;background:rgba(245,158,11,0.1);border-radius:8px;padding:8px 12px">
+<span style="font-size:12px;color:var(--orange)">⚠ EMI of ₹7,500 Due in 5 Days</span>
+<span style="background:var(--blue);color:#fff;font-size:11px;padding:5px 12px;border-radius:6px;font-weight:600;cursor:pointer">Pay Now ›</span>
+</div>
+</div>
+</div>
+
+<!-- OFFERS FOR YOU -->
+<div style="padding:16px 20px 8px;display:flex;justify-content:space-between;align-items:center">
+<div style="font-size:11px;font-weight:600;color:var(--text-3);letter-spacing:0.5px">OFFERS FOR YOU</div>
+<span style="font-size:12px;color:var(--blue);cursor:pointer">View All ›</span>
+</div>
+<div style="padding:0 20px 12px">
+<div style="background:var(--surface);border-radius:14px;padding:16px;border:1px solid var(--border);display:flex;gap:12px;align-items:center">
+<div style="flex:1">
+<div style="font-size:14px;font-weight:600;color:var(--text-1);line-height:1.4">You're Eligible for Business Loan up to ₹25,00,000</div>
+<div style="font-size:11px;color:var(--text-3);margin-top:4px">Rate of Interest starting @ 12% p.m</div>
+<button style="margin-top:10px;background:var(--green);color:#fff;border:none;padding:6px 14px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer">Avail Now ›</button>
+</div>
+<div style="width:60px;height:60px;display:flex;align-items:center;justify-content:center;font-size:36px">💼</div>
+</div>
+</div>
+
+<!-- Net Worth Insights CTA (entry point to flow) -->
+<div style="padding:0 20px 12px">
+<div style="background:var(--surface);border-radius:14px;padding:16px;border:1px solid var(--border);cursor:pointer" onclick="showScreen('screen-18')">
+<span style="background:var(--green);color:#fff;font-size:9px;padding:2px 6px;border-radius:4px;font-weight:600">NEW</span>
+<div style="font-size:14px;font-weight:600;color:var(--text-1);margin-top:8px">Net Worth Insights</div>
+<div style="font-size:12px;color:var(--text-2);margin-top:4px">Track all your investments, bank accounts & view wealth analytics</div>
+<button style="margin-top:10px;background:var(--blue);color:#fff;border:none;padding:6px 14px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer">Learn More ›</button>
+</div>
+</div>
+
+<!-- CREDIT SCORE -->
+<div style="padding:8px 20px">
+<div style="font-size:11px;font-weight:600;color:var(--text-3);letter-spacing:0.5px;margin-bottom:12px">CREDIT SCORE</div>
+<div style="background:var(--surface);border-radius:14px;padding:16px;border:1px solid var(--border);display:flex;align-items:center;justify-content:space-between">
+<div style="display:flex;align-items:center;gap:12px">
+<div style="width:56px;height:56px;border-radius:50%;background:conic-gradient(var(--green) 0deg 300deg, #2a2a2a 300deg);display:flex;align-items:center;justify-content:center">
+<div style="width:42px;height:42px;border-radius:50%;background:var(--surface);display:flex;flex-direction:column;align-items:center;justify-content:center">
+<span style="font-size:16px;font-weight:800;color:var(--text-1)">832</span>
+</div>
+</div>
+<div><div style="font-size:10px;color:var(--text-3)">As of Sept 24</div><div style="font-size:11px;color:var(--green);font-weight:600">Very Good</div></div>
+</div>
+<div style="text-align:right">
+<div style="background:var(--surface-2);border:1px solid var(--border);padding:6px 12px;border-radius:8px;font-size:12px;color:var(--text-1);font-weight:500;cursor:pointer">See Full Report ›</div>
+<div style="font-size:10px;color:var(--text-3);margin-top:4px">Next report in 2 days</div>
+</div>
+</div>
+</div>
+
+<!-- BILLS & RECHARGES -->
+<div style="padding:16px 20px 8px;display:flex;justify-content:space-between;align-items:center">
+<div style="font-size:11px;font-weight:600;color:var(--text-3);letter-spacing:0.5px">BILLS & RECHARGES</div>
+<span style="font-size:12px;color:var(--blue);cursor:pointer">View More ›</span>
+</div>
+<div style="padding:0 20px 8px;display:grid;grid-template-columns:repeat(4,1fr);gap:12px">
+<div style="display:flex;flex-direction:column;align-items:center;gap:6px"><div style="width:44px;height:44px;border-radius:12px;background:var(--surface-2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:18px;position:relative">⚡<span style="position:absolute;top:-4px;right:-4px;background:var(--green);color:#fff;font-size:8px;padding:1px 4px;border-radius:4px">2 due</span></div><span style="font-size:10px;color:var(--text-2)">Electricity</span></div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:6px"><div style="width:44px;height:44px;border-radius:12px;background:var(--surface-2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:18px">🏷</div><span style="font-size:10px;color:var(--text-2)">Fast Tag</span></div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:6px"><div style="width:44px;height:44px;border-radius:12px;background:var(--surface-2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:18px">💳</div><span style="font-size:10px;color:var(--text-2)">Credit Card</span></div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:6px"><div style="width:44px;height:44px;border-radius:12px;background:var(--surface-2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:18px">🔥</div><span style="font-size:10px;color:var(--text-2)">Gas Pipeline</span></div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:6px"><div style="width:44px;height:44px;border-radius:12px;background:var(--surface-2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:18px">📶</div><span style="font-size:10px;color:var(--text-2)">Broadband</span></div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:6px"><div style="width:44px;height:44px;border-radius:12px;background:var(--surface-2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:18px">📱</div><span style="font-size:10px;color:var(--text-2)">Mobile Postpaid</span></div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:6px"><div style="width:44px;height:44px;border-radius:12px;background:var(--surface-2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:18px">🚇</div><span style="font-size:10px;color:var(--text-2)">Metro Card</span></div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:6px"><div style="width:44px;height:44px;border-radius:12px;background:var(--surface-2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:18px">🛢</div><span style="font-size:10px;color:var(--text-2)">Book a Cylinder</span></div>
+</div>
+
+<!-- INVESTMENT & INSURANCE -->
+<div style="padding:16px 20px 8px">
+<div style="font-size:11px;font-weight:600;color:var(--text-3);letter-spacing:0.5px;margin-bottom:12px">INVESTMENT & INSURANCE</div>
+<div style="display:flex;gap:12px;margin-bottom:12px">
+<div style="flex:1;background:var(--surface);border-radius:12px;padding:14px;border:1px solid var(--border);display:flex;flex-direction:column;align-items:center;gap:6px;position:relative">
+<span style="position:absolute;top:6px;left:6px;background:var(--green);color:#fff;font-size:8px;padding:1px 5px;border-radius:4px;font-weight:600">New</span>
+<span style="font-size:24px">🏦</span><span style="font-size:11px;color:var(--text-2)">Fixed Deposit</span>
+</div>
+<div style="flex:1;background:var(--surface);border-radius:12px;padding:14px;border:1px solid var(--border);display:flex;flex-direction:column;align-items:center;gap:6px">
+<span style="font-size:24px">🛡</span><span style="font-size:11px;color:var(--text-2)">Insurance</span>
+</div>
+<div style="flex:1;background:var(--surface);border-radius:12px;padding:14px;border:1px solid var(--border);display:flex;flex-direction:column;align-items:center;gap:4px">
+<span style="font-size:11px;color:var(--text-2);text-align:center;line-height:1.3">Earn points on purchasing FD / Insurance</span>
+</div>
+</div>
+<div style="background:linear-gradient(90deg,#1E3A5F,#0F1B3D);border-radius:12px;padding:12px 16px;display:flex;align-items:center;gap:10px;border:1px solid var(--border)">
+<span style="font-size:20px">📋</span>
+<div style="flex:1"><div style="font-size:13px;font-weight:600;color:var(--text-1)">Update your KYC</div><div style="font-size:11px;color:var(--text-3)">Take less than 1 min</div></div>
+<span style="color:var(--text-2)">›</span>
+</div>
+</div>
+
+<!-- LOANS -->
+<div style="padding:16px 20px 8px;display:flex;justify-content:space-between;align-items:center">
+<div style="font-size:11px;font-weight:600;color:var(--text-3);letter-spacing:0.5px">LOANS</div>
+<span style="font-size:12px;color:var(--blue);cursor:pointer">View More ›</span>
+</div>
+<div style="padding:0 20px 12px;display:flex;gap:8px;flex-wrap:wrap">
+<div style="background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:6px 14px;font-size:12px;color:var(--text-1);display:flex;align-items:center;gap:6px">🏦 Personal Loan <span style="background:var(--blue);color:#fff;font-size:8px;padding:1px 5px;border-radius:4px">Popular</span></div>
+<div style="background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:6px 14px;font-size:12px;color:var(--text-1)">🛒 Consumer Loan</div>
+<div style="background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:6px 14px;font-size:12px;color:var(--text-1)">📊 MOBUS</div>
+<div style="background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:6px 14px;font-size:12px;color:var(--text-1)">📈 Loans Against Securities</div>
+</div>
+
+<!-- SPOTLIGHT -->
+<div style="padding:16px 20px 8px">
+<div style="font-size:11px;font-weight:600;color:var(--text-3);letter-spacing:0.5px;margin-bottom:12px">SPOTLIGHT</div>
+<div style="display:flex;gap:12px">
+<div style="flex:1;background:linear-gradient(135deg,#1E3A5F,#0F2B4D);border-radius:14px;padding:16px;border:1px solid #2a4a6a">
+<div style="font-size:13px;font-weight:600;color:var(--text-1);line-height:1.4">File your taxes completely online</div>
+<div style="font-size:11px;color:var(--text-3);margin-top:4px">Check eligibility and avail funds in...</div>
+<button style="margin-top:10px;background:var(--blue);color:#fff;border:none;padding:5px 12px;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer">Avail Now ›</button>
+</div>
+<div style="flex:1;background:linear-gradient(135deg,#2D1B4E,#1A0F30);border-radius:14px;padding:16px;border:1px solid #4a2a6a">
+<div style="font-size:13px;font-weight:600;color:var(--text-1);line-height:1.4">Find the best deals from Amazon.</div>
+<div style="font-size:11px;color:var(--text-3);margin-top:4px">Low prices deals available</div>
+<button style="margin-top:10px;background:var(--orange);color:#000;border:none;padding:5px 12px;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer">Shop now ›</button>
+</div>
+</div>
+</div>
+
+<!-- LEARN ON THE GO -->
+<div style="padding:16px 20px 8px;display:flex;justify-content:space-between;align-items:center">
+<div style="font-size:11px;font-weight:600;color:var(--text-3);letter-spacing:0.5px">LEARN ON THE GO</div>
+<span style="font-size:12px;color:var(--blue);cursor:pointer">View all videos ›</span>
+</div>
+<div style="padding:0 20px 20px;display:flex;gap:12px">
+<div style="flex:1;background:var(--surface);border-radius:12px;overflow:hidden;border:1px solid var(--border)">
+<div style="height:80px;background:linear-gradient(135deg,#1E3A5F,#0F2B4D);display:flex;align-items:center;justify-content:center"><span style="font-size:24px">▶️</span></div>
+<div style="padding:10px;font-size:11px;color:var(--text-2)">Track and manage your loan anywhere</div>
+</div>
+<div style="flex:1;background:var(--surface);border-radius:12px;overflow:hidden;border:1px solid var(--border)">
+<div style="height:80px;background:linear-gradient(135deg,#2D1B4E,#1A0F30);display:flex;align-items:center;justify-content:center"><span style="font-size:24px">▶️</span></div>
+<div style="padding:10px;font-size:11px;color:var(--text-2)">Track and manage your loan anywhere</div>
+</div>
+</div>
+
+
+<!-- Bottom Tab Bar -->
+<div class="bottom-tab-bar">
+<div class="tab-item active"><span class="icon">🏠</span>Home</div>
+<div class="tab-item"><span class="icon">💰</span>Loans</div>
+<div class="tab-item raised"><span class="icon">₹</span>Pay EMI</div>
+<div class="tab-item"><span class="icon">📈</span>Invest</div>
+<div class="tab-item"><span class="icon">🛡</span>Insure</div>
+</div>
+</div>
+
+<!-- Screen 18: Searching Investments -->
+<div class="screen" id="screen-18">
+<div class="progress-line"></div>
+<div class="nav-bar">
+<button class="back-btn" onclick="showScreen('screen-19')">←</button>
+<span class="title">Net Worth Insights</span>
+<div class="right-icons"><span>ⓘ</span><span>3A</span><span onclick="showScreen('screen-19')">✕</span></div>
+</div>
+<div class="tab-pills">
+<div class="tab-pill active">Investments</div>
+<div class="tab-pill">Bank & Deposits</div>
+</div>
+<div style="padding:20px">
+<div class="account-card" style="margin:0;padding:24px">
+<div class="shimmer-line"></div>
+<div class="shimmer-line"></div>
+<div class="shimmer-line"></div>
+<div style="text-align:center;font-size:32px;margin-top:16px">🔍</div>
+</div>
+</div>
+<div style="text-align:center;padding:20px">
+<div style="font-size:14px;color:var(--text-2);margin-bottom:16px">Searching for Investments in</div>
+<div class="logo-row">
+<span class="logo-pill"><img src="https://www.google.com/s2/favicons?domain=camsonline.com&sz=64" alt="CAMS"></span>
+<span class="logo-pill"><img src="https://www.google.com/s2/favicons?domain=kfintech.com&sz=64" alt="KF"></span>
+<span class="logo-pill"><img src="https://www.google.com/s2/favicons?domain=cdslindia.com&sz=64" alt="CDSL"></span>
+<span class="logo-pill"><img src="https://www.google.com/s2/favicons?domain=nsdl.co.in&sz=64" alt="NSDL"></span>
+</div>
+<div style="font-size:13px;color:var(--text-3);margin-top:12px">This might take a while, please wait</div>
+</div>
+<div class="cta-section">
+<button class="cta-btn primary" disabled>Share Accounts</button>
+<button class="cta-skip" onclick="showScreen('screen-17')">Skip</button>
+</div>
+<div class="powered-footer">Powered by Finvu</div>
+</div>
+
+<!-- Screen 17: Select Investments -->
+<div class="screen" id="screen-17">
+<div class="progress-line"></div>
+<div class="nav-bar">
+<button class="back-btn" onclick="showScreen('screen-18')">←</button>
+<span class="title">Net Worth Insights</span>
+<div class="right-icons"><span>ⓘ</span><span>3A</span><span onclick="showScreen('screen-19')">✕</span></div>
+</div>
+<div class="tab-pills">
+<div class="tab-pill active">Investments <span class="badge">✓</span></div>
+<div class="tab-pill">Bank & Deposits</div>
+</div>
+<div class="section-header">
+<div class="title">Select Accounts</div>
+<div class="subtitle">Choose the accounts you want to share</div>
+</div>
+<div class="section-divider">
+<div class="left"><div class="title">Demat Accounts</div><div class="sub">Stocks, ETFs, Mutual Funds</div></div>
+<div class="count">4 of 4 selected</div>
+</div>
+<div class="account-card">
+<div class="account-card-header">
+<div class="institution-logo"><img src="https://www.google.com/s2/favicons?domain=cdslindia.com&sz=128" alt="CDSL"></div>
+<div><div class="name">Demats via CDSL</div><div style="font-size:11px;color:var(--text-3)">Demat • xx0245</div></div>
+</div>
+<div class="account-row"><div class="left"><span class="label">Equities</span></div><div class="checkbox">✓</div></div>
+<div class="account-row"><div class="left"><span class="label">ETFs</span><span class="linked-badge">🔗 Linked</span></div><div class="checkbox">✓</div></div>
+</div>
+<div class="account-card">
+<div class="account-card-header">
+<div class="institution-logo"><img src="https://www.google.com/s2/favicons?domain=nsdl.co.in&sz=128" alt="NSDL"></div>
+<div><div class="name">Demats via NSDL</div><div style="font-size:11px;color:var(--text-3)">Demat • xx1248</div></div>
+</div>
+<div class="account-row"><div class="left"><span class="label">Mutual Funds</span><span class="linked-badge">🔗 Linked</span></div><div class="checkbox">✓</div></div>
+<div class="account-row"><div class="left"><span class="label">ETFs</span><span class="linked-badge">🔗 Linked</span></div><div class="checkbox">✓</div></div>
+</div>
+<div class="section-divider">
+<div class="left"><div class="title">Folios</div><div class="sub">Mutual Funds</div></div>
+<div class="count">4 of 4 selected</div>
+</div>
+<div class="account-card">
+<div class="account-card-header">
+<div class="institution-logo"><img src="https://www.google.com/s2/favicons?domain=camsonline.com&sz=128" alt="CAMS"></div>
+<div class="name">Folios via CAMS</div>
+</div>
+<div class="account-row"><div class="left"><span class="label">ICICI Prudential • xx4589</span><span class="linked-badge">🔗 Linked</span></div><div class="checkbox">✓</div></div>
+<div class="account-row"><div class="left"><span class="label">Mirae Asset • xx7310</span><span class="linked-badge">🔗 Linked</span></div><div class="checkbox">✓</div></div>
+</div>
+<div class="account-card">
+<div class="account-card-header">
+<div class="institution-logo"><img src="https://www.google.com/s2/favicons?domain=kfintech.com&sz=128" alt="KFintech"></div>
+<div class="name">Folios via KFintech</div>
+</div>
+<div class="account-row"><div class="left"><span class="label">SBI • xx2948</span><span class="linked-badge">🔗 Linked</span></div><div class="checkbox">✓</div></div>
+<div class="account-row"><div class="left"><span class="label">DSP • xx1056</span><span class="linked-badge">🔗 Linked</span></div><div class="checkbox">✓</div></div>
+</div>
+<div class="add-more">
+<span class="text">Missing any accounts?</span>
+<button class="btn">Add More +</button>
+</div>
+<div class="cta-section">
+<div class="info-banner"><span class="icon">🔒</span>Your data is encrypted and shared securely</div>
+<button class="cta-btn primary" onclick="showScreen('screen-14')">Share Accounts</button>
+<button class="cta-skip" onclick="showScreen('screen-12')">Skip</button>
+</div>
+<div class="powered-footer">Powered by Finvu</div>
+</div>
+
+<!-- Screen 14: CDSL OTP -->
+<div class="screen" id="screen-14">
+<div class="progress-line"></div>
+<div class="nav-bar">
+<button class="back-btn" onclick="showScreen('screen-17')">←</button>
+<span class="title">Net Worth Insights</span>
+<div class="right-icons"><span>ⓘ</span><span>3A</span><span onclick="showScreen('screen-19')">✕</span></div>
+</div>
+<div class="otp-overlay">
+<div class="otp-sheet">
+<div class="otp-sheet-header">
+<div class="institution-logo" style="width:40px;height:40px"><img src="https://www.google.com/s2/favicons?domain=cdslindia.com&sz=128" alt="CDSL"></div>
+<div>
+<div style="font-size:15px;font-weight:600;color:var(--text-1)">Link your CDSL Accounts</div>
+<div style="font-size:12px;color:var(--text-2)">Enter the OTP sent to your registered mobile</div>
+</div>
+</div>
+<div class="otp-inputs" data-group="cdsl">
+<input type="text" maxlength="1" inputmode="numeric">
+<input type="text" maxlength="1" inputmode="numeric">
+<input type="text" maxlength="1" inputmode="numeric">
+<input type="text" maxlength="1" inputmode="numeric">
+<input type="text" maxlength="1" inputmode="numeric">
+<input type="text" maxlength="1" inputmode="numeric">
+</div>
+<div class="otp-countdown" id="countdown-cdsl">Resend OTP in <strong>9s</strong></div>
+<button class="cta-btn primary" id="submit-cdsl" disabled onclick="showScreen('screen-13')">Submit</button>
+<button class="cta-skip" onclick="showScreen('screen-13')">Skip</button>
+<div class="powered-footer">Powered by Finvu</div>
+</div>
+</div>
+</div>
+
+<!-- Screen 13: NSDL OTP -->
+<div class="screen" id="screen-13">
+<div class="progress-line"></div>
+<div class="nav-bar">
+<button class="back-btn" onclick="showScreen('screen-14')">←</button>
+<span class="title">Net Worth Insights</span>
+<div class="right-icons"><span>ⓘ</span><span>3A</span><span onclick="showScreen('screen-19')">✕</span></div>
+</div>
+<div class="otp-overlay">
+<div class="otp-sheet">
+<div class="otp-sheet-header">
+<div style="display:flex;align-items:center;gap:8px">
+<div class="institution-logo" style="width:40px;height:40px"><img src="https://www.google.com/s2/favicons?domain=nsdl.co.in&sz=128" alt="NSDL"></div>
+<div style="width:18px;height:18px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;font-size:10px;color:white;margin-left:-16px;margin-top:-20px">✓</div>
+</div>
+<div>
+<div style="font-size:15px;font-weight:600;color:var(--text-1)">Link your NSDL Accounts</div>
+<div style="font-size:12px;color:var(--text-2)">Enter the OTP sent to your registered mobile</div>
+</div>
+</div>
+<div class="otp-inputs" data-group="nsdl">
+<input type="text" maxlength="1" inputmode="numeric">
+<input type="text" maxlength="1" inputmode="numeric">
+<input type="text" maxlength="1" inputmode="numeric">
+<input type="text" maxlength="1" inputmode="numeric">
+<input type="text" maxlength="1" inputmode="numeric">
+<input type="text" maxlength="1" inputmode="numeric">
+</div>
+<div class="otp-countdown" id="countdown-nsdl">Resend OTP in <strong>13s</strong></div>
+<button class="cta-btn primary" id="submit-nsdl" disabled onclick="showScreen('screen-12')">Submit</button>
+<button class="cta-skip" onclick="showScreen('screen-12')">Skip</button>
+<div class="powered-footer">Powered by Finvu</div>
+</div>
+</div>
+</div>
+
+<!-- Screen 12: Searching Banks -->
+<div class="screen" id="screen-12">
+<div class="progress-line"></div>
+<div class="nav-bar">
+<button class="back-btn" onclick="showScreen('screen-13')">←</button>
+<span class="title">Net Worth Insights</span>
+<div class="right-icons"><span>ⓘ</span><span>3A</span><span onclick="showScreen('screen-19')">✕</span></div>
+</div>
+<div class="tab-pills">
+<div class="tab-pill">Investments <span class="badge">✓</span></div>
+<div class="tab-pill active">Bank & Deposits <span class="badge">✓</span></div>
+</div>
+<div style="padding:20px">
+<div class="account-card" style="margin:0;padding:24px">
+<div class="shimmer-line"></div>
+<div class="shimmer-line"></div>
+<div class="shimmer-line"></div>
+<div style="text-align:center;font-size:32px;margin-top:16px">🔍</div>
+</div>
+</div>
+<div style="text-align:center;padding:20px">
+<div style="font-size:14px;color:var(--text-2);margin-bottom:16px">Searching for Bank & Deposits in</div>
+<div class="logo-row">
+<span class="logo-pill"><img src="https://www.google.com/s2/favicons?domain=hdfcbank.com&sz=64" alt="HDFC"></span>
+<span class="logo-pill"><img src="https://www.google.com/s2/favicons?domain=icicibank.com&sz=64" alt="ICICI"></span>
+<span class="logo-pill"><img src="https://www.google.com/s2/favicons?domain=kotak.com&sz=64" alt="Kotak"></span>
+<span class="logo-pill"><img src="https://www.google.com/s2/favicons?domain=sbi.co.in&sz=64" alt="SBI"></span>
+</div>
+<div style="font-size:13px;color:var(--text-3);margin-top:12px">This might take a while, please wait</div>
+</div>
+<div class="cta-section">
+<button class="cta-btn primary" disabled>Share Accounts</button>
+<button class="cta-skip" onclick="showScreen('screen-11')">Skip</button>
+</div>
+<div class="powered-footer">Powered by Finvu</div>
+</div>
+
+<!-- Screen 11: Select Banks -->
+<div class="screen" id="screen-11">
+<div class="progress-line"></div>
+<div class="nav-bar">
+<button class="back-btn" onclick="showScreen('screen-12')">←</button>
+<span class="title">Net Worth Insights</span>
+<div class="right-icons"><span>ⓘ</span><span>3A</span><span onclick="showScreen('screen-19')">✕</span></div>
+</div>
+<div class="tab-pills">
+<div class="tab-pill">Investments <span class="badge">✓</span></div>
+<div class="tab-pill active">Bank & Deposits <span class="badge">✓</span></div>
+</div>
+<div class="section-header">
+<div class="title">Select Accounts</div>
+<div class="subtitle">Choose the accounts you want to share</div>
+</div>
+<div class="section-divider">
+<div class="left"><div class="title">Banks</div><div class="sub">Bank accounts, Fixed Deposits, Recurring...</div></div>
+<div class="count">3 of 3 selected</div>
+</div>
+<div class="account-card">
+<div class="account-card-header">
+<div class="institution-logo"><img src="https://www.google.com/s2/favicons?domain=hdfcbank.com&sz=128" alt="HDFC"></div>
+<div class="name">HDFC Bank</div>
+</div>
+<div class="account-row"><div class="left"><span class="label">Savings Account • xx6842</span><span class="linked-badge">🔗 Linked</span></div><div class="checkbox">✓</div></div>
+</div>
+<div class="account-card">
+<div class="account-card-header">
+<div class="institution-logo"><img src="https://www.google.com/s2/favicons?domain=icicibank.com&sz=128" alt="ICICI"></div>
+<div class="name">ICICI Bank</div>
+</div>
+<div class="account-row"><div class="left"><span class="label">Savings Account • xx0419</span></div><div class="checkbox">✓</div></div>
+</div>
+<div class="account-card">
+<div class="account-card-header">
+<div class="institution-logo"><img src="https://www.google.com/s2/favicons?domain=kotak.com&sz=128" alt="Kotak"></div>
+<div class="name">Kotak Mahindra Bank</div>
+</div>
+<div class="account-row"><div class="left"><span class="label">Current Account • xx7738</span><span class="linked-badge">🔗 Linked</span></div><div class="checkbox">✓</div></div>
+</div>
+<div class="add-more">
+<span class="text">Missing any accounts?</span>
+<button class="btn">Add More +</button>
+</div>
+<div class="cta-section">
+<div class="info-banner"><span class="icon">🔒</span>Your data is encrypted and shared securely</div>
+<button class="cta-btn primary" onclick="showScreen('screen-9')">Share Accounts</button>
+<button class="cta-skip" onclick="showScreen('screen-8')">Skip</button>
+</div>
+<div class="powered-footer">Powered by Finvu</div>
+</div>
+
+<!-- Screen 9: ICICI OTP -->
+<div class="screen" id="screen-9">
+<div class="progress-line"></div>
+<div class="nav-bar">
+<button class="back-btn" onclick="showScreen('screen-11')">←</button>
+<span class="title">Net Worth Insights</span>
+<div class="right-icons"><span>ⓘ</span><span>3A</span><span onclick="showScreen('screen-19')">✕</span></div>
+</div>
+<div class="otp-overlay">
+<div class="otp-sheet">
+<div class="otp-sheet-header">
+<div class="institution-logo" style="width:40px;height:40px"><img src="https://www.google.com/s2/favicons?domain=icicibank.com&sz=128" alt="ICICI"></div>
+<div>
+<div style="font-size:15px;font-weight:600;color:var(--text-1)">Link your ICICI Bank Accounts</div>
+<div style="font-size:12px;color:var(--text-2)">Enter the OTP sent to your registered mobile</div>
+</div>
+</div>
+<div class="otp-inputs" data-group="icici">
+<input type="text" maxlength="1" inputmode="numeric">
+<input type="text" maxlength="1" inputmode="numeric">
+<input type="text" maxlength="1" inputmode="numeric">
+<input type="text" maxlength="1" inputmode="numeric">
+<input type="text" maxlength="1" inputmode="numeric">
+<input type="text" maxlength="1" inputmode="numeric">
+</div>
+<div class="otp-countdown" id="countdown-icici">Resend OTP in <strong>12s</strong></div>
+<button class="cta-btn primary" id="submit-icici" disabled onclick="showScreen('screen-8')">Submit</button>
+<button class="cta-skip" onclick="showScreen('screen-8')">Skip</button>
+<div class="powered-footer">Powered by Finvu</div>
+</div>
+</div>
+</div>
+
+<!-- Screen 8: Review -->
+<div class="screen" id="screen-8">
+<div class="progress-line"></div>
+<div class="nav-bar">
+<button class="back-btn" onclick="showScreen('screen-11')">←</button>
+<span class="title">Net Worth Insights</span>
+<div class="right-icons"><span>ⓘ</span><span>3A</span><span onclick="showScreen('screen-19')">✕</span></div>
+</div>
+<div style="padding:16px 20px 8px">
+<div style="font-size:20px;font-weight:700;color:var(--text-1)">One last check!</div>
+<div style="font-size:13px;color:var(--text-2);margin-top:4px">Review how DMI Finance will be using your financial details</div>
+</div>
+<div style="display:flex;align-items:center;justify-content:space-between;padding:12px 20px">
+<span style="font-size:14px;font-weight:600;color:var(--text-1)">Accounts being shared</span>
+<span style="font-size:13px;color:var(--blue);cursor:pointer">Manage</span>
+</div>
+<div class="review-card">
+<div style="font-size:14px;font-weight:600;color:var(--text-1);margin-bottom:8px">Demats & Folios</div>
+<div class="chip-row">
+<span class="chip">CDSL•0245</span><span class="chip">NSDL•1248</span><span class="chip">CAMS•4589</span><span class="chip">+3</span>
+</div>
+<div style="font-size:12px;color:var(--text-3);margin-top:8px">Data Fetched From: 18 Jun 26 – 18 Jun 27</div>
+</div>
+<div class="review-card">
+<div style="font-size:14px;font-weight:600;color:var(--text-1);margin-bottom:8px">Banks</div>
+<div class="chip-row">
+<span class="chip">HDFC•6842</span><span class="chip">ICICI•8456</span><span class="chip">Kotak•0419</span><span class="chip">+3</span>
+</div>
+<div style="font-size:12px;color:var(--text-3);margin-top:8px">Data Fetched From: 18 Jun 26 – 18 Jun 27</div>
+</div>
+<div class="add-more">
+<span class="text">Missing any accounts?</span>
+<button class="btn">Add more +</button>
+</div>
+<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 20px">
+<span style="font-size:14px;font-weight:600;color:var(--text-1)">Consent</span>
+<span style="font-size:13px;color:var(--blue);cursor:pointer" onclick="document.getElementById('consent-modal').classList.add('show')">View</span>
+</div>
+<div class="consent-info-card">
+<div class="consent-info-row">
+<span class="icon">📄</span>
+<div class="content"><div class="label">How your data will be used</div><div class="value">To generate wealth insights...</div></div>
+</div>
+<div class="consent-info-row">
+<span class="icon">🕐</span>
+<div class="content"><div class="label">How often data is accessed</div><div class="value">Up to 45 times a month</div></div>
+</div>
+</div>
+<div class="cta-section">
+<div class="info-banner"><span class="icon">🔒</span>Your data is encrypted and shared securely via RBI licensed Account Aggregator</div>
+<button class="cta-btn primary" onclick="showScreen('screen-4')">Approve data sharing</button>
+<button class="cta-skip" style="color:var(--red)" onclick="showScreen('screen-19')">Don't share</button>
+</div>
+<div class="powered-footer">Powered by Finvu</div>
+</div>
+
+<!-- Screen 3: Consent Modal (overlay) -->
+<div class="consent-modal" id="consent-modal">
+<div class="consent-modal-content">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+<span style="font-size:18px;font-weight:700;color:var(--text-1)">Consent Details</span>
+<span style="font-size:20px;color:var(--text-2);cursor:pointer" onclick="document.getElementById('consent-modal').classList.remove('show')">✕</span>
+</div>
+<div class="consent-row"><span class="label">Consent Purpose</span><span class="value">Wealth Management</span></div>
+<div class="consent-row"><span class="label">FI Types</span><span class="value">Deposit, Equity, MF</span></div>
+<div class="consent-row"><span class="label">Data Fetched From</span><span class="value">18 Jun 2024</span></div>
+<div class="consent-row"><span class="label">Data Fetched Until</span><span class="value">18 Jun 2026</span></div>
+<div class="consent-row"><span class="label">Consent Requested On</span><span class="value">18 Jun 2026, 16:53</span></div>
+<div class="consent-row"><span class="label">Consent Expires On</span><span class="value">18 Jun 2027, 16:53</span></div>
+<div class="consent-row"><span class="label">Account Details</span><span class="value">Profile, Summary, Transactions</span></div>
+<div class="consent-row"><span class="label">Data Life</span><span class="value">1 Month</span></div>
+<button class="cta-btn primary" style="margin-top:20px" onclick="document.getElementById('consent-modal').classList.remove('show')">Understood</button>
+<div class="powered-footer">Powered by Finvu</div>
+</div>
+</div>
+
+<!-- Screen 4: Full Consent Review -->
+<div class="screen" id="screen-4">
+<div class="progress-line"></div>
+<div class="nav-bar">
+<button class="back-btn" onclick="showScreen('screen-8')">←</button>
+<span class="title">Net Worth Insights</span>
+<div class="right-icons"><span>ⓘ</span><span>3A</span><span onclick="showScreen('screen-19')">✕</span></div>
+</div>
+<div style="padding:16px 20px 8px">
+<div style="font-size:20px;font-weight:700;color:var(--text-1)">One last check!</div>
+<div style="font-size:13px;color:var(--text-2);margin-top:4px">Review how DMI Finance will be using your financial details</div>
+</div>
+<div style="display:flex;align-items:center;justify-content:space-between;padding:12px 20px">
+<span style="font-size:14px;font-weight:600;color:var(--text-1)">Accounts being shared</span>
+<span style="font-size:13px;color:var(--blue);cursor:pointer">Manage</span>
+</div>
+<div class="review-card">
+<div style="font-size:14px;font-weight:600;color:var(--text-1);margin-bottom:8px">Demats & Folios</div>
+<div class="chip-row">
+<span class="chip">CDSL•0245</span><span class="chip">NSDL•1248</span><span class="chip">CAMS•4589</span><span class="chip">+3</span>
+</div>
+<div style="font-size:12px;color:var(--text-3);margin-top:8px">Data Fetched From: 18 Jun 26 – 18 Jun 27</div>
+</div>
+<div class="consent-info-card">
+<div class="consent-info-row">
+<span class="icon">📄</span>
+<div class="content"><div class="label">How your data will be used</div><div class="value">To generate wealth insights & recommendations</div></div>
+</div>
+<div class="consent-info-row">
+<span class="icon">🕐</span>
+<div class="content"><div class="label">How often data is accessed</div><div class="value">Up to 45 times a month</div></div>
+</div>
+<div class="consent-info-row">
+<span class="icon">📅</span>
+<div class="content"><div class="label">Access valid from</div><div class="value">18 Jun 2026 to 18 Jun 2027</div></div>
+</div>
+<div class="consent-info-row">
+<span class="icon">💾</span>
+<div class="content"><div class="label">How long your data can be used</div><div class="value">1 Month</div></div>
+</div>
+</div>
+<div class="cta-section">
+<div class="info-banner"><span class="icon">🔒</span>Your data is encrypted and shared securely via RBI licensed Account Aggregator</div>
+<button class="cta-btn primary" onclick="showScreen('screen-5')">Approve data sharing</button>
+<button class="cta-skip" style="color:var(--red)" onclick="showScreen('screen-19')">Don't share</button>
+</div>
+<div class="powered-footer">Powered by Finvu</div>
+</div>
+
+<!-- Screen 5: One Last Check - Banks tab -->
+<div class="screen" id="screen-5">
+<div class="progress-line"></div>
+<div class="nav-bar">
+<button class="back-btn" onclick="showScreen('screen-4')">←</button>
+<span class="title">Net Worth Insights</span>
+<div class="right-icons"><span onclick="showScreen('screen-19')">✕</span></div>
+</div>
+<div style="padding:16px 20px 8px">
+<div style="font-size:20px;font-weight:700;color:var(--text-1)">One last check!</div>
+<div style="font-size:14px;font-weight:600;color:var(--text-1);margin-top:12px">Accounts Shared</div>
+<div style="font-size:13px;color:var(--text-2);margin-top:4px">DMI Finance will have access to the following</div>
+</div>
+<div class="tab-toggle">
+<div class="tab-opt" onclick="showScreen('screen-7')">Investments ✓</div>
+<div class="tab-opt active">Bank & Deposits ✓</div>
+</div>
+<div class="account-card">
+<div class="account-card-header">
+<div class="institution-logo"><img src="https://www.google.com/s2/favicons?domain=hdfcbank.com&sz=128" alt="HDFC"></div>
+<div class="name">HDFC Bank</div>
+</div>
+<div class="account-row"><div class="left"><span class="label">Savings • xx6842</span><span class="linked-badge">🔗 Linked</span></div><div class="checkbox">✓</div></div>
+<div class="account-row"><div class="left"><span class="label">FD • xx2026</span><span class="linked-badge">🔗 Linked</span></div><div class="checkbox">✓</div></div>
+</div>
+<div class="account-card">
+<div class="account-card-header">
+<div class="institution-logo"><img src="https://www.google.com/s2/favicons?domain=icicibank.com&sz=128" alt="ICICI"></div>
+<div class="name">ICICI Bank</div>
+</div>
+<div class="account-row"><div class="left"><span class="label">Savings • xx0419</span><span class="linked-badge">🔗 Linked</span></div><div class="checkbox">✓</div></div>
+<div class="account-row"><div class="left"><span class="label">FD • xx2027</span><span class="linked-badge">🔗 Linked</span></div><div class="checkbox">✓</div></div>
+</div>
+<div class="account-card">
+<div class="account-card-header">
+<div class="institution-logo"><img src="https://www.google.com/s2/favicons?domain=kotak.com&sz=128" alt="Kotak"></div>
+<div class="name">Kotak Mahindra Bank</div>
+</div>
+<div class="account-row"><div class="left"><span class="label">Current • xx7738</span><span class="linked-badge">🔗 Linked</span></div><div class="checkbox">✓</div></div>
+</div>
+<div class="account-card" style="opacity:0.5">
+<div class="account-card-header">
+<div class="institution-logo"><img src="https://www.google.com/s2/favicons?domain=saraswatbank.com&sz=128" alt="Saraswat"></div>
+<div class="name">Saraswat Bank</div>
+</div>
+<div class="account-row"><div class="left"><span class="label">Savings • xx3301</span></div><div class="checkbox">✓</div></div>
+</div>
+<div class="cta-section">
+<button class="cta-btn primary" onclick="showScreen('screen-2')">Confirm selection</button>
+</div>
+<div class="powered-footer">Powered by Finvu</div>
+</div>
+
+<!-- Screen 7: One Last Check - Investments tab -->
+<div class="screen" id="screen-7">
+<div class="progress-line"></div>
+<div class="nav-bar">
+<button class="back-btn" onclick="showScreen('screen-4')">←</button>
+<span class="title">Net Worth Insights</span>
+<div class="right-icons"><span onclick="showScreen('screen-19')">✕</span></div>
+</div>
+<div style="padding:16px 20px 8px">
+<div style="font-size:20px;font-weight:700;color:var(--text-1)">One last check!</div>
+<div style="font-size:14px;font-weight:600;color:var(--text-1);margin-top:12px">Accounts Shared</div>
+<div style="font-size:13px;color:var(--text-2);margin-top:4px">DMI Finance will have access to the following</div>
+</div>
+<div class="tab-toggle">
+<div class="tab-opt active">Investments ✓</div>
+<div class="tab-opt" onclick="showScreen('screen-5')">Bank & Deposits ✓</div>
+</div>
+<div class="account-card">
+<div class="account-card-header">
+<div class="institution-logo"><img src="https://www.google.com/s2/favicons?domain=cdslindia.com&sz=128" alt="CDSL"></div>
+<div><div class="name">CDSL</div><div style="font-size:11px;color:var(--text-3)">Demat • xx0245</div></div>
+</div>
+<div class="account-row"><div class="left"><span class="label">Equities</span></div><div class="checkbox">✓</div></div>
+<div class="account-row"><div class="left"><span class="label">ETFs</span><span class="linked-badge">🔗 Linked</span></div><div class="checkbox">✓</div></div>
+</div>
+<div class="account-card">
+<div class="account-card-header">
+<div class="institution-logo"><img src="https://www.google.com/s2/favicons?domain=nsdl.co.in&sz=128" alt="NSDL"></div>
+<div><div class="name">NSDL</div><div style="font-size:11px;color:var(--text-3)">Demat • xx1248</div></div>
+</div>
+<div class="account-row"><div class="left"><span class="label">Mutual Funds</span><span class="linked-badge">🔗 Linked</span></div><div class="checkbox">✓</div></div>
+<div class="account-row"><div class="left"><span class="label">ETFs</span><span class="linked-badge">🔗 Linked</span></div><div class="checkbox">✓</div></div>
+</div>
+<div class="account-card">
+<div class="account-card-header">
+<div class="institution-logo"><img src="https://www.google.com/s2/favicons?domain=camsonline.com&sz=128" alt="CAMS"></div>
+<div class="name">CAMS</div>
+</div>
+<div class="account-row"><div class="left"><span class="label">ICICI Prudential • xx4589</span><span class="linked-badge">🔗 Linked</span></div><div class="checkbox">✓</div></div>
+<div class="account-row"><div class="left"><span class="label">Mirae Asset • xx7310</span><span class="linked-badge">🔗 Linked</span></div><div class="checkbox">✓</div></div>
+</div>
+<div class="account-card">
+<div class="account-card-header">
+<div class="institution-logo"><img src="https://www.google.com/s2/favicons?domain=kfintech.com&sz=128" alt="KFintech"></div>
+<div class="name">KFintech</div>
+</div>
+<div class="account-row"><div class="left"><span class="label">SBI • xx2948</span><span class="linked-badge">🔗 Linked</span></div><div class="checkbox">✓</div></div>
+<div class="account-row"><div class="left"><span class="label">DSP • xx1056</span><span class="linked-badge">🔗 Linked</span></div><div class="checkbox">✓</div></div>
+</div>
+<div class="cta-section">
+<button class="cta-btn primary" onclick="showScreen('screen-2')">Confirm selection</button>
+</div>
+<div class="powered-footer">Powered by Finvu</div>
+</div>
+
+<!-- Screen 2: Success -->
+<div class="screen" id="screen-2">
+<div class="progress-line"></div>
+<div class="nav-bar">
+<button class="back-btn">←</button>
+<span class="title">Net Worth Insights</span>
+<div class="right-icons"></div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 20px;text-align:center">
+<div class="success-circle">✓</div>
+<div style="font-size:18px;font-weight:600;color:var(--text-1);margin-top:24px;line-height:1.5">You have successfully shared your accounts with DMI Finance</div>
+<div style="margin-top:24px;padding:14px 20px;border-radius:12px;background:var(--surface);border:1px solid var(--border);font-size:13px;color:var(--text-2)">ℹ️ You can pause or cancel sharing anytime via the Finvu App</div>
+<div style="margin-top:32px;font-size:13px;color:var(--text-3)">Redirecting to DMI Finance in <span id="redirect-countdown">2</span> seconds....</div>
+</div>
+</div>
+
+<!-- Screen 1: Dashboard -->
+<div class="screen" id="screen-1">
+<div class="nav-bar">
+<button class="back-btn" onclick="showScreen('screen-19')">←</button>
+<span class="title">Net Worth Insights</span>
+<div class="right-icons"><span>⋮</span></div>
+</div>
+<div class="tab-pills">
+<div class="tab-pill active">Overview</div>
+<div class="tab-pill">Banks</div>
+<div class="tab-pill">Mutual Funds</div>
+<div class="tab-pill">Equities & E...</div>
+</div>
+<div style="padding:20px">
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+<span style="font-size:14px;color:var(--text-2)">Your Net Worth ⓘ</span>
+<span style="font-size:16px;color:var(--text-2);cursor:pointer">👁</span>
+</div>
+<div class="net-worth-value">₹4.12 Cr</div>
+<div class="net-worth-change">↑ ₹18,200 (+0.04%) <span style="color:var(--text-3)">1D Change</span></div>
+</div>
+<div style="padding:0 20px">
+<div style="font-size:14px;font-weight:600;color:var(--text-1);padding-bottom:8px;border-bottom:2px solid var(--blue);display:inline-block">Assets</div>
+</div>
+<div style="padding:16px 20px">
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+<span style="font-size:13px;color:var(--text-2)">Total assets</span>
+<span style="font-size:16px;font-weight:700;color:var(--text-1)">₹4.12 Cr</span>
+</div>
+<div class="segment-bar">
+<div class="seg" style="width:40.5%;background:var(--blue)"></div>
+<div class="seg" style="width:27.1%;background:#7C3AED"></div>
+<div class="seg" style="width:11.2%;background:#4338CA"></div>
+<div class="seg" style="width:21.2%;background:#1E3A5F"></div>
+</div>
+</div>
+<div style="padding:0 20px">
+<div class="asset-row">
+<div class="left"><span class="name">Mutual Funds</span><span class="sub">6 Folios</span></div>
+<div class="right"><span class="amount">₹2.12 Cr</span><span class="pct">40.5%</span></div>
+</div>
+<div class="asset-row">
+<div class="left"><span class="name">Stocks & ETFs</span><span class="sub">2 Brokers</span></div>
+<div class="right"><span class="amount">₹1.42 Cr</span><span class="pct">27.1%</span></div>
+</div>
+<div class="asset-row">
+<div class="left"><span class="name">Bank Accounts</span><span class="sub">3 Accounts</span></div>
+<div class="right"><span class="amount">₹58.4 L</span><span class="pct">11.2%</span></div>
+</div>
+</div>
+<div class="promo-card">
+<div style="font-size:14px;font-weight:600;color:var(--text-1);margin-bottom:8px">🎉 Congratulations!</div>
+<div style="font-size:13px;color:var(--text-2);line-height:1.5">You're eligible for a pre-approved loan up to <strong style="color:var(--text-1)">₹5 Lakhs</strong>.</div>
+<button style="margin-top:12px;background:var(--blue);color:white;border:none;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer">Apply Now ›</button>
+</div>
+<div style="display:flex;justify-content:center;gap:6px;padding:16px">
+<span style="width:8px;height:8px;border-radius:50%;background:var(--blue)"></span>
+<span style="width:8px;height:8px;border-radius:50%;background:var(--text-3)"></span>
+</div>
+</div>
+
+<!-- end screens -->
+</div>
+<script>
+// Show/hide screens
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  const target = document.getElementById(id);
+  if (target) {
+    target.classList.add('active');
+    target.scrollTop = 0;
+  }
+  // Auto-advance for loading screens
+  if (id === 'screen-18') {
+    setTimeout(() => showScreen('screen-17'), 2500);
+  }
+  if (id === 'screen-12') {
+    setTimeout(() => showScreen('screen-11'), 2500);
+  }
+  if (id === 'screen-2') {
+    let count = 2;
+    const el = document.getElementById('redirect-countdown');
+    const interval = setInterval(() => {
+      count--;
+      if (el) el.textContent = count;
+      if (count <= 0) {
+        clearInterval(interval);
+        showScreen('screen-1');
+      }
+    }, 1000);
+  }
+  // Start OTP countdowns
+  if (id === 'screen-14') startCountdown('countdown-cdsl', 9);
+  if (id === 'screen-13') startCountdown('countdown-nsdl', 13);
+  if (id === 'screen-9') startCountdown('countdown-icici', 12);
+}
+
+// OTP countdown
+function startCountdown(elementId, seconds) {
+  const el = document.getElementById(elementId);
+  if (!el) return;
+  let remaining = seconds;
+  el.innerHTML = 'Resend OTP in <strong>' + remaining + 's</strong>';
+  const interval = setInterval(() => {
+    remaining--;
+    if (remaining <= 0) {
+      clearInterval(interval);
+      el.innerHTML = '<span style="color:var(--blue);cursor:pointer">Resend OTP</span>';
+    } else {
+      el.innerHTML = 'Resend OTP in <strong>' + remaining + 's</strong>';
+    }
+  }, 1000);
+}
+
+// OTP input handling
+document.querySelectorAll('.otp-inputs').forEach(group => {
+  const inputs = group.querySelectorAll('input');
+  const groupName = group.dataset.group;
+  inputs.forEach((input, i) => {
+    input.addEventListener('input', (e) => {
+      const val = e.target.value;
+      if (val && i < inputs.length - 1) {
+        inputs[i + 1].focus();
+      }
+      checkOTPComplete(groupName, inputs);
+    });
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Backspace' && !input.value && i > 0) {
+        inputs[i - 1].focus();
+      }
+    });
+  });
+});
+
+function checkOTPComplete(groupName, inputs) {
+  const allFilled = Array.from(inputs).every(inp => inp.value.length === 1);
+  const btn = document.getElementById('submit-' + groupName);
+  if (btn) btn.disabled = !allFilled;
+}
+
+// Initialize
+showScreen('screen-19');
+</script>
+</body>
+</html>
