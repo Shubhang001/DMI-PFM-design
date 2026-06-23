@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Net Worth Insights & Account Aggregator</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -25,22 +25,24 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  background: #0a0a10;
-  min-height: 100vh; overflow: hidden;
-  display: flex; align-items: center; justify-content: center;
+  background: var(--bg);
+  min-height: 100vh; margin: 0; padding: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
 }
 .phone-frame {
-  width: 351px; height: 760px;
+  width: 100%; max-width: 430px; height: 100vh; height: 100dvh;
   background: var(--bg); overflow: hidden; position: relative;
+  margin: 0 auto;
 }
 .screen {
   display: none; width: 100%; height: 100%;
   overflow-y: auto; overflow-x: hidden;
   position: absolute; top: 0; left: 0;
   flex-direction: column; background: var(--bg);
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: env(safe-area-inset-bottom, 0);
 }
 .screen.active { display: flex; }
 .screen::-webkit-scrollbar { display: none; }
@@ -77,8 +79,9 @@ body {
 }
 
 .cta-section {
-  padding: 14px 18px; background: var(--cta-bar-bg);
-  border-top: 1px solid var(--border); margin-top: auto;
+  padding: 14px 18px; padding-bottom: calc(14px + env(safe-area-inset-bottom, 0));
+  background: var(--cta-bar-bg);
+  border-top: 1px solid var(--border);
 }
 .cta-btn {
   width: 100%; padding: 12px; border-radius: 10px; font-size: 14px;
@@ -283,7 +286,8 @@ body {
 
 .bottom-tab-bar {
   display: flex; align-items: center; justify-content: space-around;
-  padding: 12px 0 20px; background: var(--surface);
+  padding: 12px 0 20px; padding-bottom: calc(20px + env(safe-area-inset-bottom, 0));
+  background: var(--surface);
   border-top: 1px solid var(--border); margin-top: auto;
   position: sticky; bottom: 0;
 }
