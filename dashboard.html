@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Net Worth Insights - Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #000000;
+  --surface: #1A1A1A;
+  --surface-2: #1C1C1E;
+  --border: #2A2A2A;
+  --blue: #3B7EF6;
+  --blue-dark: #1E3A5F;
+  --green: #22C55E;
+  --orange: #F59E0B;
+  --red: #EF4444;
+  --text-1: #FFFFFF;
+  --text-2: #9CA3AF;
+  --text-3: #6B7280;
+  --navy: #1A2A3A;
+  --cta-bar-bg: #000000;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: #000000;
+  min-height: 100vh; margin: 0; padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+.phone-frame {
+  width: 100%; max-width: 365px; height: 100vh; height: 100dvh;
+  background: var(--bg); overflow: hidden; position: relative;
+  margin: 0 auto;
+}
+.screen {
+  display: none; width: 100%; height: 100%;
+  overflow-y: auto; overflow-x: hidden;
+  position: absolute; top: 0; left: 0;
+  flex-direction: column; background: var(--bg);
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: env(safe-area-inset-bottom, 0);
+}
+.screen.active { display: flex; }
+.screen::-webkit-scrollbar { display: none; }
+
+.nav-bar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 18px 10px; position: sticky; top: 0; z-index: 10;
+  background: var(--bg);
+}
+.nav-bar .back-btn { font-size: 20px; color: var(--text-1); cursor: pointer; background: none; border: none; }
+.nav-bar .title { font-size: 15px; font-weight: 600; color: var(--text-1); flex: 1; margin-left: 12px; letter-spacing: -0.2px; }
+.nav-bar .right-icons { display: flex; gap: 12px; align-items: center; }
+.nav-bar .right-icons span { color: var(--text-2); font-size: 15px; cursor: pointer; }
+
+.tab-pills {
+  display: flex; gap: 8px; padding: 10px 18px;
+}
+.tab-pill {
+  padding: 7px 12px; border-radius: 20px; font-size: 12px; font-weight: 500;
+  cursor: pointer; border: 1px solid var(--border); color: var(--text-2);
+  background: transparent; transition: all 0.2s; white-space: nowrap;
+}
+.tab-pill.active { background: var(--blue); color: white; border-color: var(--blue); }
+
+.net-worth-value { font-size: 32px; font-weight: 800; color: var(--text-1); }
+.net-worth-change {
+  font-size: 13px; color: var(--green); display: flex; align-items: center; gap: 4px;
+}
+.segment-bar { display: flex; height: 8px; border-radius: 4px; overflow: hidden; margin: 12px 0; }
+.segment-bar .seg { height: 100%; }
+.asset-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 0; border-bottom: 1px solid var(--border);
+}
+.asset-row .left { display: flex; flex-direction: column; gap: 2px; }
+.asset-row .name { font-size: 14px; color: var(--text-1); font-weight: 500; }
+.asset-row .sub { font-size: 12px; color: var(--text-3); }
+.asset-row .right { text-align: right; }
+.asset-row .amount { font-size: 14px; color: var(--text-1); font-weight: 600; }
+.asset-row .pct { font-size: 12px; color: var(--text-2); }
+
+.promo-card {
+  margin: 16px 18px; padding: 18px; border-radius: 14px;
+  background: linear-gradient(135deg, #1a2f4a, #0f1f35);
+  border: 1px solid #2a4a6a;
+}
+</style>
+</head>
+<body>
+<div class="phone-frame" id="app">
+
+<!-- Dashboard: Net Worth Insights -->
+<div class="screen active" id="dashboard">
+<div class="nav-bar">
+<button class="back-btn" onclick="window.location.href='onboarding.html'">←</button>
+<span class="title">Net Worth Insights</span>
+<div class="right-icons"><span>⋮</span></div>
+</div>
+<div class="tab-pills">
+<div class="tab-pill active">Overview</div>
+<div class="tab-pill">Banks</div>
+<div class="tab-pill">Mutual Funds</div>
+<div class="tab-pill">Equities & E...</div>
+</div>
+<div style="padding:18px">
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+<span style="font-size:14px;color:var(--text-2)">Your Net Worth ⓘ</span>
+<span style="font-size:16px;color:var(--text-2);cursor:pointer">👁</span>
+</div>
+<div class="net-worth-value">₹4.12 Cr</div>
+<div class="net-worth-change">↑ ₹18,200 (+0.04%) <span style="color:var(--text-3)">1D Change</span></div>
+</div>
+<div style="padding:0 18px">
+<div style="font-size:14px;font-weight:600;color:var(--text-1);padding-bottom:8px;border-bottom:2px solid var(--blue);display:inline-block">Assets</div>
+</div>
+<div style="padding:14px 18px">
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+<span style="font-size:13px;color:var(--text-2)">Total assets</span>
+<span style="font-size:16px;font-weight:700;color:var(--text-1)">₹4.12 Cr</span>
+</div>
+<div class="segment-bar">
+<div class="seg" style="width:40.5%;background:var(--blue)"></div>
+<div class="seg" style="width:27.1%;background:#7C3AED"></div>
+<div class="seg" style="width:11.2%;background:#4338CA"></div>
+<div class="seg" style="width:21.2%;background:#1E3A5F"></div>
+</div>
+</div>
+<div style="padding:0 18px">
+<div class="asset-row">
+<div class="left"><span class="name">Mutual Funds</span><span class="sub">6 Folios</span></div>
+<div class="right"><span class="amount">₹2.12 Cr</span><span class="pct">40.5%</span></div>
+</div>
+<div class="asset-row">
+<div class="left"><span class="name">Stocks & ETFs</span><span class="sub">2 Brokers</span></div>
+<div class="right"><span class="amount">₹1.42 Cr</span><span class="pct">27.1%</span></div>
+</div>
+<div class="asset-row">
+<div class="left"><span class="name">Bank Accounts</span><span class="sub">3 Accounts</span></div>
+<div class="right"><span class="amount">₹58.4 L</span><span class="pct">11.2%</span></div>
+</div>
+</div>
+<div class="promo-card">
+<div style="font-size:14px;font-weight:600;color:var(--text-1);margin-bottom:8px">🎉 Congratulations!</div>
+<div style="font-size:13px;color:var(--text-2);line-height:1.5">You're eligible for a pre-approved loan up to <strong style="color:var(--text-1)">₹5 Lakhs</strong>.</div>
+<button style="margin-top:12px;background:var(--blue);color:white;border:none;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer">Apply Now ›</button>
+</div>
+<div style="display:flex;justify-content:center;gap:6px;padding:16px">
+<span style="width:8px;height:8px;border-radius:50%;background:var(--blue)"></span>
+<span style="width:8px;height:8px;border-radius:50%;background:var(--text-3)"></span>
+</div>
+</div>
+
+</div>
+</body>
+</html>

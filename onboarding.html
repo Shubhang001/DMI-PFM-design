@@ -1035,67 +1035,6 @@ body {
 </div>
 </div>
 
-<!-- Screen 1: Dashboard -->
-<div class="screen" id="screen-1">
-<div class="nav-bar">
-<button class="back-btn" onclick="showScreen('screen-19')">←</button>
-<span class="title">Net Worth Insights</span>
-<div class="right-icons"><span>⋮</span></div>
-</div>
-<div class="tab-pills">
-<div class="tab-pill active">Overview</div>
-<div class="tab-pill">Banks</div>
-<div class="tab-pill">Mutual Funds</div>
-<div class="tab-pill">Equities & E...</div>
-</div>
-<div style="padding:20px">
-<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
-<span style="font-size:14px;color:var(--text-2)">Your Net Worth ⓘ</span>
-<span style="font-size:16px;color:var(--text-2);cursor:pointer">👁</span>
-</div>
-<div class="net-worth-value">₹4.12 Cr</div>
-<div class="net-worth-change">↑ ₹18,200 (+0.04%) <span style="color:var(--text-3)">1D Change</span></div>
-</div>
-<div style="padding:0 20px">
-<div style="font-size:14px;font-weight:600;color:var(--text-1);padding-bottom:8px;border-bottom:2px solid var(--blue);display:inline-block">Assets</div>
-</div>
-<div style="padding:16px 20px">
-<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
-<span style="font-size:13px;color:var(--text-2)">Total assets</span>
-<span style="font-size:16px;font-weight:700;color:var(--text-1)">₹4.12 Cr</span>
-</div>
-<div class="segment-bar">
-<div class="seg" style="width:40.5%;background:var(--blue)"></div>
-<div class="seg" style="width:27.1%;background:#7C3AED"></div>
-<div class="seg" style="width:11.2%;background:#4338CA"></div>
-<div class="seg" style="width:21.2%;background:#1E3A5F"></div>
-</div>
-</div>
-<div style="padding:0 20px">
-<div class="asset-row">
-<div class="left"><span class="name">Mutual Funds</span><span class="sub">6 Folios</span></div>
-<div class="right"><span class="amount">₹2.12 Cr</span><span class="pct">40.5%</span></div>
-</div>
-<div class="asset-row">
-<div class="left"><span class="name">Stocks & ETFs</span><span class="sub">2 Brokers</span></div>
-<div class="right"><span class="amount">₹1.42 Cr</span><span class="pct">27.1%</span></div>
-</div>
-<div class="asset-row">
-<div class="left"><span class="name">Bank Accounts</span><span class="sub">3 Accounts</span></div>
-<div class="right"><span class="amount">₹58.4 L</span><span class="pct">11.2%</span></div>
-</div>
-</div>
-<div class="promo-card">
-<div style="font-size:14px;font-weight:600;color:var(--text-1);margin-bottom:8px">🎉 Congratulations!</div>
-<div style="font-size:13px;color:var(--text-2);line-height:1.5">You're eligible for a pre-approved loan up to <strong style="color:var(--text-1)">₹5 Lakhs</strong>.</div>
-<button style="margin-top:12px;background:var(--blue);color:white;border:none;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer">Apply Now ›</button>
-</div>
-<div style="display:flex;justify-content:center;gap:6px;padding:16px">
-<span style="width:8px;height:8px;border-radius:50%;background:var(--blue)"></span>
-<span style="width:8px;height:8px;border-radius:50%;background:var(--text-3)"></span>
-</div>
-</div>
-
 <!-- end screens -->
 </div>
 <script>
@@ -1138,7 +1077,7 @@ function showScreen(id) {
       if (el) el.textContent = count;
       if (count <= 0) {
         clearInterval(interval);
-        showScreen('screen-1');
+        window.location.href = 'dashboard.html';
       }
     }, 1000);
   }
