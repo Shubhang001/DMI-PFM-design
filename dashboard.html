@@ -59,7 +59,9 @@ body {
 
 .tab-pills {
   display: flex; gap: 8px; padding: 10px 18px;
+  overflow-x: auto; flex-shrink: 0;
 }
+.tab-pills::-webkit-scrollbar { display: none; }
 .tab-pill {
   padding: 7px 12px; border-radius: 20px; font-size: 12px; font-weight: 500;
   cursor: pointer; border: 1px solid var(--border); color: var(--text-2);
@@ -89,6 +91,26 @@ body {
   background: linear-gradient(135deg, #1a2f4a, #0f1f35);
   border: 1px solid #2a4a6a;
 }
+
+.toggle-switch { cursor: pointer; position: relative; }
+.toggle-track {
+  width: 44px; height: 24px; border-radius: 12px;
+  background: var(--blue); position: relative; transition: background 0.3s;
+}
+.toggle-track .toggle-thumb {
+  width: 20px; height: 20px; border-radius: 50%; background: #fff;
+  position: absolute; top: 2px; right: 2px; transition: all 0.3s;
+}
+.toggle-switch.on .toggle-track { background: var(--border); }
+.toggle-switch.on .toggle-track .toggle-thumb { right: auto; left: 2px; }
+.toggle-switch .eye-overlay {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  width: 16px; height: 16px; pointer-events: none;
+}
+
+.coded-value { height: 16px; width: auto; vertical-align: middle; }
+.coded-value-large { height: 24px; width: auto; vertical-align: middle; }
+.hideable { display: inline-block; }
 </style>
 </head>
 <body>
@@ -99,20 +121,22 @@ body {
 <div class="nav-bar">
 <button class="back-btn" onclick="window.location.href='onboarding.html'">←</button>
 <span class="title">Net Worth Insights</span>
-<div class="right-icons"><span>⋮</span></div>
+<div class="right-icons"></div>
 </div>
 <div class="tab-pills">
-<div class="tab-pill active">Overview</div>
-<div class="tab-pill">Banks</div>
-<div class="tab-pill">Mutual Funds</div>
-<div class="tab-pill">Equities & E...</div>
+<div class="tab-pill active" onclick="showDashScreen('dashboard')">Overview</div>
+<div class="tab-pill" onclick="showDashScreen('dashboard')">Banks</div>
+<div class="tab-pill" onclick="showDashScreen('dashboard')">Mutual Funds</div>
+<div class="tab-pill" onclick="showDashScreen('equities')">Equities & ETF</div>
 </div>
 <div style="padding:18px">
 <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
 <span style="font-size:14px;color:var(--text-2)">Your Net Worth ⓘ</span>
-<span style="font-size:16px;color:var(--text-2);cursor:pointer">👁</span>
+<div class="toggle-switch" id="hide-toggle" onclick="toggleValues()">
+<div class="toggle-track"><div class="toggle-thumb"></div></div>
 </div>
-<div class="net-worth-value">₹4.12 Cr</div>
+</div>
+<div class="net-worth-value" data-value="₹4.12 Cr">₹4.12 Cr</div>
 <div class="net-worth-change">↑ ₹18,200 (+0.04%) <span style="color:var(--text-3)">1D Change</span></div>
 </div>
 <div style="padding:0 18px">
@@ -121,7 +145,7 @@ body {
 <div style="padding:14px 18px">
 <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
 <span style="font-size:13px;color:var(--text-2)">Total assets</span>
-<span style="font-size:16px;font-weight:700;color:var(--text-1)">₹4.12 Cr</span>
+<span class="hideable" data-value="₹4.12 Cr" style="font-size:16px;font-weight:700;color:var(--text-1)">₹4.12 Cr</span>
 </div>
 <div class="segment-bar">
 <div class="seg" style="width:40.5%;background:var(--blue)"></div>
@@ -133,15 +157,15 @@ body {
 <div style="padding:0 18px">
 <div class="asset-row">
 <div class="left"><span class="name">Mutual Funds</span><span class="sub">6 Folios</span></div>
-<div class="right"><span class="amount">₹2.12 Cr</span><span class="pct">40.5%</span></div>
+<div class="right"><span class="amount hideable" data-value="₹2.12 Cr">₹2.12 Cr</span><span class="pct">40.5%</span></div>
 </div>
 <div class="asset-row">
 <div class="left"><span class="name">Stocks & ETFs</span><span class="sub">2 Brokers</span></div>
-<div class="right"><span class="amount">₹1.42 Cr</span><span class="pct">27.1%</span></div>
+<div class="right"><span class="amount hideable" data-value="₹1.42 Cr">₹1.42 Cr</span><span class="pct">27.1%</span></div>
 </div>
 <div class="asset-row">
 <div class="left"><span class="name">Bank Accounts</span><span class="sub">3 Accounts</span></div>
-<div class="right"><span class="amount">₹58.4 L</span><span class="pct">11.2%</span></div>
+<div class="right"><span class="amount hideable" data-value="₹58.4 L">₹58.4 L</span><span class="pct">11.2%</span></div>
 </div>
 </div>
 <div class="promo-card">
@@ -155,6 +179,138 @@ body {
 </div>
 </div>
 
+<!-- Equities & ETF Screen -->
+<div class="screen" id="equities">
+<div class="nav-bar">
+<button class="back-btn" onclick="showDashScreen('dashboard')">←</button>
+<span class="title">Net Worth Insights</span>
+<div class="right-icons"></div>
 </div>
+<div class="tab-pills">
+<div class="tab-pill" onclick="showDashScreen('dashboard')">Overview</div>
+<div class="tab-pill" onclick="showDashScreen('dashboard')">Banks</div>
+<div class="tab-pill" onclick="showDashScreen('dashboard')">Mutual Funds</div>
+<div class="tab-pill active" onclick="showDashScreen('equities')">Equities & ETF</div>
+</div>
+<div style="padding:18px">
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+<span style="font-size:14px;color:var(--text-2)"><img src="assets/mutual_funds.png" style="width:16px;height:16px;vertical-align:middle;margin-right:6px">Your Equities & ETF Portfolio</span>
+<div class="toggle-switch" id="eq-hide-toggle" onclick="toggleEqValues()">
+<div class="toggle-track"><div class="toggle-thumb"></div></div>
+</div>
+</div>
+<div class="net-worth-value" id="eq-value" data-value="₹1.10 Cr">₹1.10 Cr</div>
+<div style="font-size:12px;color:var(--text-3);margin-top:4px">ⓘ</div>
+</div>
+<div style="padding:0 18px;margin-bottom:16px">
+<div style="display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+<span style="font-size:13px;color:var(--text-2)">Day PnL</span>
+<span class="eq-hideable" data-value="+₹14,464 (+0.10%)" style="font-size:13px;color:var(--green);font-weight:600">+₹14,464 (+0.10%)</span>
+</div>
+</div>
+<div style="margin:0 18px 16px;background:var(--surface);border-radius:10px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;border:1px solid var(--border)">
+<div style="display:flex;align-items:center;gap:10px">
+<span style="font-size:16px"><img src="assets/view_transaction.png" style="width:18px;height:18px;vertical-align:middle"></span>
+<span style="font-size:13px;color:var(--text-1);font-weight:500">View your transactions</span>
+</div>
+<span style="color:var(--text-2)">›</span>
+</div>
+<div style="padding:0 18px;margin-bottom:12px">
+<div style="display:flex;border-bottom:2px solid var(--border)">
+<span style="font-size:13px;font-weight:600;color:var(--blue);padding-bottom:8px;border-bottom:2px solid var(--blue);margin-bottom:-2px">Brokers</span>
+<span style="font-size:13px;color:var(--text-3);padding-bottom:8px;margin-left:24px">Holdings</span>
+</div>
+</div>
+<div style="padding:0 18px">
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+<span style="font-size:15px;font-weight:700;color:var(--text-1)">Brokers (2)</span>
+</div>
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+<span style="font-size:12px;color:var(--text-3)">Missing any brokers?</span>
+<span style="font-size:12px;color:var(--blue);font-weight:500">Add More ⊕</span>
+</div>
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+<span style="font-size:12px;color:var(--text-2)">Sort ↕</span>
+<span style="font-size:12px;color:var(--text-2)">Current ⇅</span>
+</div>
+</div>
+<div style="padding:0 18px">
+<div style="padding:16px 0;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between">
+<div style="display:flex;align-items:center;gap:10px">
+<div style="width:28px;height:28px;border-radius:50%;background:#1565C0;display:flex;align-items:center;justify-content:center"><span style="font-size:10px;color:#fff;font-weight:700">Z</span></div>
+<div>
+<div style="font-size:13px;color:var(--text-1);font-weight:500">Zerodha <span style="color:var(--text-3);font-weight:400">(xx4821)</span></div>
+<div style="font-size:11px;color:var(--text-3)">18 May 2026</div>
+</div>
+</div>
+<span class="eq-hideable" data-value="₹86.51L" style="font-size:14px;font-weight:600;color:var(--text-1)">₹86.51L</span>
+</div>
+<div style="padding:16px 0;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between">
+<div style="display:flex;align-items:center;gap:10px">
+<div style="width:28px;height:28px;border-radius:50%;background:#F04E23;display:flex;align-items:center;justify-content:center"><span style="font-size:10px;color:#fff;font-weight:700">📊</span></div>
+<div>
+<div style="font-size:13px;color:var(--text-1);font-weight:500">ICICI Direct <span style="color:var(--text-3);font-weight:400">(xx2078)</span></div>
+<div style="font-size:11px;color:var(--text-3)">18 May 2026</div>
+</div>
+</div>
+<span class="eq-hideable" data-value="₹56.17L" style="font-size:14px;font-weight:600;color:var(--text-1)">₹56.17L</span>
+</div>
+</div>
+</div>
+
+</div>
+<script>
+let valuesHidden = false;
+let eqValuesHidden = false;
+
+function showDashScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function toggleValues() {
+  const toggle = document.getElementById('hide-toggle');
+  const netWorth = document.querySelector('#dashboard .net-worth-value');
+  const hideables = document.querySelectorAll('#dashboard .hideable');
+
+  valuesHidden = !valuesHidden;
+
+  if (valuesHidden) {
+    toggle.classList.add('on');
+    netWorth.innerHTML = '<img src="assets/coded_value.png" class="coded-value-large">';
+    hideables.forEach(el => {
+      el.innerHTML = '<img src="assets/coded_value.png" class="coded-value">';
+    });
+  } else {
+    toggle.classList.remove('on');
+    netWorth.innerHTML = netWorth.getAttribute('data-value');
+    hideables.forEach(el => {
+      el.innerHTML = el.getAttribute('data-value');
+    });
+  }
+}
+
+function toggleEqValues() {
+  const toggle = document.getElementById('eq-hide-toggle');
+  const eqValue = document.getElementById('eq-value');
+  const hideables = document.querySelectorAll('.eq-hideable');
+
+  eqValuesHidden = !eqValuesHidden;
+
+  if (eqValuesHidden) {
+    toggle.classList.add('on');
+    eqValue.innerHTML = '<img src="assets/coded_value.png" class="coded-value-large">';
+    hideables.forEach(el => {
+      el.innerHTML = '<img src="assets/coded_value.png" class="coded-value">';
+    });
+  } else {
+    toggle.classList.remove('on');
+    eqValue.innerHTML = eqValue.getAttribute('data-value');
+    hideables.forEach(el => {
+      el.innerHTML = el.getAttribute('data-value');
+    });
+  }
+}
+</script>
 </body>
 </html>
