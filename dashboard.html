@@ -23,6 +23,8 @@
   --cta-bar-bg: #000000;
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
+*::-webkit-scrollbar { display: none; }
+* { scrollbar-width: none; -ms-overflow-style: none; }
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   background: #000000;
@@ -46,6 +48,7 @@ body {
 }
 .screen.active { display: flex; }
 .screen::-webkit-scrollbar { display: none; }
+.screen { scrollbar-width: none; -ms-overflow-style: none; }
 
 .nav-bar {
   display: flex; align-items: center; justify-content: space-between;
@@ -199,16 +202,10 @@ body {
 <div class="toggle-track"><div class="toggle-thumb"></div></div>
 </div>
 </div>
-<div class="net-worth-value" id="eq-value" data-value="₹1.10 Cr">₹1.10 Cr</div>
-<div style="font-size:12px;color:var(--text-3);margin-top:4px">ⓘ</div>
+<div class="net-worth-value" id="eq-value" data-value="₹1.10 Cr" style="display:inline">₹1.10 Cr</div><span style="font-size:12px;color:var(--text-3);margin-left:6px">ⓘ</span>
+<div style="font-size:13px;color:var(--green);margin-top:6px" class="eq-hideable" data-value="↑ ₹14,464 (+0.10%) 1D Change">↑ <span style="color:var(--green)">₹14,464 (+0.10%)</span> <span style="color:var(--text-3)">1D Change</span></div>
 </div>
-<div style="padding:0 18px;margin-bottom:16px">
-<div style="display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
-<span style="font-size:13px;color:var(--text-2)">Day PnL</span>
-<span class="eq-hideable" data-value="+₹14,464 (+0.10%)" style="font-size:13px;color:var(--green);font-weight:600">+₹14,464 (+0.10%)</span>
-</div>
-</div>
-<div style="margin:0 18px 16px;background:var(--surface);border-radius:10px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;border:1px solid var(--border)">
+<div style="margin:16px 18px;background:var(--surface);border-radius:10px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;border:1px solid var(--border);cursor:pointer" onclick="showDashScreen('transactions')">
 <div style="display:flex;align-items:center;gap:10px">
 <span style="font-size:16px"><img src="assets/view_transaction.png" style="width:18px;height:18px;vertical-align:middle"></span>
 <span style="font-size:13px;color:var(--text-1);font-weight:500">View your transactions</span>
@@ -254,6 +251,114 @@ body {
 </div>
 </div>
 <span class="eq-hideable" data-value="₹56.17L" style="font-size:14px;font-weight:600;color:var(--text-1)">₹56.17L</span>
+</div>
+</div>
+</div>
+
+<!-- Transactions Screen -->
+<div class="screen" id="transactions">
+<div class="nav-bar">
+<button class="back-btn" onclick="showDashScreen('equities')">←</button>
+<span class="title">Transactions</span>
+<div class="right-icons"><span style="font-size:14px">☰</span></div>
+</div>
+<div style="flex:1;overflow-y:auto;padding-bottom:20px">
+<!-- May 2026 -->
+<div style="display:flex;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--border)">
+<span style="font-size:14px;font-weight:600;color:var(--text-1)">May 2026</span>
+<span style="font-size:12px;color:var(--text-2)">5 Transactions</span>
+</div>
+<div style="padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center">
+<div style="width:40px;text-align:center;margin-right:14px"><div style="font-size:14px;color:var(--text-1);font-weight:600">12</div><div style="font-size:11px;color:var(--text-3)">May</div></div>
+<div style="flex:1"><div style="font-size:13px;color:var(--text-1);font-weight:600">NIFTYBEES</div><div style="font-size:11px;color:var(--text-3)">Via xx4821</div></div>
+<div style="text-align:right"><div style="font-size:12px;color:var(--text-2)">Qty <strong style="color:var(--text-1)">600</strong></div><div style="font-size:11px;color:#22C55E;background:#0a2e1a;padding:2px 8px;border-radius:4px;margin-top:4px;display:inline-block">Buy</div></div>
+</div>
+<div style="padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center">
+<div style="width:40px;text-align:center;margin-right:14px"><div style="font-size:14px;color:var(--text-1);font-weight:600">08</div><div style="font-size:11px;color:var(--text-3)">May</div></div>
+<div style="flex:1"><div style="font-size:13px;color:var(--text-1);font-weight:600">TCS</div><div style="font-size:11px;color:var(--text-3)">Via xx4821</div></div>
+<div style="text-align:right"><div style="font-size:12px;color:var(--text-2)">Qty <strong style="color:var(--text-1)">80</strong></div><div style="font-size:11px;color:#22C55E;background:#0a2e1a;padding:2px 8px;border-radius:4px;margin-top:4px;display:inline-block">Buy</div></div>
+</div>
+<div style="padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center">
+<div style="width:40px;text-align:center;margin-right:14px"><div style="font-size:14px;color:var(--text-1);font-weight:600">05</div><div style="font-size:11px;color:var(--text-3)">May</div></div>
+<div style="flex:1"><div style="font-size:13px;color:var(--text-1);font-weight:600">NIFTYBEES</div><div style="font-size:11px;color:var(--text-3)">Via xx4821</div></div>
+<div style="text-align:right"><div style="font-size:12px;color:var(--text-2)">Qty <strong style="color:var(--text-1)">400</strong></div><div style="font-size:11px;color:#22C55E;background:#0a2e1a;padding:2px 8px;border-radius:4px;margin-top:4px;display:inline-block">Buy</div></div>
+</div>
+<div style="padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center">
+<div style="width:40px;text-align:center;margin-right:14px"><div style="font-size:14px;color:var(--text-1);font-weight:600">02</div><div style="font-size:11px;color:var(--text-3)">May</div></div>
+<div style="flex:1"><div style="font-size:13px;color:var(--text-1);font-weight:600">TCS</div><div style="font-size:11px;color:var(--text-3)">Via xx4821</div></div>
+<div style="text-align:right"><div style="font-size:12px;color:var(--text-2)">Qty <strong style="color:var(--text-1)">40</strong></div><div style="font-size:11px;color:#22C55E;background:#0a2e1a;padding:2px 8px;border-radius:4px;margin-top:4px;display:inline-block">Buy</div></div>
+</div>
+<div style="padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center">
+<div style="width:40px;text-align:center;margin-right:14px"><div style="font-size:14px;color:var(--text-1);font-weight:600">01</div><div style="font-size:11px;color:var(--text-3)">May</div></div>
+<div style="flex:1"><div style="font-size:13px;color:var(--text-1);font-weight:600">NIFTYBEES</div><div style="font-size:11px;color:var(--text-3)">Via xx4821</div></div>
+<div style="text-align:right"><div style="font-size:12px;color:var(--text-2)">Qty <strong style="color:var(--text-1)">200</strong></div><div style="font-size:11px;color:#22C55E;background:#0a2e1a;padding:2px 8px;border-radius:4px;margin-top:4px;display:inline-block">Buy</div></div>
+</div>
+<!-- April 2026 -->
+<div style="display:flex;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--border)">
+<span style="font-size:14px;font-weight:600;color:var(--text-1)">April 2026</span>
+<span style="font-size:12px;color:var(--text-2)">2 Transactions</span>
+</div>
+<div style="padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center">
+<div style="width:40px;text-align:center;margin-right:14px"><div style="font-size:14px;color:var(--text-1);font-weight:600">14</div><div style="font-size:11px;color:var(--text-3)">Apr</div></div>
+<div style="flex:1"><div style="font-size:13px;color:var(--text-1);font-weight:600">HDFC BANK</div><div style="font-size:11px;color:var(--text-3)">Via xx4821</div></div>
+<div style="text-align:right"><div style="font-size:12px;color:var(--text-2)">Qty <strong style="color:var(--text-1)">340</strong></div><div style="font-size:11px;color:#22C55E;background:#0a2e1a;padding:2px 8px;border-radius:4px;margin-top:4px;display:inline-block">Buy</div></div>
+</div>
+<div style="padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center">
+<div style="width:40px;text-align:center;margin-right:14px"><div style="font-size:14px;color:var(--text-1);font-weight:600">02</div><div style="font-size:11px;color:var(--text-3)">Apr</div></div>
+<div style="flex:1"><div style="font-size:13px;color:var(--text-1);font-weight:600">HDFC BANK</div><div style="font-size:11px;color:var(--text-3)">Via xx4821</div></div>
+<div style="text-align:right"><div style="font-size:12px;color:var(--text-2)">Qty <strong style="color:var(--text-1)">200</strong></div><div style="font-size:11px;color:#22C55E;background:#0a2e1a;padding:2px 8px;border-radius:4px;margin-top:4px;display:inline-block">Buy</div></div>
+</div>
+<!-- View more section (initially visible) -->
+<div id="txn-more-section" style="display:none">
+<!-- March 2026 -->
+<div style="display:flex;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--border)">
+<span style="font-size:14px;font-weight:600;color:var(--text-1)">March 2026</span>
+<span style="font-size:12px;color:var(--text-2)">3 Transactions</span>
+</div>
+<div style="padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center">
+<div style="width:40px;text-align:center;margin-right:14px"><div style="font-size:14px;color:var(--text-1);font-weight:600">15</div><div style="font-size:11px;color:var(--text-3)">Mar</div></div>
+<div style="flex:1"><div style="font-size:13px;color:var(--text-1);font-weight:600">RELIANCE INDUSTRIES</div><div style="font-size:11px;color:var(--text-3)">Via xx4821</div></div>
+<div style="text-align:right"><div style="font-size:12px;color:var(--text-2)">Qty <strong style="color:var(--text-1)">280</strong></div><div style="font-size:11px;color:#22C55E;background:#0a2e1a;padding:2px 8px;border-radius:4px;margin-top:4px;display:inline-block">Buy</div></div>
+</div>
+<div style="padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center">
+<div style="width:40px;text-align:center;margin-right:14px"><div style="font-size:14px;color:var(--text-1);font-weight:600">10</div><div style="font-size:11px;color:var(--text-3)">Mar</div></div>
+<div style="flex:1"><div style="font-size:13px;color:var(--text-1);font-weight:600">INFOSYS</div><div style="font-size:11px;color:var(--text-3)">Via xx2078</div></div>
+<div style="text-align:right"><div style="font-size:12px;color:var(--text-2)">Qty <strong style="color:var(--text-1)">500</strong></div><div style="font-size:11px;color:#22C55E;background:#0a2e1a;padding:2px 8px;border-radius:4px;margin-top:4px;display:inline-block">Buy</div></div>
+</div>
+<div style="padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center">
+<div style="width:40px;text-align:center;margin-right:14px"><div style="font-size:14px;color:var(--text-1);font-weight:600">08</div><div style="font-size:11px;color:var(--text-3)">Mar</div></div>
+<div style="flex:1"><div style="font-size:13px;color:var(--text-1);font-weight:600">RELIANCE INDUSTRIES</div><div style="font-size:11px;color:var(--text-3)">Via xx4821</div></div>
+<div style="text-align:right"><div style="font-size:12px;color:var(--text-2)">Qty <strong style="color:var(--text-1)">200</strong></div><div style="font-size:11px;color:#22C55E;background:#0a2e1a;padding:2px 8px;border-radius:4px;margin-top:4px;display:inline-block">Buy</div></div>
+</div>
+<!-- February 2026 -->
+<div style="display:flex;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--border)">
+<span style="font-size:14px;font-weight:600;color:var(--text-1)">February 2026</span>
+<span style="font-size:12px;color:var(--text-2)">4 Transactions</span>
+</div>
+<div style="padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center">
+<div style="width:40px;text-align:center;margin-right:14px"><div style="font-size:14px;color:var(--text-1);font-weight:600">22</div><div style="font-size:11px;color:var(--text-3)">Feb</div></div>
+<div style="flex:1"><div style="font-size:13px;color:var(--text-1);font-weight:600">ADANI PORTS</div><div style="font-size:11px;color:var(--text-3)">Via xx2078</div></div>
+<div style="text-align:right"><div style="font-size:12px;color:var(--text-2)">Qty <strong style="color:var(--text-1)">840</strong></div><div style="font-size:11px;color:#22C55E;background:#0a2e1a;padding:2px 8px;border-radius:4px;margin-top:4px;display:inline-block">Buy</div></div>
+</div>
+<div style="padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center">
+<div style="width:40px;text-align:center;margin-right:14px"><div style="font-size:14px;color:var(--text-1);font-weight:600">18</div><div style="font-size:11px;color:var(--text-3)">Feb</div></div>
+<div style="flex:1"><div style="font-size:13px;color:var(--text-1);font-weight:600">TCS</div><div style="font-size:11px;color:var(--text-3)">Via xx4821</div></div>
+<div style="text-align:right"><div style="font-size:12px;color:var(--text-2)">Qty <strong style="color:var(--text-1)">200</strong></div><div style="font-size:11px;color:#22C55E;background:#0a2e1a;padding:2px 8px;border-radius:4px;margin-top:4px;display:inline-block">Buy</div></div>
+</div>
+<div style="padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center">
+<div style="width:40px;text-align:center;margin-right:14px"><div style="font-size:14px;color:var(--text-1);font-weight:600">10</div><div style="font-size:11px;color:var(--text-3)">Feb</div></div>
+<div style="flex:1"><div style="font-size:13px;color:var(--text-1);font-weight:600">ADANI PORTS</div><div style="font-size:11px;color:var(--text-3)">Via xx2078</div></div>
+<div style="text-align:right"><div style="font-size:12px;color:var(--text-2)">Qty <strong style="color:var(--text-1)">800</strong></div><div style="font-size:11px;color:#22C55E;background:#0a2e1a;padding:2px 8px;border-radius:4px;margin-top:4px;display:inline-block">Buy</div></div>
+</div>
+<div style="padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center">
+<div style="width:40px;text-align:center;margin-right:14px"><div style="font-size:14px;color:var(--text-1);font-weight:600">10</div><div style="font-size:11px;color:var(--text-3)">Feb</div></div>
+<div style="flex:1"><div style="font-size:13px;color:var(--text-1);font-weight:600">TCS</div><div style="font-size:11px;color:var(--text-3)">Via xx4821</div></div>
+<div style="text-align:right"><div style="font-size:12px;color:var(--text-2)">Qty <strong style="color:var(--text-1)">300</strong></div><div style="font-size:11px;color:#22C55E;background:#0a2e1a;padding:2px 8px;border-radius:4px;margin-top:4px;display:inline-block">Buy</div></div>
+</div>
+</div>
+<!-- View more / View less button -->
+<div style="text-align:center;padding:16px">
+<span id="txn-toggle-btn" style="color:var(--blue);font-size:13px;font-weight:600;cursor:pointer" onclick="toggleMoreTxn()">View more transactions ∨</span>
 </div>
 </div>
 </div>
@@ -309,6 +414,18 @@ function toggleEqValues() {
     hideables.forEach(el => {
       el.innerHTML = el.getAttribute('data-value');
     });
+  }
+}
+
+function toggleMoreTxn() {
+  const section = document.getElementById('txn-more-section');
+  const btn = document.getElementById('txn-toggle-btn');
+  if (section.style.display === 'none') {
+    section.style.display = 'block';
+    btn.textContent = 'View less ∧';
+  } else {
+    section.style.display = 'none';
+    btn.textContent = 'View more transactions ∨';
   }
 }
 </script>
