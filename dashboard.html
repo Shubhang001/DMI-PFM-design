@@ -114,6 +114,24 @@ body {
 .coded-value { height: 16px; width: auto; vertical-align: middle; }
 .coded-value-large { height: 24px; width: auto; vertical-align: middle; }
 .hideable { display: inline-block; }
+.filter-check {
+  width: 20px; height: 20px; border-radius: 4px; border: 2px solid var(--border);
+  cursor: pointer; transition: all 0.2s;
+}
+.filter-check.checked {
+  background: var(--blue); border-color: var(--blue);
+  position: relative;
+}
+.filter-check.checked::after {
+  content: '✓'; color: #fff; font-size: 12px; font-weight: 700;
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+}
+.h-tab {
+  padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 500;
+  cursor: pointer; border: 1px solid var(--border); color: var(--text-2);
+  background: transparent;
+}
+.h-tab.active { background: var(--blue); color: #fff; border-color: var(--blue); }
 </style>
 </head>
 <body>
@@ -214,10 +232,12 @@ body {
 </div>
 <div style="padding:0 18px;margin-bottom:12px">
 <div style="display:flex;border-bottom:2px solid var(--border)">
-<span style="font-size:13px;font-weight:600;color:var(--blue);padding-bottom:8px;border-bottom:2px solid var(--blue);margin-bottom:-2px">Brokers</span>
-<span style="font-size:13px;color:var(--text-3);padding-bottom:8px;margin-left:24px">Holdings</span>
+<span id="tab-brokers" style="font-size:13px;font-weight:600;color:var(--blue);padding-bottom:8px;border-bottom:2px solid var(--blue);margin-bottom:-2px;cursor:pointer" onclick="switchEqTab('brokers')">Brokers</span>
+<span id="tab-holdings" style="font-size:13px;color:var(--text-3);padding-bottom:8px;margin-left:24px;cursor:pointer" onclick="switchEqTab('holdings')">Holdings</span>
 </div>
 </div>
+<!-- Brokers Section -->
+<div id="eq-brokers-section">
 <div style="padding:0 18px">
 <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
 <span style="font-size:15px;font-weight:700;color:var(--text-1)">Brokers (2)</span>
@@ -228,31 +248,124 @@ body {
 </div>
 <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
 <span style="font-size:12px;color:var(--text-2)">Sort ↕</span>
-<span style="font-size:12px;color:var(--text-2)">Current ⇅</span>
+<span id="sort-toggle" style="font-size:12px;color:var(--text-2);cursor:pointer" onclick="toggleSortView()">Current ⇅</span>
 </div>
 </div>
-<div style="padding:0 18px">
-<div style="padding:16px 0;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between">
+<div style="padding:0 18px" id="broker-list-current">
+<div style="padding:16px 0;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;cursor:pointer" onclick="showBrokerDetail('zerodha')">
 <div style="display:flex;align-items:center;gap:10px">
 <div style="width:28px;height:28px;border-radius:50%;background:#1565C0;display:flex;align-items:center;justify-content:center"><span style="font-size:10px;color:#fff;font-weight:700">Z</span></div>
-<div>
-<div style="font-size:13px;color:var(--text-1);font-weight:500">Zerodha <span style="color:var(--text-3);font-weight:400">(xx4821)</span></div>
-<div style="font-size:11px;color:var(--text-3)">18 May 2026</div>
-</div>
+<div><div style="font-size:13px;color:var(--text-1);font-weight:500">Zerodha <span style="color:var(--text-3);font-weight:400">(xx4821)</span></div><div style="font-size:11px;color:var(--text-3)">18 May 2026</div></div>
 </div>
 <span class="eq-hideable" data-value="₹86.51L" style="font-size:14px;font-weight:600;color:var(--text-1)">₹86.51L</span>
 </div>
-<div style="padding:16px 0;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between">
+<div style="padding:16px 0;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;cursor:pointer" onclick="showBrokerDetail('icici')">
 <div style="display:flex;align-items:center;gap:10px">
-<div style="width:28px;height:28px;border-radius:50%;background:#F04E23;display:flex;align-items:center;justify-content:center"><span style="font-size:10px;color:#fff;font-weight:700">📊</span></div>
-<div>
-<div style="font-size:13px;color:var(--text-1);font-weight:500">ICICI Direct <span style="color:var(--text-3);font-weight:400">(xx2078)</span></div>
-<div style="font-size:11px;color:var(--text-3)">18 May 2026</div>
-</div>
+<div style="width:28px;height:28px;border-radius:50%;background:#F04E23;display:flex;align-items:center;justify-content:center"><span style="font-size:10px;color:#fff;font-weight:700">IC</span></div>
+<div><div style="font-size:13px;color:var(--text-1);font-weight:500">ICICI Direct <span style="color:var(--text-3);font-weight:400">(xx2078)</span></div><div style="font-size:11px;color:var(--text-3)">18 May 2026</div></div>
 </div>
 <span class="eq-hideable" data-value="₹56.17L" style="font-size:14px;font-weight:600;color:var(--text-1)">₹56.17L</span>
 </div>
 </div>
+<div style="padding:0 18px;display:none" id="broker-list-pnl">
+<div style="padding:16px 0;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;cursor:pointer" onclick="showBrokerDetail('zerodha')">
+<div style="display:flex;align-items:center;gap:10px">
+<div style="width:28px;height:28px;border-radius:50%;background:#1565C0;display:flex;align-items:center;justify-content:center"><span style="font-size:10px;color:#fff;font-weight:700">Z</span></div>
+<div><div style="font-size:13px;color:var(--text-1);font-weight:500">Zerodha <span style="color:var(--text-3);font-weight:400">(xx4821)</span></div><div style="font-size:11px;color:var(--text-3)">18 May 2026</div></div>
+</div>
+<div style="text-align:right"><div style="font-size:13px;font-weight:600;color:var(--green)">+₹14,940</div><div style="font-size:11px;color:var(--text-3)">(+0.17%)</div></div>
+</div>
+<div style="padding:16px 0;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;cursor:pointer" onclick="showBrokerDetail('icici')">
+<div style="display:flex;align-items:center;gap:10px">
+<div style="width:28px;height:28px;border-radius:50%;background:#F04E23;display:flex;align-items:center;justify-content:center"><span style="font-size:10px;color:#fff;font-weight:700">IC</span></div>
+<div><div style="font-size:13px;color:var(--text-1);font-weight:500">ICICI Direct <span style="color:var(--text-3);font-weight:400">(xx2078)</span></div><div style="font-size:11px;color:var(--text-3)">18 May 2026</div></div>
+</div>
+<div style="text-align:right"><div style="font-size:13px;font-weight:600;color:var(--red)">-₹476</div><div style="font-size:11px;color:var(--text-3)">(-0.01%)</div></div>
+</div>
+</div>
+</div>
+<!-- Holdings Section -->
+<div id="eq-holdings-section" style="display:none;padding:0 18px">
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+<span style="font-size:15px;font-weight:700;color:var(--blue)">Holdings (9)</span>
+</div>
+<div style="display:flex;gap:8px;margin-bottom:16px">
+<span class="h-tab active" id="h-tab-all" onclick="filterHoldings('all')">All Holdings</span>
+<span class="h-tab" id="h-tab-stocks" onclick="filterHoldings('stocks')">Stocks</span>
+<span class="h-tab" id="h-tab-etfs" onclick="filterHoldings('etfs')">ETFs</span>
+</div>
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+<span style="font-size:12px;color:var(--text-2)">Sort ↕</span>
+<span id="holdings-sort-toggle" style="font-size:12px;color:var(--text-2);cursor:pointer" onclick="toggleHoldingsView()">Current ⇅</span>
+</div>
+<div id="holdings-list"></div>
+</div>
+</div>
+
+<!-- Broker Detail Screen -->
+<div class="screen" id="broker-detail">
+<div class="nav-bar" style="justify-content:flex-start">
+<button class="back-btn" onclick="showDashScreen('equities')">←</button>
+<div style="display:flex;align-items:center;gap:8px;margin-left:12px">
+<div id="bd-logo" style="width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;color:#fff;font-weight:700"></div>
+<span id="bd-title" style="font-size:15px;font-weight:600;color:var(--text-1)"></span>
+</div>
+</div>
+<div style="padding:18px">
+<div style="font-size:12px;color:var(--text-3);margin-bottom:4px">Current value</div>
+<div id="bd-value" style="font-size:28px;font-weight:800;color:var(--text-1);margin-bottom:16px"></div>
+<div style="background:var(--surface);border-radius:10px;padding:14px;border:1px solid var(--border);margin-bottom:8px">
+<div style="display:flex;justify-content:space-between;padding:8px 0">
+<span style="font-size:13px;color:var(--text-2)">Day P&L</span>
+<span id="bd-pnl" style="font-size:13px;font-weight:600"></span>
+</div>
+</div>
+<div style="font-size:11px;color:var(--text-3);margin-bottom:16px" id="bd-updated">Last updated on 18 May 2026</div>
+</div>
+<div style="margin:0 18px 16px;background:var(--surface);border-radius:10px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;border:1px solid var(--border);cursor:pointer" onclick="showDashScreen('transactions')">
+<div style="display:flex;align-items:center;gap:10px">
+<span style="font-size:16px"><img src="assets/view_transaction.png" style="width:18px;height:18px;vertical-align:middle"></span>
+<span style="font-size:13px;color:var(--text-1);font-weight:500">Transactions</span>
+</div>
+<span style="color:var(--text-2)">›</span>
+</div>
+<div style="padding:0 18px">
+<div style="font-size:15px;font-weight:700;color:var(--text-1);margin-bottom:12px" id="bd-holdings-title">Holdings (9)</div>
+<div style="display:flex;gap:8px;margin-bottom:16px">
+<span class="h-tab active" id="bd-tab-all" onclick="filterBrokerHoldings('all')">All Holdings</span>
+<span class="h-tab" id="bd-tab-stocks" onclick="filterBrokerHoldings('stocks')">Stocks</span>
+<span class="h-tab" id="bd-tab-etfs" onclick="filterBrokerHoldings('etfs')">ETFs</span>
+</div>
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+<span style="font-size:12px;color:var(--text-2)">Sort ↕</span>
+<span style="font-size:12px;color:var(--text-2)">Current (Avg Buy Price) ⇅</span>
+</div>
+<div id="bd-holdings-list"></div>
+</div>
+</div>
+
+<!-- Stock Detail Screen -->
+<div class="screen" id="stock-detail">
+<div class="nav-bar">
+<button class="back-btn" onclick="showDashScreen('equities')">←</button>
+<span class="title"></span>
+<div class="right-icons"></div>
+</div>
+<div style="padding:18px">
+<div id="sd-name" style="font-size:14px;font-weight:700;color:var(--text-1);margin-bottom:4px"></div>
+<div id="sd-value" style="font-size:28px;font-weight:800;color:var(--text-1);margin-bottom:16px"></div>
+<div style="background:var(--surface);border-radius:10px;padding:14px;border:1px solid var(--border)">
+<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border)">
+<span style="font-size:13px;color:var(--text-2)">Day P&L</span>
+<span id="sd-pnl" style="font-size:13px;font-weight:600"></span>
+</div>
+<div style="display:flex;justify-content:space-between;padding:8px 0">
+<span style="font-size:13px;color:var(--text-2)">Shares</span>
+<span id="sd-shares" style="font-size:13px;font-weight:600;color:var(--text-1)"></span>
+</div>
+</div>
+</div>
+<div id="sd-transactions" style="flex:1;overflow-y:auto"></div>
 </div>
 
 <!-- Transactions Screen -->
@@ -260,105 +373,35 @@ body {
 <div class="nav-bar">
 <button class="back-btn" onclick="showDashScreen('equities')">←</button>
 <span class="title">Transactions</span>
-<div class="right-icons"><span style="font-size:14px">☰</span></div>
+<div class="right-icons"><span style="font-size:14px;cursor:pointer" onclick="document.getElementById('filter-sheet').style.display='flex'">☰</span></div>
 </div>
-<div style="flex:1;overflow-y:auto;padding-bottom:20px">
-<!-- May 2026 -->
-<div style="display:flex;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--border)">
-<span style="font-size:14px;font-weight:600;color:var(--text-1)">May 2026</span>
-<span style="font-size:12px;color:var(--text-2)">5 Transactions</span>
+<!-- Filter chip (hidden by default) -->
+<div id="filter-chip-row" style="display:none;padding:8px 18px">
+<span id="filter-chip" style="background:var(--blue);color:#fff;font-size:12px;padding:5px 12px;border-radius:16px;display:inline-flex;align-items:center;gap:6px;cursor:pointer" onclick="clearFilter()"><span id="filter-chip-text">Brokers (1)</span> ✕</span>
 </div>
-<div style="padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center">
-<div style="width:40px;text-align:center;margin-right:14px"><div style="font-size:14px;color:var(--text-1);font-weight:600">12</div><div style="font-size:11px;color:var(--text-3)">May</div></div>
-<div style="flex:1"><div style="font-size:13px;color:var(--text-1);font-weight:600">NIFTYBEES</div><div style="font-size:11px;color:var(--text-3)">Via xx4821</div></div>
-<div style="text-align:right"><div style="font-size:12px;color:var(--text-2)">Qty <strong style="color:var(--text-1)">600</strong></div><div style="font-size:11px;color:#22C55E;background:#0a2e1a;padding:2px 8px;border-radius:4px;margin-top:4px;display:inline-block">Buy</div></div>
-</div>
-<div style="padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center">
-<div style="width:40px;text-align:center;margin-right:14px"><div style="font-size:14px;color:var(--text-1);font-weight:600">08</div><div style="font-size:11px;color:var(--text-3)">May</div></div>
-<div style="flex:1"><div style="font-size:13px;color:var(--text-1);font-weight:600">TCS</div><div style="font-size:11px;color:var(--text-3)">Via xx4821</div></div>
-<div style="text-align:right"><div style="font-size:12px;color:var(--text-2)">Qty <strong style="color:var(--text-1)">80</strong></div><div style="font-size:11px;color:#22C55E;background:#0a2e1a;padding:2px 8px;border-radius:4px;margin-top:4px;display:inline-block">Buy</div></div>
-</div>
-<div style="padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center">
-<div style="width:40px;text-align:center;margin-right:14px"><div style="font-size:14px;color:var(--text-1);font-weight:600">05</div><div style="font-size:11px;color:var(--text-3)">May</div></div>
-<div style="flex:1"><div style="font-size:13px;color:var(--text-1);font-weight:600">NIFTYBEES</div><div style="font-size:11px;color:var(--text-3)">Via xx4821</div></div>
-<div style="text-align:right"><div style="font-size:12px;color:var(--text-2)">Qty <strong style="color:var(--text-1)">400</strong></div><div style="font-size:11px;color:#22C55E;background:#0a2e1a;padding:2px 8px;border-radius:4px;margin-top:4px;display:inline-block">Buy</div></div>
-</div>
-<div style="padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center">
-<div style="width:40px;text-align:center;margin-right:14px"><div style="font-size:14px;color:var(--text-1);font-weight:600">02</div><div style="font-size:11px;color:var(--text-3)">May</div></div>
-<div style="flex:1"><div style="font-size:13px;color:var(--text-1);font-weight:600">TCS</div><div style="font-size:11px;color:var(--text-3)">Via xx4821</div></div>
-<div style="text-align:right"><div style="font-size:12px;color:var(--text-2)">Qty <strong style="color:var(--text-1)">40</strong></div><div style="font-size:11px;color:#22C55E;background:#0a2e1a;padding:2px 8px;border-radius:4px;margin-top:4px;display:inline-block">Buy</div></div>
-</div>
-<div style="padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center">
-<div style="width:40px;text-align:center;margin-right:14px"><div style="font-size:14px;color:var(--text-1);font-weight:600">01</div><div style="font-size:11px;color:var(--text-3)">May</div></div>
-<div style="flex:1"><div style="font-size:13px;color:var(--text-1);font-weight:600">NIFTYBEES</div><div style="font-size:11px;color:var(--text-3)">Via xx4821</div></div>
-<div style="text-align:right"><div style="font-size:12px;color:var(--text-2)">Qty <strong style="color:var(--text-1)">200</strong></div><div style="font-size:11px;color:#22C55E;background:#0a2e1a;padding:2px 8px;border-radius:4px;margin-top:4px;display:inline-block">Buy</div></div>
-</div>
-<!-- April 2026 -->
-<div style="display:flex;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--border)">
-<span style="font-size:14px;font-weight:600;color:var(--text-1)">April 2026</span>
-<span style="font-size:12px;color:var(--text-2)">2 Transactions</span>
-</div>
-<div style="padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center">
-<div style="width:40px;text-align:center;margin-right:14px"><div style="font-size:14px;color:var(--text-1);font-weight:600">14</div><div style="font-size:11px;color:var(--text-3)">Apr</div></div>
-<div style="flex:1"><div style="font-size:13px;color:var(--text-1);font-weight:600">HDFC BANK</div><div style="font-size:11px;color:var(--text-3)">Via xx4821</div></div>
-<div style="text-align:right"><div style="font-size:12px;color:var(--text-2)">Qty <strong style="color:var(--text-1)">340</strong></div><div style="font-size:11px;color:#22C55E;background:#0a2e1a;padding:2px 8px;border-radius:4px;margin-top:4px;display:inline-block">Buy</div></div>
-</div>
-<div style="padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center">
-<div style="width:40px;text-align:center;margin-right:14px"><div style="font-size:14px;color:var(--text-1);font-weight:600">02</div><div style="font-size:11px;color:var(--text-3)">Apr</div></div>
-<div style="flex:1"><div style="font-size:13px;color:var(--text-1);font-weight:600">HDFC BANK</div><div style="font-size:11px;color:var(--text-3)">Via xx4821</div></div>
-<div style="text-align:right"><div style="font-size:12px;color:var(--text-2)">Qty <strong style="color:var(--text-1)">200</strong></div><div style="font-size:11px;color:#22C55E;background:#0a2e1a;padding:2px 8px;border-radius:4px;margin-top:4px;display:inline-block">Buy</div></div>
-</div>
-<!-- View more section (initially visible) -->
-<div id="txn-more-section" style="display:none">
-<!-- March 2026 -->
-<div style="display:flex;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--border)">
-<span style="font-size:14px;font-weight:600;color:var(--text-1)">March 2026</span>
-<span style="font-size:12px;color:var(--text-2)">3 Transactions</span>
-</div>
-<div style="padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center">
-<div style="width:40px;text-align:center;margin-right:14px"><div style="font-size:14px;color:var(--text-1);font-weight:600">15</div><div style="font-size:11px;color:var(--text-3)">Mar</div></div>
-<div style="flex:1"><div style="font-size:13px;color:var(--text-1);font-weight:600">RELIANCE INDUSTRIES</div><div style="font-size:11px;color:var(--text-3)">Via xx4821</div></div>
-<div style="text-align:right"><div style="font-size:12px;color:var(--text-2)">Qty <strong style="color:var(--text-1)">280</strong></div><div style="font-size:11px;color:#22C55E;background:#0a2e1a;padding:2px 8px;border-radius:4px;margin-top:4px;display:inline-block">Buy</div></div>
-</div>
-<div style="padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center">
-<div style="width:40px;text-align:center;margin-right:14px"><div style="font-size:14px;color:var(--text-1);font-weight:600">10</div><div style="font-size:11px;color:var(--text-3)">Mar</div></div>
-<div style="flex:1"><div style="font-size:13px;color:var(--text-1);font-weight:600">INFOSYS</div><div style="font-size:11px;color:var(--text-3)">Via xx2078</div></div>
-<div style="text-align:right"><div style="font-size:12px;color:var(--text-2)">Qty <strong style="color:var(--text-1)">500</strong></div><div style="font-size:11px;color:#22C55E;background:#0a2e1a;padding:2px 8px;border-radius:4px;margin-top:4px;display:inline-block">Buy</div></div>
-</div>
-<div style="padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center">
-<div style="width:40px;text-align:center;margin-right:14px"><div style="font-size:14px;color:var(--text-1);font-weight:600">08</div><div style="font-size:11px;color:var(--text-3)">Mar</div></div>
-<div style="flex:1"><div style="font-size:13px;color:var(--text-1);font-weight:600">RELIANCE INDUSTRIES</div><div style="font-size:11px;color:var(--text-3)">Via xx4821</div></div>
-<div style="text-align:right"><div style="font-size:12px;color:var(--text-2)">Qty <strong style="color:var(--text-1)">200</strong></div><div style="font-size:11px;color:#22C55E;background:#0a2e1a;padding:2px 8px;border-radius:4px;margin-top:4px;display:inline-block">Buy</div></div>
-</div>
-<!-- February 2026 -->
-<div style="display:flex;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--border)">
-<span style="font-size:14px;font-weight:600;color:var(--text-1)">February 2026</span>
-<span style="font-size:12px;color:var(--text-2)">4 Transactions</span>
-</div>
-<div style="padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center">
-<div style="width:40px;text-align:center;margin-right:14px"><div style="font-size:14px;color:var(--text-1);font-weight:600">22</div><div style="font-size:11px;color:var(--text-3)">Feb</div></div>
-<div style="flex:1"><div style="font-size:13px;color:var(--text-1);font-weight:600">ADANI PORTS</div><div style="font-size:11px;color:var(--text-3)">Via xx2078</div></div>
-<div style="text-align:right"><div style="font-size:12px;color:var(--text-2)">Qty <strong style="color:var(--text-1)">840</strong></div><div style="font-size:11px;color:#22C55E;background:#0a2e1a;padding:2px 8px;border-radius:4px;margin-top:4px;display:inline-block">Buy</div></div>
-</div>
-<div style="padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center">
-<div style="width:40px;text-align:center;margin-right:14px"><div style="font-size:14px;color:var(--text-1);font-weight:600">18</div><div style="font-size:11px;color:var(--text-3)">Feb</div></div>
-<div style="flex:1"><div style="font-size:13px;color:var(--text-1);font-weight:600">TCS</div><div style="font-size:11px;color:var(--text-3)">Via xx4821</div></div>
-<div style="text-align:right"><div style="font-size:12px;color:var(--text-2)">Qty <strong style="color:var(--text-1)">200</strong></div><div style="font-size:11px;color:#22C55E;background:#0a2e1a;padding:2px 8px;border-radius:4px;margin-top:4px;display:inline-block">Buy</div></div>
-</div>
-<div style="padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center">
-<div style="width:40px;text-align:center;margin-right:14px"><div style="font-size:14px;color:var(--text-1);font-weight:600">10</div><div style="font-size:11px;color:var(--text-3)">Feb</div></div>
-<div style="flex:1"><div style="font-size:13px;color:var(--text-1);font-weight:600">ADANI PORTS</div><div style="font-size:11px;color:var(--text-3)">Via xx2078</div></div>
-<div style="text-align:right"><div style="font-size:12px;color:var(--text-2)">Qty <strong style="color:var(--text-1)">800</strong></div><div style="font-size:11px;color:#22C55E;background:#0a2e1a;padding:2px 8px;border-radius:4px;margin-top:4px;display:inline-block">Buy</div></div>
-</div>
-<div style="padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center">
-<div style="width:40px;text-align:center;margin-right:14px"><div style="font-size:14px;color:var(--text-1);font-weight:600">10</div><div style="font-size:11px;color:var(--text-3)">Feb</div></div>
-<div style="flex:1"><div style="font-size:13px;color:var(--text-1);font-weight:600">TCS</div><div style="font-size:11px;color:var(--text-3)">Via xx4821</div></div>
-<div style="text-align:right"><div style="font-size:12px;color:var(--text-2)">Qty <strong style="color:var(--text-1)">300</strong></div><div style="font-size:11px;color:#22C55E;background:#0a2e1a;padding:2px 8px;border-radius:4px;margin-top:4px;display:inline-block">Buy</div></div>
-</div>
+<div id="txn-list" style="flex:1;overflow-y:auto;padding-bottom:20px">
 </div>
 <!-- View more / View less button -->
 <div style="text-align:center;padding:16px">
 <span id="txn-toggle-btn" style="color:var(--blue);font-size:13px;font-weight:600;cursor:pointer" onclick="toggleMoreTxn()">View more transactions ∨</span>
+</div>
+<!-- Filter Bottom Sheet -->
+<div id="filter-sheet" style="display:none;position:absolute;inset:0;background:rgba(0,0,0,0.6);z-index:100;align-items:flex-end">
+<div style="width:100%;background:var(--surface);border-radius:20px 20px 0 0;padding:24px 18px 30px">
+<div style="text-align:center;margin-bottom:16px"><div style="width:36px;height:4px;background:var(--border);border-radius:2px;margin:0 auto 16px"></div></div>
+<div style="font-size:16px;font-weight:700;color:var(--text-1);margin-bottom:20px">Filter by broker</div>
+<div style="display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-top:1px solid var(--border)">
+<span style="font-size:14px;color:var(--text-1)">Zerodha (xx4821)</span>
+<div id="filter-zerodha" class="filter-check" onclick="this.classList.toggle('checked')"></div>
+</div>
+<div style="display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-top:1px solid var(--border)">
+<span style="font-size:14px;color:var(--text-1)">ICICI Direct (xx2078)</span>
+<div id="filter-icici" class="filter-check" onclick="this.classList.toggle('checked')"></div>
+</div>
+<div style="display:flex;gap:12px;margin-top:20px">
+<button style="flex:1;padding:12px;border-radius:10px;border:1px solid var(--border);background:transparent;color:var(--text-1);font-size:14px;font-weight:600;cursor:pointer" onclick="clearFilter()">Clear all</button>
+<button style="flex:1;padding:12px;border-radius:10px;border:none;background:var(--blue);color:#fff;font-size:14px;font-weight:600;cursor:pointer" onclick="applyFilter()">View Results</button>
+</div>
 </div>
 </div>
 </div>
@@ -418,16 +461,323 @@ function toggleEqValues() {
 }
 
 function toggleMoreTxn() {
-  const section = document.getElementById('txn-more-section');
+  showMore = !showMore;
+  renderTransactions();
+}
+
+// Transaction data
+const allTransactions = [
+  {month:'May 2026',day:'12',mon:'May',name:'NIFTYBEES',via:'xx4821',qty:600,broker:'zerodha'},
+  {month:'May 2026',day:'08',mon:'May',name:'TCS',via:'xx4821',qty:80,broker:'zerodha'},
+  {month:'May 2026',day:'05',mon:'May',name:'NIFTYBEES',via:'xx4821',qty:400,broker:'zerodha'},
+  {month:'May 2026',day:'02',mon:'May',name:'TCS',via:'xx4821',qty:40,broker:'zerodha'},
+  {month:'May 2026',day:'01',mon:'May',name:'NIFTYBEES',via:'xx4821',qty:200,broker:'zerodha'},
+  {month:'April 2026',day:'14',mon:'Apr',name:'HDFC BANK',via:'xx4821',qty:340,broker:'zerodha'},
+  {month:'April 2026',day:'02',mon:'Apr',name:'HDFC BANK',via:'xx4821',qty:200,broker:'zerodha'},
+  {month:'March 2026',day:'18',mon:'Mar',name:'INFOSYS',via:'xx2078',qty:260,broker:'icici'},
+  {month:'March 2026',day:'15',mon:'Mar',name:'RELIANCE INDUSTRIES',via:'xx4821',qty:280,broker:'zerodha'},
+  {month:'March 2026',day:'10',mon:'Mar',name:'INFOSYS',via:'xx2078',qty:500,broker:'icici'},
+  {month:'March 2026',day:'08',mon:'Mar',name:'RELIANCE INDUSTRIES',via:'xx4821',qty:200,broker:'zerodha'},
+  {month:'February 2026',day:'22',mon:'Feb',name:'ADANI PORTS',via:'xx2078',qty:840,broker:'icici'},
+  {month:'February 2026',day:'18',mon:'Feb',name:'TCS',via:'xx4821',qty:200,broker:'zerodha'},
+  {month:'February 2026',day:'10',mon:'Feb',name:'ADANI PORTS',via:'xx2078',qty:800,broker:'icici'},
+  {month:'February 2026',day:'10',mon:'Feb',name:'TCS',via:'xx4821',qty:300,broker:'zerodha'}
+];
+
+let currentFilter = null; // null = all, 'zerodha', 'icici', 'both'
+let showMore = false;
+
+function renderTransactions() {
+  let filtered = allTransactions;
+  if (currentFilter === 'zerodha') filtered = allTransactions.filter(t => t.broker === 'zerodha');
+  else if (currentFilter === 'icici') filtered = allTransactions.filter(t => t.broker === 'icici');
+
+  // Group by month
+  const grouped = {};
+  filtered.forEach(t => {
+    if (!grouped[t.month]) grouped[t.month] = [];
+    grouped[t.month].push(t);
+  });
+
+  const months = Object.keys(grouped);
+  const initialMonths = months.slice(0, 2);
+  const moreMonths = months.slice(2);
+
+  let html = '';
+  initialMonths.forEach(month => {
+    html += '<div style="display:flex;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--border)"><span style="font-size:14px;font-weight:600;color:var(--text-1)">' + month + '</span><span style="font-size:12px;color:var(--text-2)">' + grouped[month].length + ' Transactions</span></div>';
+    grouped[month].forEach(t => {
+      html += '<div style="padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center"><div style="width:40px;text-align:center;margin-right:14px"><div style="font-size:14px;color:var(--text-1);font-weight:600">' + t.day + '</div><div style="font-size:11px;color:var(--text-3)">' + t.mon + '</div></div><div style="flex:1"><div style="font-size:13px;color:var(--text-1);font-weight:600">' + t.name + '</div><div style="font-size:11px;color:var(--text-3)">Via ' + t.via + '</div></div><div style="text-align:right"><div style="font-size:12px;color:var(--text-2)">Qty <strong style="color:var(--text-1)">' + t.qty + '</strong></div><div style="font-size:11px;color:#22C55E;background:#0a2e1a;padding:2px 8px;border-radius:4px;margin-top:4px;display:inline-block">Buy</div></div></div>';
+    });
+  });
+
+  if (showMore && moreMonths.length > 0) {
+    moreMonths.forEach(month => {
+      html += '<div style="display:flex;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--border)"><span style="font-size:14px;font-weight:600;color:var(--text-1)">' + month + '</span><span style="font-size:12px;color:var(--text-2)">' + grouped[month].length + ' Transactions</span></div>';
+      grouped[month].forEach(t => {
+        html += '<div style="padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center"><div style="width:40px;text-align:center;margin-right:14px"><div style="font-size:14px;color:var(--text-1);font-weight:600">' + t.day + '</div><div style="font-size:11px;color:var(--text-3)">' + t.mon + '</div></div><div style="flex:1"><div style="font-size:13px;color:var(--text-1);font-weight:600">' + t.name + '</div><div style="font-size:11px;color:var(--text-3)">Via ' + t.via + '</div></div><div style="text-align:right"><div style="font-size:12px;color:var(--text-2)">Qty <strong style="color:var(--text-1)">' + t.qty + '</strong></div><div style="font-size:11px;color:#22C55E;background:#0a2e1a;padding:2px 8px;border-radius:4px;margin-top:4px;display:inline-block">Buy</div></div></div>';
+      });
+    });
+  }
+
+  document.getElementById('txn-list').innerHTML = html;
+
   const btn = document.getElementById('txn-toggle-btn');
-  if (section.style.display === 'none') {
-    section.style.display = 'block';
-    btn.textContent = 'View less ∧';
+  if (moreMonths.length === 0) {
+    btn.style.display = 'none';
   } else {
-    section.style.display = 'none';
-    btn.textContent = 'View more transactions ∨';
+    btn.style.display = 'inline';
+    btn.textContent = showMore ? 'View less ∧' : 'View more transactions ∨';
+  }
+
+  // Update filter chip
+  const chipRow = document.getElementById('filter-chip-row');
+  const chipText = document.getElementById('filter-chip-text');
+  if (currentFilter) {
+    chipRow.style.display = 'block';
+    if (currentFilter === 'both') chipText.textContent = 'Brokers (2)';
+    else if (currentFilter === 'zerodha') chipText.textContent = 'Brokers (1)';
+    else chipText.textContent = 'Brokers (1)';
+  } else {
+    chipRow.style.display = 'none';
   }
 }
+
+function applyFilter() {
+  const z = document.getElementById('filter-zerodha').classList.contains('checked');
+  const i = document.getElementById('filter-icici').classList.contains('checked');
+  if (z && i) currentFilter = 'both';
+  else if (z) currentFilter = 'zerodha';
+  else if (i) currentFilter = 'icici';
+  else currentFilter = null;
+  showMore = false;
+  document.getElementById('filter-sheet').style.display = 'none';
+  renderTransactions();
+}
+
+let sortView = 'current';
+function toggleSortView() {
+  const btn = document.getElementById('sort-toggle');
+  const currentList = document.getElementById('broker-list-current');
+  const pnlList = document.getElementById('broker-list-pnl');
+  if (sortView === 'current') {
+    sortView = 'pnl';
+    btn.textContent = 'Day P&L ⇅';
+    currentList.style.display = 'none';
+    pnlList.style.display = 'block';
+  } else {
+    sortView = 'current';
+    btn.textContent = 'Current ⇅';
+    currentList.style.display = 'block';
+    pnlList.style.display = 'none';
+  }
+}
+
+function switchEqTab(tab) {
+  const brokersTab = document.getElementById('tab-brokers');
+  const holdingsTab = document.getElementById('tab-holdings');
+  const brokersSection = document.getElementById('eq-brokers-section');
+  const holdingsSection = document.getElementById('eq-holdings-section');
+  if (tab === 'brokers') {
+    brokersTab.style.color = 'var(--blue)';
+    brokersTab.style.borderBottom = '2px solid var(--blue)';
+    holdingsTab.style.color = 'var(--text-3)';
+    holdingsTab.style.borderBottom = 'none';
+    brokersSection.style.display = 'block';
+    holdingsSection.style.display = 'none';
+  } else {
+    holdingsTab.style.color = 'var(--blue)';
+    holdingsTab.style.borderBottom = '2px solid var(--blue)';
+    brokersTab.style.color = 'var(--text-3)';
+    brokersTab.style.borderBottom = 'none';
+    brokersSection.style.display = 'none';
+    holdingsSection.style.display = 'block';
+    filterHoldings('all');
+  }
+}
+
+const holdingsData = [
+  {name:'TCS', shares:620, value:'₹23.87L', type:'stock', pnl:'+₹4,960', pnlPct:'(+0.21%)', pnlColor:'var(--green)'},
+  {name:'RELIANCE INDUSTRIES', shares:880, value:'₹25.96L', type:'stock', pnl:'+₹8,800', pnlPct:'(+0.34%)', pnlColor:'var(--green)'},
+  {name:'HDFC BANK', shares:1140, value:'₹20.29L', type:'stock', pnl:'+₹2,840', pnlPct:'(+0.14%)', pnlColor:'var(--green)'},
+  {name:'NIFTYBEES', shares:4800, value:'₹13.37L', type:'etf', pnl:'-₹2,140', pnlPct:'(-0.16%)', pnlColor:'var(--red)'},
+  {name:'BAJAJ FINSERV', shares:160, value:'₹3.02L', type:'stock', pnl:'+₹480', pnlPct:'(+0.16%)', pnlColor:'var(--green)'},
+  {name:'INFOSYS', shares:760, value:'₹14.21L', type:'stock', pnl:'-₹4,120', pnlPct:'(-0.29%)', pnlColor:'var(--red)'},
+  {name:'ADANI PORTS', shares:1640, value:'₹20.66L', type:'stock', pnl:'-₹8,200', pnlPct:'(-0.40%)', pnlColor:'var(--red)'},
+  {name:'L&T', shares:420, value:'₹14.62L', type:'stock', pnl:'+₹8,204', pnlPct:'(+0.56%)', pnlColor:'var(--green)'},
+  {name:'MARUTI SUZUKI', shares:52, value:'₹6.51L', type:'stock', pnl:'+₹3,640', pnlPct:'(+0.55%)', pnlColor:'var(--green)'}
+];
+
+let holdingsView = 'current';
+
+function filterHoldings(filter) {
+  document.querySelectorAll('.h-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('h-tab-' + filter).classList.add('active');
+  let filtered = holdingsData;
+  if (filter === 'stocks') filtered = holdingsData.filter(h => h.type === 'stock');
+  else if (filter === 'etfs') filtered = holdingsData.filter(h => h.type === 'etf');
+  renderHoldingsList(filtered);
+}
+
+function renderHoldingsList(filtered) {
+  let html = '';
+  filtered.forEach((h, i) => {
+    const idx = holdingsData.indexOf(h);
+    if (holdingsView === 'current') {
+      html += '<div style="padding:16px 0;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;cursor:pointer" onclick="showStockDetail(' + idx + ')"><div><div style="font-size:13px;color:var(--text-1);font-weight:600">' + h.name + '</div><div style="font-size:11px;color:var(--text-3)">' + h.shares + ' Shares</div></div><span style="font-size:14px;font-weight:600;color:var(--text-1)">' + h.value + '</span></div>';
+    } else {
+      html += '<div style="padding:16px 0;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;cursor:pointer" onclick="showStockDetail(' + idx + ')"><div><div style="font-size:13px;color:var(--text-1);font-weight:600">' + h.name + '</div><div style="font-size:11px;color:var(--text-3)">' + h.shares + ' Shares</div></div><div style="text-align:right"><div style="font-size:13px;font-weight:600;color:' + h.pnlColor + '">' + h.pnl + '</div><div style="font-size:11px;color:var(--text-3)">' + h.pnlPct + '</div></div></div>';
+    }
+  });
+  document.getElementById('holdings-list').innerHTML = html;
+}
+
+// Stock detail transactions data
+const stockTransactions = {
+  'TCS': [
+    {month:'May 2026',items:[{day:'08',mon:'May',qty:80,type:'Buy',via:'xx4821'},{day:'02',mon:'May',qty:40,type:'Buy',via:'xx4821'}]},
+    {month:'February 2026',items:[{day:'18',mon:'Feb',qty:200,type:'Buy',via:'xx4821'},{day:'10',mon:'Feb',qty:300,type:'Buy',via:'xx4821'}]}
+  ],
+  'RELIANCE INDUSTRIES': [
+    {month:'March 2026',items:[{day:'15',mon:'Mar',qty:280,type:'Buy',via:'xx4821'},{day:'08',mon:'Mar',qty:200,type:'Buy',via:'xx4821'}]},
+    {month:'January 2026',items:[{day:'22',mon:'Jan',qty:200,type:'Buy',via:'xx4821'},{day:'15',mon:'Jan',qty:150,type:'Buy',via:'xx4821'},{day:'08',mon:'Jan',qty:50,type:'Sell',via:'xx4821'}]}
+  ],
+  'HDFC BANK': [
+    {month:'April 2026',items:[{day:'14',mon:'Apr',qty:340,type:'Buy',via:'xx4821'},{day:'02',mon:'Apr',qty:200,type:'Buy',via:'xx4821'}]},
+    {month:'January 2026',items:[{day:'20',mon:'Jan',qty:300,type:'Buy',via:'xx4821'},{day:'10',mon:'Jan',qty:300,type:'Buy',via:'xx4821'}]}
+  ],
+  'NIFTYBEES': [
+    {month:'May 2026',items:[{day:'12',mon:'May',qty:600,type:'Buy',via:'xx4821'},{day:'05',mon:'May',qty:400,type:'Buy',via:'xx4821'},{day:'01',mon:'May',qty:200,type:'Buy',via:'xx4821'}]},
+    {month:'January 2026',items:[{day:'25',mon:'Jan',qty:1800,type:'Buy',via:'xx4821'},{day:'12',mon:'Jan',qty:1800,type:'Buy',via:'xx4821'}]}
+  ],
+  'BAJAJ FINSERV': [
+    {month:'March 2026',items:[{day:'20',mon:'Mar',qty:80,type:'Buy',via:'xx2078'},{day:'05',mon:'Mar',qty:80,type:'Buy',via:'xx2078'}]}
+  ],
+  'INFOSYS': [
+    {month:'March 2026',items:[{day:'18',mon:'Mar',qty:260,type:'Buy',via:'xx2078'},{day:'10',mon:'Mar',qty:500,type:'Buy',via:'xx2078'}]}
+  ],
+  'ADANI PORTS': [
+    {month:'February 2026',items:[{day:'22',mon:'Feb',qty:840,type:'Buy',via:'xx2078'},{day:'10',mon:'Feb',qty:800,type:'Buy',via:'xx2078'}]}
+  ],
+  'L&T': [
+    {month:'January 2026',items:[{day:'28',mon:'Jan',qty:220,type:'Buy',via:'xx4821'},{day:'15',mon:'Jan',qty:200,type:'Buy',via:'xx4821'}]}
+  ],
+  'MARUTI SUZUKI': [
+    {month:'February 2026',items:[{day:'14',mon:'Feb',qty:32,type:'Buy',via:'xx2078'},{day:'05',mon:'Feb',qty:20,type:'Buy',via:'xx2078'}]}
+  ]
+};
+
+// Broker detail data
+const brokerData = {
+  zerodha: {
+    name: 'Zerodha (xx4821)', value: '₹86.51 L', pnl: '+₹14,940 (+0.17%)', pnlColor: 'var(--green)',
+    logo: '#1565C0', initial: 'Z',
+    holdings: [
+      {name:'TCS', shares:620, value:'₹23.87L', avgBuy:'₹3,330.00', type:'stock'},
+      {name:'RELIANCE INDUSTRIES', shares:880, value:'₹25.96L', avgBuy:'₹2,620.00', type:'stock'},
+      {name:'HDFC BANK', shares:1140, value:'₹20.29L', avgBuy:'₹1,585.00', type:'stock'},
+      {name:'NIFTYBEES', shares:4800, value:'₹13.37L', avgBuy:'₹245.00', type:'etf'},
+      {name:'BAJAJ FINSERV', shares:160, value:'₹3.02L', avgBuy:'₹1,680.00', type:'stock'},
+      {name:'L&T', shares:420, value:'₹14.62L', avgBuy:'₹3,120.00', type:'stock'},
+      {name:'MARUTI SUZUKI', shares:52, value:'₹6.51L', avgBuy:'₹11,200.00', type:'stock'}
+    ]
+  },
+  icici: {
+    name: 'ICICI Direct (xx2078)', value: '₹56.17 L', pnl: '-₹476 (-0.01%)', pnlColor: 'var(--red)',
+    logo: '#F04E23', initial: 'IC',
+    holdings: [
+      {name:'INFOSYS', shares:760, value:'₹14.21L', avgBuy:'₹1,620.00', type:'stock'},
+      {name:'ADANI PORTS', shares:1640, value:'₹20.66L', avgBuy:'₹1,105.00', type:'stock'}
+    ]
+  }
+};
+
+let currentBroker = null;
+
+function showBrokerDetail(brokerId) {
+  currentBroker = brokerId;
+  const broker = brokerData[brokerId];
+  document.getElementById('bd-logo').style.background = broker.logo;
+  document.getElementById('bd-logo').textContent = broker.initial;
+  document.getElementById('bd-title').textContent = broker.name;
+  document.getElementById('bd-value').textContent = broker.value;
+  document.getElementById('bd-pnl').textContent = broker.pnl;
+  document.getElementById('bd-pnl').style.color = broker.pnlColor;
+  document.getElementById('bd-holdings-title').textContent = 'Holdings (' + broker.holdings.length + ')';
+  document.querySelectorAll('#broker-detail .h-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('bd-tab-all').classList.add('active');
+  filterBrokerHoldings('all');
+  showDashScreen('broker-detail');
+}
+
+function filterBrokerHoldings(filter) {
+  document.querySelectorAll('#broker-detail .h-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('bd-tab-' + filter).classList.add('active');
+  const broker = brokerData[currentBroker];
+  let filtered = broker.holdings;
+  if (filter === 'stocks') filtered = broker.holdings.filter(h => h.type === 'stock');
+  else if (filter === 'etfs') filtered = broker.holdings.filter(h => h.type === 'etf');
+  let html = '';
+  filtered.forEach(h => {
+    const idx = holdingsData.findIndex(hd => hd.name === h.name);
+    html += '<div style="padding:16px 0;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;cursor:pointer" onclick="showStockDetail(' + idx + ')"><div><div style="font-size:13px;color:var(--text-1);font-weight:600">' + h.name + '</div><div style="font-size:11px;color:var(--text-3)">' + h.shares + ' Shares</div></div><div style="text-align:right"><div style="font-size:14px;font-weight:600;color:var(--text-1)">' + h.value + '</div><div style="font-size:11px;color:var(--text-3)">(' + h.avgBuy + ')</div></div></div>';
+  });
+  document.getElementById('bd-holdings-list').innerHTML = html;
+}
+
+function showStockDetail(idx) {
+  const stock = holdingsData[idx];
+  document.getElementById('sd-name').textContent = stock.name;
+  document.getElementById('sd-value').textContent = stock.value;
+  document.getElementById('sd-pnl').textContent = stock.pnl + ' ' + stock.pnlPct;
+  document.getElementById('sd-pnl').style.color = stock.pnlColor;
+  document.getElementById('sd-shares').textContent = stock.shares;
+
+  const txns = stockTransactions[stock.name] || [];
+  let html = '';
+  txns.forEach(group => {
+    const count = group.items.length;
+    html += '<div style="display:flex;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--border)"><span style="font-size:14px;font-weight:600;color:var(--text-1)">' + group.month + '</span><span style="font-size:12px;color:var(--text-2)">' + count + ' Transactions</span></div>';
+    group.items.forEach(t => {
+      const typeColor = t.type === 'Buy' ? '#22C55E' : '#EF4444';
+      const typeBg = t.type === 'Buy' ? '#0a2e1a' : '#2e0a0a';
+      html += '<div style="padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center"><div style="width:40px;text-align:center;margin-right:14px"><div style="font-size:14px;color:var(--text-1);font-weight:600">' + t.day + '</div><div style="font-size:11px;color:var(--text-3)">' + t.mon + '</div></div><div style="flex:1"><div style="font-size:13px;color:var(--text-1);font-weight:600">' + stock.name + '</div><div style="font-size:11px;color:var(--text-3)">Via ' + t.via + '</div></div><div style="text-align:right"><div style="font-size:12px;color:var(--text-2)">Qty <strong style="color:var(--text-1)">' + t.qty + '</strong></div><div style="font-size:11px;color:' + typeColor + ';background:' + typeBg + ';padding:2px 8px;border-radius:4px;margin-top:4px;display:inline-block">' + t.type + '</div></div></div>';
+    });
+  });
+  document.getElementById('sd-transactions').innerHTML = html;
+  showDashScreen('stock-detail');
+}
+
+function toggleHoldingsView() {
+  const btn = document.getElementById('holdings-sort-toggle');
+  if (holdingsView === 'current') {
+    holdingsView = 'pnl';
+    btn.textContent = 'Day P&L ⇅';
+  } else {
+    holdingsView = 'current';
+    btn.textContent = 'Current ⇅';
+  }
+  // Re-render with current filter
+  const activeTab = document.querySelector('.h-tab.active');
+  const filter = activeTab.id.replace('h-tab-', '');
+  filterHoldings(filter);
+}
+
+function clearFilter() {
+  currentFilter = null;
+  showMore = false;
+  document.getElementById('filter-zerodha').classList.remove('checked');
+  document.getElementById('filter-icici').classList.remove('checked');
+  document.getElementById('filter-sheet').style.display = 'none';
+  renderTransactions();
+}
+
+// Initial render when transactions screen is shown
+const origShowDash = showDashScreen;
+showDashScreen = function(id) {
+  origShowDash(id);
+  if (id === 'transactions') renderTransactions();
+};
 </script>
 </body>
 </html>
