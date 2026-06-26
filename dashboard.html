@@ -147,7 +147,7 @@ body {
 <div class="tab-pills">
 <div class="tab-pill active" onclick="showDashScreen('dashboard')">Overview</div>
 <div class="tab-pill" onclick="showDashScreen('dashboard')">Banks</div>
-<div class="tab-pill" onclick="showDashScreen('dashboard')">Mutual Funds</div>
+<div class="tab-pill" onclick="showDashScreen('mutualfunds')">Mutual Funds</div>
 <div class="tab-pill" onclick="showDashScreen('equities')">Equities & ETF</div>
 </div>
 <div style="padding:18px">
@@ -200,6 +200,82 @@ body {
 </div>
 </div>
 
+<!-- Mutual Funds Screen -->
+<div class="screen" id="mutualfunds">
+<div class="nav-bar">
+<button class="back-btn" onclick="showDashScreen('dashboard')">←</button>
+<span class="title">Net Worth Insights</span>
+<div class="right-icons"></div>
+</div>
+<div class="tab-pills">
+<div class="tab-pill" onclick="showDashScreen('dashboard')">Overview</div>
+<div class="tab-pill" onclick="showDashScreen('dashboard')">Banks</div>
+<div class="tab-pill active" onclick="showDashScreen('mutualfunds')">Mutual Funds</div>
+<div class="tab-pill" onclick="showDashScreen('equities')">Equities & ETF</div>
+</div>
+<div style="padding:18px">
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+<span style="font-size:14px;color:var(--text-2)"><img src="assets/mf.png" style="width:16px;height:16px;vertical-align:middle;margin-right:6px">Your Mutual Funds Portfolio</span>
+<div class="toggle-switch" id="mf-hide-toggle" onclick="toggleMfValues()">
+<div class="toggle-track"><div class="toggle-thumb"></div></div>
+</div>
+</div>
+<div class="net-worth-value" id="mf-value" data-value="₹1.26 Cr" style="display:inline">₹1.26 Cr</div><span style="font-size:12px;color:var(--text-3);margin-left:6px">ⓘ</span>
+<div style="font-size:13px;color:var(--green);margin-top:6px">↑ <span style="color:var(--green)">₹9,400 (+0.04%)</span> <span style="color:var(--text-3)">1D Change</span></div>
+</div>
+<!-- Stats Card -->
+<div style="margin:0 18px 16px;background:var(--surface);border-radius:12px;padding:16px;border:1px solid var(--border)">
+<div style="display:flex;justify-content:space-between;margin-bottom:12px">
+<span style="font-size:12px;color:var(--text-2)">Holding type</span>
+<span style="font-size:12px;color:var(--text-2)">All ⇅</span>
+</div>
+<div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:8px">
+<div><span style="font-size:16px;font-weight:700;color:var(--text-1)" class="mf-hideable" data-value="₹94.6 L">₹94.6 L</span> <span style="font-size:11px;color:var(--text-3)">71.7%</span></div>
+<div style="text-align:right"><span style="font-size:11px;color:var(--text-3)">28.3%</span> <span style="font-size:16px;font-weight:700;color:var(--text-1)" class="mf-hideable" data-value="₹37.4 L">₹37.4 L</span></div>
+</div>
+<div style="display:flex;height:8px;border-radius:4px;overflow:hidden;margin-bottom:12px">
+<div style="width:71.7%;background:#F59E0B"></div>
+<div style="width:28.3%;background:#EF4444"></div>
+</div>
+<div style="display:flex;justify-content:space-between;margin-bottom:10px">
+<span style="font-size:11px;color:var(--text-2)">Physical Current Value</span>
+<span style="font-size:11px;color:var(--text-2)">Demat Current Value</span>
+</div>
+<div style="display:flex;justify-content:space-between;padding:8px 0;border-top:1px solid var(--border)">
+<span style="font-size:12px;color:var(--text-2)">Absolute return</span>
+<div><span class="mf-hideable" data-value="₹18.2 L" style="font-size:13px;font-weight:600;color:var(--text-1)">₹18.2 L</span> <span style="font-size:11px;color:var(--green)">23.8%</span></div>
+</div>
+<div style="display:flex;justify-content:space-between;padding:8px 0;border-top:1px solid var(--border)">
+<span style="font-size:12px;color:var(--text-2)">Invested value</span>
+<span class="mf-hideable" data-value="₹76.4 L" style="font-size:13px;font-weight:600;color:var(--text-1)">₹76.4 L</span>
+</div>
+</div>
+<!-- View Transactions -->
+<div style="margin:0 18px 16px;background:var(--surface);border-radius:10px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;border:1px solid var(--border);cursor:pointer" onclick="showDashScreen('transactions')">
+<div style="display:flex;align-items:center;gap:10px">
+<span><img src="assets/view_transaction.png" style="width:18px;height:18px;vertical-align:middle"></span>
+<span style="font-size:13px;color:var(--text-1);font-weight:500">View your transactions</span>
+</div>
+<span style="color:var(--text-2)">›</span>
+</div>
+<!-- Funds / Insights tabs -->
+<div style="padding:0 18px;margin-bottom:12px">
+<div style="display:flex;border-bottom:2px solid var(--border)">
+<span style="font-size:13px;font-weight:600;color:var(--blue);padding-bottom:8px;border-bottom:2px solid var(--blue);margin-bottom:-2px;cursor:pointer">Funds</span>
+<span style="font-size:13px;color:var(--text-3);padding-bottom:8px;margin-left:24px;cursor:pointer">Insights</span>
+</div>
+</div>
+<!-- All Funds -->
+<div style="padding:0 18px">
+<div style="font-size:15px;font-weight:700;color:var(--text-1);margin-bottom:12px">All Funds</div>
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+<span style="font-size:12px;color:var(--text-2)">↕ Sort</span>
+<span id="mf-sort-toggle" style="font-size:12px;color:var(--text-2);cursor:pointer" onclick="toggleMfSort()">Current (Invested) ⇅</span>
+</div>
+<div id="mf-funds-list"></div>
+</div>
+</div>
+
 <!-- Equities & ETF Screen -->
 <div class="screen" id="equities">
 <div class="nav-bar">
@@ -210,7 +286,7 @@ body {
 <div class="tab-pills">
 <div class="tab-pill" onclick="showDashScreen('dashboard')">Overview</div>
 <div class="tab-pill" onclick="showDashScreen('dashboard')">Banks</div>
-<div class="tab-pill" onclick="showDashScreen('dashboard')">Mutual Funds</div>
+<div class="tab-pill" onclick="showDashScreen('mutualfunds')">Mutual Funds</div>
 <div class="tab-pill active" onclick="showDashScreen('equities')">Equities & ETF</div>
 </div>
 <div style="padding:18px">
@@ -556,6 +632,59 @@ function applyFilter() {
 }
 
 let sortView = 'current';
+
+let mfValuesHidden = false;
+function toggleMfValues() {
+  const toggle = document.getElementById('mf-hide-toggle');
+  const mfValue = document.getElementById('mf-value');
+  const hideables = document.querySelectorAll('.mf-hideable');
+  mfValuesHidden = !mfValuesHidden;
+  if (mfValuesHidden) {
+    toggle.classList.add('on');
+    mfValue.innerHTML = '<img src="assets/coded_value.png" class="coded-value-large">';
+    hideables.forEach(el => { el.innerHTML = '<img src="assets/coded_value.png" class="coded-value">'; });
+  } else {
+    toggle.classList.remove('on');
+    mfValue.innerHTML = mfValue.getAttribute('data-value');
+    hideables.forEach(el => { el.innerHTML = el.getAttribute('data-value'); });
+  }
+}
+
+const mfFundsData = [
+  {name:'Parag Parikh Flexi Cap Fund - G', sub:'2 Folios', current:'₹68,42,000', invested:'₹44,00,000', dayPnl:'+₹6,240', dayPct:'(+0.91%)', dayColor:'var(--green)', absReturn:'+₹24.42 L', absPct:'(+55.5%)', absColor:'var(--green)', logo:'https://www.google.com/s2/favicons?domain=ppfas.com&sz=64', logoBg:'#1a3a5a'},
+  {name:'Mirae Asset Large & Mid Cap Fun...', sub:'1 Folio', current:'₹52,86,000', invested:'₹38,00,000', dayPnl:'-₹3,804', dayPct:'(-0.72%)', dayColor:'var(--red)', absReturn:'+₹14.86 L', absPct:'(+39.1%)', absColor:'var(--green)', logo:'https://www.google.com/s2/favicons?domain=miraeassetmf.co.in&sz=64', logoBg:'#F04E23'},
+  {name:'HDFC Mid Cap Opportunities Fun...', sub:'1 Demat', current:'₹48,54,000', invested:'₹32,00,000', dayPnl:'+₹4,174', dayPct:'(+0.86%)', dayColor:'var(--green)', absReturn:'+₹16.54 L', absPct:'(+51.7%)', absColor:'var(--green)', logo:'https://www.google.com/s2/favicons?domain=hdfcfund.com&sz=64', logoBg:'#C8102E'},
+  {name:'Axis Small Cap Fund - G', sub:'1 Folio · 1 Demat', current:'₹42,18,000', invested:'₹34,00,000', dayPnl:'+₹2,789', dayPct:'(+0.66%)', dayColor:'var(--green)', absReturn:'+₹8.18 L', absPct:'(+24.1%)', absColor:'var(--green)', logo:'https://www.google.com/s2/favicons?domain=axismf.com&sz=64', logoBg:'#8B1A4A'},
+  {name:'SBI Blue Chip Fund - G', sub:'1 Folio', current:'₹38,20,000', invested:'₹28,00,000', dayPnl:'+₹1,820', dayPct:'(+0.48%)', dayColor:'var(--green)', absReturn:'+₹10.20 L', absPct:'(+36.4%)', absColor:'var(--green)', logo:'https://www.google.com/s2/favicons?domain=sbimf.com&sz=64', logoBg:'#1565C0'},
+  {name:'Kotak Emerging Equity Fund - G', sub:'2 Folios', current:'₹22,00,000', invested:'₹18,00,000', dayPnl:'-₹1,819', dayPct:'(-0.83%)', dayColor:'var(--red)', absReturn:'+₹4.00 L', absPct:'(+22.2%)', absColor:'var(--green)', logo:'https://www.google.com/s2/favicons?domain=kotakmf.com&sz=64', logoBg:'#004C8F'}
+];
+
+let mfSortView = 'current';
+
+function toggleMfSort() {
+  const btn = document.getElementById('mf-sort-toggle');
+  if (mfSortView === 'current') { mfSortView = 'daypnl'; btn.textContent = 'Day P&L ⇅'; }
+  else if (mfSortView === 'daypnl') { mfSortView = 'absreturn'; btn.textContent = 'Absolute returns ⇅'; }
+  else { mfSortView = 'current'; btn.textContent = 'Current (Invested) ⇅'; }
+  renderMfFunds();
+}
+
+function renderMfFunds() {
+  let html = '';
+  mfFundsData.forEach(f => {
+    let rightCol = '';
+    if (mfSortView === 'current') {
+      rightCol = '<div style="font-size:13px;font-weight:600;color:var(--text-1)">' + f.current + '</div><div style="font-size:11px;color:var(--text-3)">(' + f.invested + ')</div>';
+    } else if (mfSortView === 'daypnl') {
+      rightCol = '<div style="font-size:13px;font-weight:600;color:' + f.dayColor + '">' + f.dayPnl + '</div><div style="font-size:11px;color:var(--text-3)">' + f.dayPct + '</div>';
+    } else {
+      rightCol = '<div style="font-size:13px;font-weight:600;color:' + f.absColor + '">' + f.absReturn + '</div><div style="font-size:11px;color:var(--text-3)">' + f.absPct + '</div>';
+    }
+    html += '<div style="padding:14px 0;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between"><div style="display:flex;align-items:center;gap:10px"><div style="width:28px;height:28px;border-radius:50%;background:' + f.logoBg + ';display:flex;align-items:center;justify-content:center;overflow:hidden"><img src="' + f.logo + '" style="width:100%;height:100%;object-fit:cover"></div><div><div style="font-size:13px;color:var(--text-1);font-weight:600">' + f.name + '</div><div style="font-size:11px;color:var(--text-3)">' + f.sub + '</div></div></div><div style="text-align:right">' + rightCol + '</div></div>';
+  });
+  document.getElementById('mf-funds-list').innerHTML = html;
+}
+
 function toggleSortView() {
   const btn = document.getElementById('sort-toggle');
   const currentList = document.getElementById('broker-list-current');
@@ -777,6 +906,7 @@ const origShowDash = showDashScreen;
 showDashScreen = function(id) {
   origShowDash(id);
   if (id === 'transactions') renderTransactions();
+  if (id === 'mutualfunds') renderMfFunds();
 };
 </script>
 </body>
