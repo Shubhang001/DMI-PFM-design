@@ -132,6 +132,161 @@ body {
   background: transparent;
 }
 .h-tab.active { background: var(--blue); color: #fff; border-color: var(--blue); }
+
+/* Folio Detail Screen */
+.folio-detail-header {
+  display: flex; align-items: center; gap: 12px; padding: 18px;
+}
+.folio-detail-logo {
+  width: 36px; height: 36px; border-radius: 50%; display: flex;
+  align-items: center; justify-content: center; overflow: hidden;
+}
+.folio-detail-name {
+  font-size: 15px; font-weight: 700; color: var(--text-1);
+}
+.folio-detail-sub {
+  font-size: 12px; color: var(--text-3); margin-top: 2px;
+}
+.folio-detail-tabs {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 18px; margin-bottom: 16px;
+}
+.folio-detail-tabs-left {
+  display: flex; align-items: center; gap: 12px;
+}
+.folio-detail-tab {
+  font-size: 13px; font-weight: 600; color: var(--text-1);
+  padding: 6px 12px; border-radius: 6px; background: var(--surface);
+  border: 1px solid var(--border);
+}
+.folio-detail-sort {
+  font-size: 12px; color: var(--text-2); cursor: pointer;
+}
+.folio-stats-section { padding: 0 18px 18px; }
+.folio-current-label {
+  font-size: 13px; color: var(--text-2); margin-bottom: 4px;
+}
+.folio-current-value {
+  font-size: 28px; font-weight: 800; color: var(--text-1); display: inline;
+}
+.folio-current-return {
+  font-size: 13px; color: var(--green); margin-left: 8px;
+}
+.folio-stats-card {
+  background: var(--surface); border-radius: 12px; padding: 14px 16px;
+  border: 1px solid var(--border); margin-bottom: 12px;
+}
+.folio-stats-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 10px 0;
+}
+.folio-stats-row + .folio-stats-row {
+  border-top: 1px solid var(--border);
+}
+.folio-stats-label {
+  font-size: 13px; color: var(--text-2);
+}
+.folio-stats-value {
+  font-size: 13px; font-weight: 600; color: var(--text-1);
+}
+.folio-stats-value.green { color: var(--green); }
+.folio-updated {
+  font-size: 11px; color: var(--text-3); padding: 0 18px; margin-bottom: 20px;
+}
+.folio-txn-section { padding: 0 18px; }
+.folio-txn-title {
+  font-size: 18px; font-weight: 700; color: var(--text-1); margin-bottom: 16px;
+}
+.folio-txn-month-header {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 14px 0; border-bottom: 1px solid var(--border);
+}
+.folio-txn-month {
+  font-size: 14px; font-weight: 600; color: var(--text-1);
+}
+.folio-txn-count {
+  font-size: 12px; color: var(--text-2);
+}
+.folio-txn-row {
+  padding: 14px 0; border-bottom: 1px solid var(--border);
+  display: flex; align-items: flex-start;
+}
+.folio-txn-date {
+  width: 36px; text-align: center; margin-right: 12px; flex-shrink: 0;
+}
+.folio-txn-date-day { font-size: 14px; color: var(--text-1); font-weight: 600; }
+.folio-txn-date-mon { font-size: 11px; color: var(--text-3); }
+.folio-txn-mid { flex: 1; }
+.folio-txn-type {
+  display: inline-block; font-size: 11px; padding: 2px 10px;
+  border-radius: 4px; font-weight: 500; margin-bottom: 4px;
+}
+.folio-txn-type.buy { color: #22C55E; background: #0a2e1a; }
+.folio-txn-type.sell { color: #EF4444; background: #2e0a0a; }
+.folio-txn-nav { font-size: 12px; color: var(--text-3); }
+.folio-txn-right { text-align: right; flex-shrink: 0; }
+.folio-txn-amount { font-size: 13px; font-weight: 600; color: var(--text-1); margin-bottom: 4px; }
+.folio-txn-units { font-size: 12px; color: var(--text-3); }
+.folio-txn-toggle {
+  text-align: center; padding: 20px 0;
+}
+.folio-txn-toggle span {
+  color: var(--blue); font-size: 13px; font-weight: 600; cursor: pointer;
+}
+
+/* Folio Selection Drawer */
+.folio-drawer-overlay {
+  display: none; position: absolute; inset: 0; background: rgba(0,0,0,0.6);
+  z-index: 200; align-items: flex-end; justify-content: center;
+}
+.folio-drawer-overlay.active { display: flex; }
+.folio-drawer {
+  width: 100%; background: var(--surface); border-radius: 20px 20px 0 0;
+  padding: 20px 18px 30px; position: relative;
+  animation: slideUp 0.3s ease-out;
+}
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+.folio-drawer-handle {
+  width: 36px; height: 4px; background: var(--border); border-radius: 2px;
+  margin: 0 auto 16px;
+}
+.folio-drawer-close {
+  position: absolute; top: 20px; right: 18px; width: 28px; height: 28px;
+  border-radius: 50%; background: var(--border); border: none;
+  color: var(--text-1); font-size: 14px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+}
+.folio-drawer-title {
+  font-size: 18px; font-weight: 700; color: var(--text-1); margin-bottom: 6px;
+}
+.folio-drawer-desc {
+  font-size: 13px; color: var(--text-2); line-height: 1.5; margin-bottom: 20px;
+}
+.folio-drawer-fund {
+  display: flex; align-items: center; gap: 10px; margin-bottom: 18px;
+}
+.folio-drawer-fund-logo {
+  width: 28px; height: 28px; border-radius: 50%; display: flex;
+  align-items: center; justify-content: center; overflow: hidden;
+}
+.folio-drawer-fund-name {
+  font-size: 14px; font-weight: 600; color: var(--text-1);
+}
+.folio-card {
+  background: transparent; border: 1px solid var(--border); border-radius: 12px;
+  padding: 16px; margin-bottom: 12px; cursor: pointer; transition: border-color 0.2s;
+}
+.folio-card:hover { border-color: var(--blue); }
+.folio-card.active { border-color: var(--blue); }
+.folio-card-number {
+  font-size: 13px; color: var(--text-1); font-weight: 500; margin-bottom: 4px;
+}
+.folio-card-value {
+  font-size: 14px; color: var(--text-1); font-weight: 600;
+}
 </style>
 </head>
 <body>
@@ -261,18 +416,152 @@ body {
 <!-- Funds / Insights tabs -->
 <div style="padding:0 18px;margin-bottom:12px">
 <div style="display:flex;border-bottom:2px solid var(--border)">
-<span style="font-size:13px;font-weight:600;color:var(--blue);padding-bottom:8px;border-bottom:2px solid var(--blue);margin-bottom:-2px;cursor:pointer">Funds</span>
-<span style="font-size:13px;color:var(--text-3);padding-bottom:8px;margin-left:24px;cursor:pointer">Insights</span>
+<span id="mf-tab-funds" style="font-size:13px;font-weight:600;color:var(--blue);padding-bottom:8px;border-bottom:2px solid var(--blue);margin-bottom:-2px;cursor:pointer" onclick="switchMfTab('funds')">Funds</span>
+<span id="mf-tab-insights" style="font-size:13px;color:var(--text-3);padding-bottom:8px;margin-left:24px;cursor:pointer" onclick="switchMfTab('insights')">Insights</span>
 </div>
 </div>
 <!-- All Funds -->
-<div style="padding:0 18px">
+<div id="mf-funds-section" style="padding:0 18px">
 <div style="font-size:15px;font-weight:700;color:var(--text-1);margin-bottom:12px">All Funds</div>
 <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
 <span style="font-size:12px;color:var(--text-2)">↕ Sort</span>
 <span id="mf-sort-toggle" style="font-size:12px;color:var(--text-2);cursor:pointer" onclick="toggleMfSort()">Current (Invested) ⇅</span>
 </div>
 <div id="mf-funds-list"></div>
+</div>
+<!-- Insights Section -->
+<div id="mf-insights-section" style="display:none;padding:0 18px 30px">
+<!-- Concentration Analysis -->
+<div style="margin-bottom:28px">
+<div style="font-size:16px;font-weight:700;color:var(--text-1);margin-bottom:8px">Concentration Analysis</div>
+<div style="font-size:13px;color:var(--text-2);line-height:1.5;margin-bottom:16px">Out of 18 Funds, <strong style="color:var(--text-1)">top 5 funds</strong> make up <strong style="color:var(--text-1)">71.2%</strong> of your mutual fund portfolio</div>
+<div style="display:flex;height:24px;border-radius:6px;overflow:hidden;margin-bottom:16px">
+<div style="width:88%;background:linear-gradient(90deg, #6B21A8, #7C3AED)"></div>
+<div style="width:6%;background:#E8B4F0"></div>
+<div style="width:6%;background:transparent"></div>
+</div>
+<div style="border-left:3px solid #7C3AED;padding-left:12px;display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+<div><div style="font-size:14px;color:var(--text-1);font-weight:500">Top 5 Funds</div></div>
+<div style="text-align:right"><div style="font-size:14px;font-weight:600;color:var(--text-1)">₹110.88 L</div><div style="font-size:11px;color:var(--text-3)">88%</div></div>
+<span style="color:var(--text-3);margin-left:8px">›</span>
+</div>
+<div style="border-left:3px solid #E8B4F0;padding-left:12px;display:flex;align-items:center;justify-content:space-between">
+<div><div style="font-size:14px;color:var(--text-1);font-weight:500">Rest 13 Funds</div></div>
+<div style="text-align:right"><div style="font-size:14px;font-weight:600;color:var(--text-1)">₹7.56 L</div><div style="font-size:11px;color:var(--text-3)">6%</div></div>
+<span style="color:var(--text-3);margin-left:8px">›</span>
+</div>
+</div>
+<!-- AMC Distribution -->
+<div>
+<div style="font-size:16px;font-weight:700;color:var(--text-1);margin-bottom:16px">AMC Distribution</div>
+<div style="display:flex;height:24px;border-radius:6px;overflow:hidden;margin-bottom:16px">
+<div style="width:32.3%;background:#E04E23"></div>
+<div style="width:24.9%;background:#00BCD4"></div>
+<div style="width:22.9%;background:#1565C0"></div>
+<div style="width:19.9%;background:#C2185B"></div>
+</div>
+<div id="mf-amc-list">
+<div style="border-left:3px solid #E04E23;padding-left:12px;display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border)">
+<div><div style="font-size:14px;color:var(--text-1);font-weight:500">PPFAS Mutual Fund</div><div style="font-size:11px;color:var(--text-3)">2 Funds</div></div>
+<div style="text-align:right"><div style="font-size:14px;font-weight:600;color:var(--text-1)">₹68,42,000</div><div style="font-size:11px;color:var(--text-3)">32.3%</div></div>
+<span style="color:var(--text-3);margin-left:8px">›</span>
+</div>
+<div style="border-left:3px solid #00BCD4;padding-left:12px;display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border)">
+<div><div style="font-size:14px;color:var(--text-1);font-weight:500">Mirae Asset</div><div style="font-size:11px;color:var(--text-3)">1 Funds</div></div>
+<div style="text-align:right"><div style="font-size:14px;font-weight:600;color:var(--text-1)">₹52,86,000</div><div style="font-size:11px;color:var(--text-3)">24.9%</div></div>
+<span style="color:var(--text-3);margin-left:8px">›</span>
+</div>
+<div style="border-left:3px solid #1565C0;padding-left:12px;display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border)">
+<div><div style="font-size:14px;color:var(--text-1);font-weight:500">HDFC Mutual Fund</div><div style="font-size:11px;color:var(--text-3)">2 Funds</div></div>
+<div style="text-align:right"><div style="font-size:14px;font-weight:600;color:var(--text-1)">₹48,54,000</div><div style="font-size:11px;color:var(--text-3)">22.9%</div></div>
+<span style="color:var(--text-3);margin-left:8px">›</span>
+</div>
+<div style="border-left:3px solid #C2185B;padding-left:12px;display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border)">
+<div><div style="font-size:14px;color:var(--text-1);font-weight:500">Axis Mutual Fund</div><div style="font-size:11px;color:var(--text-3)">2 Funds</div></div>
+<div style="text-align:right"><div style="font-size:14px;font-weight:600;color:var(--text-1)">₹42,18,000</div><div style="font-size:11px;color:var(--text-3)">19.9%</div></div>
+<span style="color:var(--text-3);margin-left:8px">›</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Folio Detail Screen -->
+<div class="screen" id="folio-detail">
+<div class="nav-bar">
+<button class="back-btn" onclick="showDashScreen('mutualfunds')">←</button>
+<span class="title" id="fd-nav-title"></span>
+</div>
+<div class="folio-detail-header">
+<div class="folio-detail-logo" id="fd-logo"></div>
+<div>
+<div class="folio-detail-name" id="fd-fund-name"></div>
+<div class="folio-detail-sub" id="fd-folio-sub"></div>
+</div>
+</div>
+<div class="folio-detail-tabs">
+<div class="folio-detail-tabs-left" onclick="openFolioSwitcher()" style="cursor:pointer">
+<span class="folio-detail-tab" id="fd-all-folios-label"></span>
+</div>
+<span class="folio-detail-sort" onclick="openFolioSwitcher()" style="cursor:pointer">↕</span>
+</div>
+<div class="folio-stats-section">
+<div class="folio-current-label">Current value</div>
+<div><span class="folio-current-value" id="fd-current-value"></span><span class="folio-current-return" id="fd-abs-pct"></span></div>
+</div>
+<div style="padding:0 18px">
+<div class="folio-stats-card">
+<div class="folio-stats-row">
+<span class="folio-stats-label">Invested</span>
+<span class="folio-stats-value" id="fd-invested"></span>
+</div>
+<div class="folio-stats-row">
+<span class="folio-stats-label">Returns (XIRR)</span>
+<span class="folio-stats-value green" id="fd-xirr"></span>
+</div>
+<div class="folio-stats-row">
+<span class="folio-stats-label">Returns (Absolute)</span>
+<span class="folio-stats-value green" id="fd-abs-return"></span>
+</div>
+</div>
+<div class="folio-stats-card">
+<div class="folio-stats-row">
+<span class="folio-stats-label">Current NAV</span>
+<span class="folio-stats-value" id="fd-current-nav"></span>
+</div>
+<div class="folio-stats-row">
+<span class="folio-stats-label">Average NAV</span>
+<span class="folio-stats-value" id="fd-avg-nav"></span>
+</div>
+<div class="folio-stats-row">
+<span class="folio-stats-label">Folio number</span>
+<span class="folio-stats-value" id="fd-folio-number"></span>
+</div>
+<div class="folio-stats-row">
+<span class="folio-stats-label">Total units</span>
+<span class="folio-stats-value" id="fd-total-units"></span>
+</div>
+</div>
+</div>
+<div class="folio-updated" id="fd-updated">Last updated on 18 May 2026</div>
+<div class="folio-txn-section">
+<div class="folio-txn-title">Transactions</div>
+<div id="fd-txn-list"></div>
+<div class="folio-txn-toggle">
+<span id="fd-txn-toggle-btn" onclick="toggleFolioTxn()">View more transactions ∨</span>
+</div>
+</div>
+</div>
+
+<!-- Folio Selection Drawer -->
+<div class="folio-drawer-overlay" id="folio-drawer-overlay" onclick="closeFolioDrawer(event)">
+<div class="folio-drawer" onclick="event.stopPropagation()">
+<div class="folio-drawer-handle"></div>
+<button class="folio-drawer-close" onclick="closeFolioDrawer()">✕</button>
+<div class="folio-drawer-title">Select folio</div>
+<div class="folio-drawer-desc">Your investments in this fund is split into multiple folios, select one to view investment details</div>
+<div class="folio-drawer-fund" id="folio-drawer-fund-info"></div>
+<div id="folio-drawer-cards"></div>
 </div>
 </div>
 
@@ -651,12 +940,12 @@ function toggleMfValues() {
 }
 
 const mfFundsData = [
-  {name:'Parag Parikh Flexi Cap Fund - G', sub:'2 Folios', current:'₹68,42,000', invested:'₹44,00,000', dayPnl:'+₹6,240', dayPct:'(+0.91%)', dayColor:'var(--green)', absReturn:'+₹24.42 L', absPct:'(+55.5%)', absColor:'var(--green)', logo:'https://www.google.com/s2/favicons?domain=ppfas.com&sz=64', logoBg:'#1a3a5a'},
-  {name:'Mirae Asset Large & Mid Cap Fun...', sub:'1 Folio', current:'₹52,86,000', invested:'₹38,00,000', dayPnl:'-₹3,804', dayPct:'(-0.72%)', dayColor:'var(--red)', absReturn:'+₹14.86 L', absPct:'(+39.1%)', absColor:'var(--green)', logo:'https://www.google.com/s2/favicons?domain=miraeassetmf.co.in&sz=64', logoBg:'#F04E23'},
-  {name:'HDFC Mid Cap Opportunities Fun...', sub:'1 Demat', current:'₹48,54,000', invested:'₹32,00,000', dayPnl:'+₹4,174', dayPct:'(+0.86%)', dayColor:'var(--green)', absReturn:'+₹16.54 L', absPct:'(+51.7%)', absColor:'var(--green)', logo:'https://www.google.com/s2/favicons?domain=hdfcfund.com&sz=64', logoBg:'#C8102E'},
-  {name:'Axis Small Cap Fund - G', sub:'1 Folio · 1 Demat', current:'₹42,18,000', invested:'₹34,00,000', dayPnl:'+₹2,789', dayPct:'(+0.66%)', dayColor:'var(--green)', absReturn:'+₹8.18 L', absPct:'(+24.1%)', absColor:'var(--green)', logo:'https://www.google.com/s2/favicons?domain=axismf.com&sz=64', logoBg:'#8B1A4A'},
-  {name:'SBI Blue Chip Fund - G', sub:'1 Folio', current:'₹38,20,000', invested:'₹28,00,000', dayPnl:'+₹1,820', dayPct:'(+0.48%)', dayColor:'var(--green)', absReturn:'+₹10.20 L', absPct:'(+36.4%)', absColor:'var(--green)', logo:'https://www.google.com/s2/favicons?domain=sbimf.com&sz=64', logoBg:'#1565C0'},
-  {name:'Kotak Emerging Equity Fund - G', sub:'2 Folios', current:'₹22,00,000', invested:'₹18,00,000', dayPnl:'-₹1,819', dayPct:'(-0.83%)', dayColor:'var(--red)', absReturn:'+₹4.00 L', absPct:'(+22.2%)', absColor:'var(--green)', logo:'https://www.google.com/s2/favicons?domain=kotakmf.com&sz=64', logoBg:'#004C8F'}
+  {name:'Parag Parikh Flexi Cap Fund - G', sub:'2 Folios', current:'₹68,42,000', invested:'₹44,00,000', dayPnl:'+₹6,240', dayPct:'(+0.91%)', dayColor:'var(--green)', absReturn:'+₹24.42 L', absPct:'(+55.5%)', absColor:'var(--green)', logo:'https://www.google.com/s2/favicons?domain=ppfas.com&sz=64', logoBg:'#1a3a5a', folios:[{number:'112-xxxxxxxx4821', value:'₹42.42 L'},{number:'112-xxxxxxxx6204', value:'₹26.00 L'}]},
+  {name:'Mirae Asset Large & Mid Cap Fun...', sub:'1 Folio', current:'₹52,86,000', invested:'₹38,00,000', dayPnl:'-₹3,804', dayPct:'(-0.72%)', dayColor:'var(--red)', absReturn:'+₹14.86 L', absPct:'(+39.1%)', absColor:'var(--green)', logo:'https://www.google.com/s2/favicons?domain=miraeassetmf.co.in&sz=64', logoBg:'#F04E23', folios:[{number:'108-xxxxxxxx3912', value:'₹52.86 L'}]},
+  {name:'HDFC Mid Cap Opportunities Fun...', sub:'1 Demat', current:'₹48,54,000', invested:'₹32,00,000', dayPnl:'+₹4,174', dayPct:'(+0.86%)', dayColor:'var(--green)', absReturn:'+₹16.54 L', absPct:'(+51.7%)', absColor:'var(--green)', logo:'https://www.google.com/s2/favicons?domain=hdfcfund.com&sz=64', logoBg:'#C8102E', folios:[{number:'114-xxxxxxxx7845', value:'₹48.54 L'}]},
+  {name:'Axis Small Cap Fund - G', sub:'1 Folio · 1 Demat', current:'₹42,18,000', invested:'₹34,00,000', dayPnl:'+₹2,789', dayPct:'(+0.66%)', dayColor:'var(--green)', absReturn:'+₹8.18 L', absPct:'(+24.1%)', absColor:'var(--green)', logo:'https://www.google.com/s2/favicons?domain=axismf.com&sz=64', logoBg:'#8B1A4A', folios:[{number:'128-xxxxxxxx5501', value:'₹24.18 L'},{number:'128-xxxxxxxx9932', value:'₹18.00 L'}]},
+  {name:'SBI Blue Chip Fund - G', sub:'1 Folio', current:'₹38,20,000', invested:'₹28,00,000', dayPnl:'+₹1,820', dayPct:'(+0.48%)', dayColor:'var(--green)', absReturn:'+₹10.20 L', absPct:'(+36.4%)', absColor:'var(--green)', logo:'https://www.google.com/s2/favicons?domain=sbimf.com&sz=64', logoBg:'#1565C0', folios:[{number:'120-xxxxxxxx6780', value:'₹38.20 L'}]},
+  {name:'Kotak Emerging Equity Fund - G', sub:'2 Folios', current:'₹22,00,000', invested:'₹18,00,000', dayPnl:'-₹1,819', dayPct:'(-0.83%)', dayColor:'var(--red)', absReturn:'+₹4.00 L', absPct:'(+22.2%)', absColor:'var(--green)', logo:'https://www.google.com/s2/favicons?domain=kotakmf.com&sz=64', logoBg:'#004C8F', folios:[{number:'130-xxxxxxxx2210', value:'₹14.00 L'},{number:'130-xxxxxxxx8847', value:'₹8.00 L'}]}
 ];
 
 let mfSortView = 'current';
@@ -671,7 +960,7 @@ function toggleMfSort() {
 
 function renderMfFunds() {
   let html = '';
-  mfFundsData.forEach(f => {
+  mfFundsData.forEach((f, idx) => {
     let rightCol = '';
     if (mfSortView === 'current') {
       rightCol = '<div style="font-size:13px;font-weight:600;color:var(--text-1)">' + f.current + '</div><div style="font-size:11px;color:var(--text-3)">(' + f.invested + ')</div>';
@@ -680,9 +969,371 @@ function renderMfFunds() {
     } else {
       rightCol = '<div style="font-size:13px;font-weight:600;color:' + f.absColor + '">' + f.absReturn + '</div><div style="font-size:11px;color:var(--text-3)">' + f.absPct + '</div>';
     }
-    html += '<div style="padding:14px 0;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between"><div style="display:flex;align-items:center;gap:10px"><div style="width:28px;height:28px;border-radius:50%;background:' + f.logoBg + ';display:flex;align-items:center;justify-content:center;overflow:hidden"><img src="' + f.logo + '" style="width:100%;height:100%;object-fit:cover"></div><div><div style="font-size:13px;color:var(--text-1);font-weight:600">' + f.name + '</div><div style="font-size:11px;color:var(--text-3)">' + f.sub + '</div></div></div><div style="text-align:right">' + rightCol + '</div></div>';
+    html += '<div style="padding:14px 0;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;cursor:pointer" onclick="openFolioDrawer(' + idx + ')"><div style="display:flex;align-items:center;gap:10px"><div style="width:28px;height:28px;border-radius:50%;background:' + f.logoBg + ';display:flex;align-items:center;justify-content:center;overflow:hidden"><img src="' + f.logo + '" style="width:100%;height:100%;object-fit:cover"></div><div><div style="font-size:13px;color:var(--text-1);font-weight:600">' + f.name + '</div><div style="font-size:11px;color:var(--text-3)">' + f.sub + '</div></div></div><div style="text-align:right">' + rightCol + '</div></div>';
   });
   document.getElementById('mf-funds-list').innerHTML = html;
+}
+
+function switchMfTab(tab) {
+  const fundsTab = document.getElementById('mf-tab-funds');
+  const insightsTab = document.getElementById('mf-tab-insights');
+  const fundsSection = document.getElementById('mf-funds-section');
+  const insightsSection = document.getElementById('mf-insights-section');
+  if (tab === 'funds') {
+    fundsTab.style.color = 'var(--blue)';
+    fundsTab.style.fontWeight = '600';
+    fundsTab.style.borderBottom = '2px solid var(--blue)';
+    insightsTab.style.color = 'var(--text-3)';
+    insightsTab.style.fontWeight = '400';
+    insightsTab.style.borderBottom = 'none';
+    fundsSection.style.display = 'block';
+    insightsSection.style.display = 'none';
+  } else {
+    insightsTab.style.color = 'var(--blue)';
+    insightsTab.style.fontWeight = '600';
+    insightsTab.style.borderBottom = '2px solid var(--blue)';
+    fundsTab.style.color = 'var(--text-3)';
+    fundsTab.style.fontWeight = '400';
+    fundsTab.style.borderBottom = 'none';
+    fundsSection.style.display = 'none';
+    insightsSection.style.display = 'block';
+  }
+}
+
+function openFolioDrawer(idx) {
+  const fund = mfFundsData[idx];
+  // Populate fund info
+  document.getElementById('folio-drawer-fund-info').innerHTML =
+    '<div class="folio-drawer-fund-logo" style="background:' + fund.logoBg + '"><img src="' + fund.logo + '" style="width:100%;height:100%;object-fit:cover"></div>' +
+    '<span class="folio-drawer-fund-name">' + fund.name + '</span>';
+  // Populate folio cards
+  let cardsHtml = '';
+  fund.folios.forEach((folio, fIdx) => {
+    cardsHtml += '<div class="folio-card" onclick="openFolioDetail(' + idx + ',' + fIdx + ')"><div class="folio-card-number">Folio no – ' + folio.number + '</div><div class="folio-card-value">Current value  ₹' + folio.value.replace('₹','') + '</div></div>';
+  });
+  document.getElementById('folio-drawer-cards').innerHTML = cardsHtml;
+  // Show drawer
+  document.getElementById('folio-drawer-overlay').classList.add('active');
+}
+
+function closeFolioDrawer(event) {
+  if (event && event.target !== document.getElementById('folio-drawer-overlay')) return;
+  document.getElementById('folio-drawer-overlay').classList.remove('active');
+}
+
+// Detailed folio data for each fund's folios
+const folioDetailData = {
+  'Parag Parikh Flexi Cap Fund - G': {
+    '112-xxxxxxxx4821': {
+      value: '₹42.42 L', invested: '₹28.00 L', xirr: '+18.6%', absReturn: '+₹14.42 L (+51.5%)',
+      currentNav: '₹286.42', avgNav: '₹188.80', units: '14,809.24', type: '2 Physical',
+      transactions: [
+        {month:'May 2026', items:[
+          {day:'07',mon:'May',type:'Buy',nav:'₹286.42',units:'87.28',amount:'₹25,000'},
+          {day:'05',mon:'May',type:'Buy',nav:'₹284.18',units:'70.38',amount:'₹20,000'},
+          {day:'02',mon:'May',type:'Buy',nav:'₹282.64',units:'53.07',amount:'₹15,000'},
+          {day:'01',mon:'May',type:'Buy',nav:'₹281.90',units:'88.68',amount:'₹25,000'}
+        ]},
+        {month:'April 2026', items:[
+          {day:'07',mon:'Apr',type:'Buy',nav:'₹278.54',units:'89.75',amount:'₹25,000'},
+          {day:'05',mon:'Apr',type:'Buy',nav:'₹276.82',units:'72.25',amount:'₹20,000'},
+          {day:'03',mon:'Apr',type:'Buy',nav:'₹275.30',units:'54.49',amount:'₹15,000'},
+          {day:'02',mon:'Apr',type:'Buy',nav:'₹274.60',units:'728.40',amount:'₹2,00,000'},
+          {day:'01',mon:'Apr',type:'Buy',nav:'₹274.20',units:'91.17',amount:'₹25,000'}
+        ]},
+        {month:'March 2026', items:[
+          {day:'07',mon:'Mar',type:'Buy',nav:'₹268.40',units:'93.14',amount:'₹25,000'},
+          {day:'05',mon:'Mar',type:'Buy',nav:'₹266.82',units:'74.96',amount:'₹20,000'},
+          {day:'03',mon:'Mar',type:'Sell',nav:'₹265.90',units:'188.04',amount:'₹50,000'},
+          {day:'01',mon:'Mar',type:'Buy',nav:'₹264.50',units:'94.52',amount:'₹25,000'}
+        ]}
+      ]
+    },
+    '112-xxxxxxxx6204': {
+      value: '₹26.00 L', invested: '₹16.00 L', xirr: '+22.4%', absReturn: '+₹10.00 L (+62.5%)',
+      currentNav: '₹286.42', avgNav: '₹176.40', units: '9,077.52', type: '1 Physical',
+      transactions: [
+        {month:'May 2026', items:[
+          {day:'07',mon:'May',type:'Buy',nav:'₹286.42',units:'52.37',amount:'₹15,000'},
+          {day:'01',mon:'May',type:'Buy',nav:'₹281.90',units:'70.95',amount:'₹20,000'}
+        ]},
+        {month:'April 2026', items:[
+          {day:'05',mon:'Apr',type:'Buy',nav:'₹276.82',units:'54.18',amount:'₹15,000'},
+          {day:'01',mon:'Apr',type:'Buy',nav:'₹274.20',units:'72.94',amount:'₹20,000'}
+        ]},
+        {month:'March 2026', items:[
+          {day:'05',mon:'Mar',type:'Buy',nav:'₹266.82',units:'56.22',amount:'₹15,000'},
+          {day:'01',mon:'Mar',type:'Buy',nav:'₹264.50',units:'75.61',amount:'₹20,000'}
+        ]}
+      ]
+    }
+  },
+  'Mirae Asset Large & Mid Cap Fun...': {
+    '108-xxxxxxxx3912': {
+      value: '₹52.86 L', invested: '₹38.00 L', xirr: '+15.2%', absReturn: '+₹14.86 L (+39.1%)',
+      currentNav: '₹142.80', avgNav: '₹102.70', units: '37,016.81', type: '1 Physical',
+      transactions: [
+        {month:'May 2026', items:[
+          {day:'06',mon:'May',type:'Buy',nav:'₹142.80',units:'175.07',amount:'₹25,000'},
+          {day:'03',mon:'May',type:'Buy',nav:'₹141.60',units:'141.24',amount:'₹20,000'},
+          {day:'01',mon:'May',type:'Buy',nav:'₹140.90',units:'177.43',amount:'₹25,000'}
+        ]},
+        {month:'April 2026', items:[
+          {day:'07',mon:'Apr',type:'Buy',nav:'₹139.50',units:'179.21',amount:'₹25,000'},
+          {day:'04',mon:'Apr',type:'Buy',nav:'₹138.80',units:'144.09',amount:'₹20,000'},
+          {day:'01',mon:'Apr',type:'Buy',nav:'₹137.60',units:'181.69',amount:'₹25,000'}
+        ]},
+        {month:'March 2026', items:[
+          {day:'07',mon:'Mar',type:'Buy',nav:'₹136.20',units:'183.55',amount:'₹25,000'},
+          {day:'03',mon:'Mar',type:'Buy',nav:'₹135.40',units:'147.71',amount:'₹20,000'},
+          {day:'01',mon:'Mar',type:'Buy',nav:'₹134.80',units:'185.43',amount:'₹25,000'}
+        ]}
+      ]
+    }
+  },
+  'HDFC Mid Cap Opportunities Fun...': {
+    '114-xxxxxxxx7845': {
+      value: '₹48.54 L', invested: '₹32.00 L', xirr: '+19.8%', absReturn: '+₹16.54 L (+51.7%)',
+      currentNav: '₹198.60', avgNav: '₹131.00', units: '24,443.10', type: '1 Demat',
+      transactions: [
+        {month:'May 2026', items:[
+          {day:'08',mon:'May',type:'Buy',nav:'₹198.60',units:'125.88',amount:'₹25,000'},
+          {day:'05',mon:'May',type:'Buy',nav:'₹197.20',units:'101.42',amount:'₹20,000'},
+          {day:'01',mon:'May',type:'Buy',nav:'₹196.40',units:'127.29',amount:'₹25,000'}
+        ]},
+        {month:'April 2026', items:[
+          {day:'07',mon:'Apr',type:'Buy',nav:'₹194.80',units:'128.34',amount:'₹25,000'},
+          {day:'03',mon:'Apr',type:'Buy',nav:'₹193.60',units:'103.31',amount:'₹20,000'},
+          {day:'01',mon:'Apr',type:'Buy',nav:'₹192.50',units:'129.87',amount:'₹25,000'}
+        ]},
+        {month:'March 2026', items:[
+          {day:'06',mon:'Mar',type:'Buy',nav:'₹190.40',units:'131.30',amount:'₹25,000'},
+          {day:'03',mon:'Mar',type:'Sell',nav:'₹189.80',units:'263.44',amount:'₹50,000'},
+          {day:'01',mon:'Mar',type:'Buy',nav:'₹188.60',units:'132.56',amount:'₹25,000'}
+        ]}
+      ]
+    }
+  },
+  'Axis Small Cap Fund - G': {
+    '128-xxxxxxxx5501': {
+      value: '₹24.18 L', invested: '₹18.00 L', xirr: '+16.4%', absReturn: '+₹6.18 L (+34.3%)',
+      currentNav: '₹84.20', avgNav: '₹62.80', units: '28,717.34', type: '1 Physical',
+      transactions: [
+        {month:'May 2026', items:[
+          {day:'07',mon:'May',type:'Buy',nav:'₹84.20',units:'296.91',amount:'₹25,000'},
+          {day:'03',mon:'May',type:'Buy',nav:'₹83.60',units:'239.23',amount:'₹20,000'},
+          {day:'01',mon:'May',type:'Buy',nav:'₹83.10',units:'300.84',amount:'₹25,000'}
+        ]},
+        {month:'April 2026', items:[
+          {day:'05',mon:'Apr',type:'Buy',nav:'₹82.40',units:'303.40',amount:'₹25,000'},
+          {day:'02',mon:'Apr',type:'Buy',nav:'₹81.80',units:'244.50',amount:'₹20,000'},
+          {day:'01',mon:'Apr',type:'Buy',nav:'₹81.20',units:'307.88',amount:'₹25,000'}
+        ]},
+        {month:'March 2026', items:[
+          {day:'07',mon:'Mar',type:'Buy',nav:'₹80.60',units:'310.17',amount:'₹25,000'},
+          {day:'03',mon:'Mar',type:'Buy',nav:'₹79.80',units:'250.63',amount:'₹20,000'},
+          {day:'01',mon:'Mar',type:'Buy',nav:'₹79.20',units:'315.66',amount:'₹25,000'}
+        ]}
+      ]
+    },
+    '128-xxxxxxxx9932': {
+      value: '₹18.00 L', invested: '₹16.00 L', xirr: '+8.2%', absReturn: '+₹2.00 L (+12.5%)',
+      currentNav: '₹84.20', avgNav: '₹74.90', units: '21,377.67', type: '1 Demat',
+      transactions: [
+        {month:'May 2026', items:[
+          {day:'06',mon:'May',type:'Buy',nav:'₹84.20',units:'237.53',amount:'₹20,000'},
+          {day:'01',mon:'May',type:'Buy',nav:'₹83.10',units:'240.67',amount:'₹20,000'}
+        ]},
+        {month:'April 2026', items:[
+          {day:'04',mon:'Apr',type:'Buy',nav:'₹82.40',units:'242.72',amount:'₹20,000'},
+          {day:'01',mon:'Apr',type:'Buy',nav:'₹81.20',units:'246.31',amount:'₹20,000'}
+        ]},
+        {month:'March 2026', items:[
+          {day:'05',mon:'Mar',type:'Buy',nav:'₹79.80',units:'250.63',amount:'₹20,000'},
+          {day:'01',mon:'Mar',type:'Buy',nav:'₹79.20',units:'252.53',amount:'₹20,000'}
+        ]}
+      ]
+    }
+  },
+  'SBI Blue Chip Fund - G': {
+    '120-xxxxxxxx6780': {
+      value: '₹38.20 L', invested: '₹28.00 L', xirr: '+14.6%', absReturn: '+₹10.20 L (+36.4%)',
+      currentNav: '₹92.40', avgNav: '₹67.80', units: '41,341.99', type: '1 Physical',
+      transactions: [
+        {month:'May 2026', items:[
+          {day:'08',mon:'May',type:'Buy',nav:'₹92.40',units:'270.56',amount:'₹25,000'},
+          {day:'05',mon:'May',type:'Buy',nav:'₹91.80',units:'217.86',amount:'₹20,000'},
+          {day:'02',mon:'May',type:'Buy',nav:'₹91.20',units:'274.12',amount:'₹25,000'}
+        ]},
+        {month:'April 2026', items:[
+          {day:'07',mon:'Apr',type:'Buy',nav:'₹90.60',units:'275.94',amount:'₹25,000'},
+          {day:'04',mon:'Apr',type:'Buy',nav:'₹90.00',units:'222.22',amount:'₹20,000'},
+          {day:'01',mon:'Apr',type:'Buy',nav:'₹89.40',units:'279.64',amount:'₹25,000'}
+        ]},
+        {month:'March 2026', items:[
+          {day:'06',mon:'Mar',type:'Buy',nav:'₹88.80',units:'281.53',amount:'₹25,000'},
+          {day:'03',mon:'Mar',type:'Buy',nav:'₹88.20',units:'226.76',amount:'₹20,000'},
+          {day:'01',mon:'Mar',type:'Buy',nav:'₹87.60',units:'285.39',amount:'₹25,000'}
+        ]}
+      ]
+    }
+  },
+  'Kotak Emerging Equity Fund - G': {
+    '130-xxxxxxxx2210': {
+      value: '₹14.00 L', invested: '₹10.00 L', xirr: '+17.8%', absReturn: '+₹4.00 L (+40.0%)',
+      currentNav: '₹118.60', avgNav: '₹84.70', units: '11,804.38', type: '1 Physical',
+      transactions: [
+        {month:'May 2026', items:[
+          {day:'07',mon:'May',type:'Buy',nav:'₹118.60',units:'210.79',amount:'₹25,000'},
+          {day:'03',mon:'May',type:'Buy',nav:'₹117.80',units:'169.78',amount:'₹20,000'},
+          {day:'01',mon:'May',type:'Buy',nav:'₹117.20',units:'213.31',amount:'₹25,000'}
+        ]},
+        {month:'April 2026', items:[
+          {day:'05',mon:'Apr',type:'Buy',nav:'₹116.40',units:'214.78',amount:'₹25,000'},
+          {day:'02',mon:'Apr',type:'Buy',nav:'₹115.80',units:'172.71',amount:'₹20,000'},
+          {day:'01',mon:'Apr',type:'Buy',nav:'₹115.20',units:'217.01',amount:'₹25,000'}
+        ]},
+        {month:'March 2026', items:[
+          {day:'06',mon:'Mar',type:'Buy',nav:'₹114.40',units:'218.53',amount:'₹25,000'},
+          {day:'03',mon:'Mar',type:'Buy',nav:'₹113.60',units:'176.06',amount:'₹20,000'},
+          {day:'01',mon:'Mar',type:'Buy',nav:'₹113.00',units:'221.24',amount:'₹25,000'}
+        ]}
+      ]
+    },
+    '130-xxxxxxxx8847': {
+      value: '₹8.00 L', invested: '₹8.00 L', xirr: '+2.1%', absReturn: '+₹0.00 L (+0.0%)',
+      currentNav: '₹118.60', avgNav: '₹116.80', units: '6,745.36', type: '1 Physical',
+      transactions: [
+        {month:'May 2026', items:[
+          {day:'06',mon:'May',type:'Buy',nav:'₹118.60',units:'168.63',amount:'₹20,000'},
+          {day:'01',mon:'May',type:'Buy',nav:'₹117.20',units:'170.65',amount:'₹20,000'}
+        ]},
+        {month:'April 2026', items:[
+          {day:'04',mon:'Apr',type:'Buy',nav:'₹116.40',units:'171.82',amount:'₹20,000'},
+          {day:'01',mon:'Apr',type:'Buy',nav:'₹115.20',units:'173.61',amount:'₹20,000'}
+        ]},
+        {month:'March 2026', items:[
+          {day:'05',mon:'Mar',type:'Buy',nav:'₹113.60',units:'176.06',amount:'₹20,000'},
+          {day:'01',mon:'Mar',type:'Buy',nav:'₹113.00',units:'176.99',amount:'₹20,000'}
+        ]}
+      ]
+    }
+  }
+};
+
+let folioTxnShowMore = false;
+let currentFolioFundName = '';
+let currentFolioNumber = '';
+
+function openFolioDetail(fundIdx, folioIdx) {
+  const fund = mfFundsData[fundIdx];
+  const folio = fund.folios[folioIdx];
+  currentFolioFundName = fund.name;
+  currentFolioNumber = folio.number;
+  currentFolioFundIdx = fundIdx;
+  currentFolioIdx = folioIdx;
+  folioTxnShowMore = false;
+
+  const detail = folioDetailData[fund.name] && folioDetailData[fund.name][folio.number];
+  if (!detail) return;
+
+  // Close drawer
+  document.getElementById('folio-drawer-overlay').classList.remove('active');
+
+  // Populate header
+  document.getElementById('fd-nav-title').textContent = fund.name;
+  document.getElementById('fd-logo').style.background = fund.logoBg;
+  document.getElementById('fd-logo').innerHTML = '<img src="' + fund.logo + '" style="width:100%;height:100%;object-fit:cover">';
+  document.getElementById('fd-fund-name').textContent = fund.name;
+  document.getElementById('fd-folio-sub').textContent = '(' + folio.number.slice(-6) + ')';
+
+  // Tabs
+  document.getElementById('fd-all-folios-label').textContent = 'All Folios  (' + detail.type + ')';
+
+  // Stats
+  document.getElementById('fd-current-value').textContent = detail.value;
+  document.getElementById('fd-abs-pct').textContent = detail.absReturn.match(/\([^)]+\)/)?.[0] || '';
+  document.getElementById('fd-abs-pct').innerHTML = detail.absReturn.match(/\([^)]+\)/)?.[0] + ' ↗' || '';
+  document.getElementById('fd-invested').textContent = detail.invested;
+  document.getElementById('fd-xirr').textContent = detail.xirr;
+  document.getElementById('fd-abs-return').textContent = detail.absReturn;
+  document.getElementById('fd-current-nav').textContent = detail.currentNav;
+  document.getElementById('fd-avg-nav').textContent = detail.avgNav;
+  document.getElementById('fd-folio-number').textContent = folio.number;
+  document.getElementById('fd-total-units').textContent = detail.units;
+
+  renderFolioTransactions();
+  showDashScreen('folio-detail');
+}
+
+function renderFolioTransactions() {
+  const detail = folioDetailData[currentFolioFundName] && folioDetailData[currentFolioFundName][currentFolioNumber];
+  if (!detail) return;
+
+  const txns = detail.transactions;
+  const initialMonths = txns.slice(0, 2);
+  const moreMonths = txns.slice(2);
+
+  let html = '';
+  initialMonths.forEach(group => {
+    const count = group.items.length;
+    html += '<div class="folio-txn-month-header"><span class="folio-txn-month">' + group.month + '</span><span class="folio-txn-count">' + count + ' Transactions</span></div>';
+    group.items.forEach(t => {
+      const typeClass = t.type.toLowerCase();
+      html += '<div class="folio-txn-row"><div class="folio-txn-date"><div class="folio-txn-date-day">' + t.day + '</div><div class="folio-txn-date-mon">' + t.mon + '</div></div><div class="folio-txn-mid"><span class="folio-txn-type ' + typeClass + '">' + t.type + '</span><div class="folio-txn-nav">NAV ' + t.nav + '</div></div><div class="folio-txn-right"><div class="folio-txn-amount">' + t.amount + '</div><div class="folio-txn-units">Units ' + t.units + '</div></div></div>';
+    });
+  });
+
+  if (folioTxnShowMore && moreMonths.length > 0) {
+    moreMonths.forEach(group => {
+      const count = group.items.length;
+      html += '<div class="folio-txn-month-header"><span class="folio-txn-month">' + group.month + '</span><span class="folio-txn-count">' + count + ' Transactions</span></div>';
+      group.items.forEach(t => {
+        const typeClass = t.type.toLowerCase();
+        html += '<div class="folio-txn-row"><div class="folio-txn-date"><div class="folio-txn-date-day">' + t.day + '</div><div class="folio-txn-date-mon">' + t.mon + '</div></div><div class="folio-txn-mid"><span class="folio-txn-type ' + typeClass + '">' + t.type + '</span><div class="folio-txn-nav">NAV ' + t.nav + '</div></div><div class="folio-txn-right"><div class="folio-txn-amount">' + t.amount + '</div><div class="folio-txn-units">Units ' + t.units + '</div></div></div>';
+      });
+    });
+  }
+
+  document.getElementById('fd-txn-list').innerHTML = html;
+
+  const btn = document.getElementById('fd-txn-toggle-btn');
+  if (moreMonths.length === 0) {
+    btn.style.display = 'none';
+  } else {
+    btn.style.display = 'inline';
+    btn.textContent = folioTxnShowMore ? 'View less ∧' : 'View more transactions ∨';
+  }
+}
+
+function toggleFolioTxn() {
+  folioTxnShowMore = !folioTxnShowMore;
+  renderFolioTransactions();
+}
+
+let currentFolioFundIdx = 0;
+let currentFolioIdx = 0;
+
+function openFolioSwitcher() {
+  const fund = mfFundsData[currentFolioFundIdx];
+  // Populate fund info
+  document.getElementById('folio-drawer-fund-info').innerHTML =
+    '<div class="folio-drawer-fund-logo" style="background:' + fund.logoBg + '"><img src="' + fund.logo + '" style="width:100%;height:100%;object-fit:cover"></div>' +
+    '<span class="folio-drawer-fund-name">' + fund.name + '</span>';
+  // Populate folio cards with active state
+  let cardsHtml = '';
+  fund.folios.forEach((folio, fIdx) => {
+    const activeClass = fIdx === currentFolioIdx ? ' active' : '';
+    cardsHtml += '<div class="folio-card' + activeClass + '" onclick="switchFolio(' + currentFolioFundIdx + ',' + fIdx + ')"><div class="folio-card-number">Folio no – ' + folio.number + '</div><div class="folio-card-value">Current value  ₹' + folio.value.replace('₹','') + '</div></div>';
+  });
+  document.getElementById('folio-drawer-cards').innerHTML = cardsHtml;
+  // Show drawer
+  document.getElementById('folio-drawer-overlay').classList.add('active');
+}
+
+function switchFolio(fundIdx, folioIdx) {
+  document.getElementById('folio-drawer-overlay').classList.remove('active');
+  openFolioDetail(fundIdx, folioIdx);
 }
 
 function toggleSortView() {
